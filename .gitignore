@@ -1,0 +1,9 @@
+
+# CLion Specific
+.idea
+
+# Mac OS X
+.DS_Store
+
+# Libraries
+deps/
