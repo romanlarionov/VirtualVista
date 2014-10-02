@@ -9,17 +9,13 @@
     It also needs GLM, which is an OpenGL linear algebra library.
  */
 
+// This is a GLFW built in macro. It tells it to include gl3.h instead of gl.h.
+#define GLFW_INCLUDE_GLCOREARB
+
 #include <iostream>
 #include "vector"
 #include "GLFW/glfw3.h"
-#include "OpenGL/glu.h"
-#include "OpenGL/glext.h"
-
-//#include "OpenGL/gl3.h"
 #include "glm/glm.hpp"
-
-
-
 
 // Function Prototypes.
 GLFWwindow* initWindow();
