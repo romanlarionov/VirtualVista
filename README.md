@@ -1,22 +1,18 @@
 OpenGL Endeavours
 =================
 
-How to compile
+How to compile and run
 ---------------
 
 From Terminal:
 ```
-cc -o out.exe src/main.cpp -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
+cc -o out.exe src/main.cpp -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo && ./out.exe
 ```
 
 From within CLion: 
 
 CMake works, so simply hit RUN and do good things.
 
-To run:
-```
-./out.exe
-```
 Notes
 ------
 
