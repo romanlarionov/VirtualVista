@@ -26,17 +26,20 @@ set(DEPS ${CMAKE_SOURCE_DIR}/deps)
 set(GLFW_ROOT_DIR ${DEPS}/GLFW)
 add_subdirectory(${GLFW_ROOT_DIR})
 
+find_package(GLEW REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
+
 include_directories(${GLFW_INCLUDE_DIRS})
+
 
 set(SOURCE_FILES    ${SRC_DIR}/main.cpp
 					${SHADER_DIR}/shader.frag
 					${SHADER_DIR}/shader.vert)
 
-add_executable(Test ${SOURCE_FILES})
+add_executable(Test ${SOURCE_FILES} )
 
-target_link_libraries(Test ${glfw_LIBRARIES})
-
-
+target_link_libraries(Test ${glfw_LIBRARIES}
+							${GLEW_LIBRARY})
 
 
 
