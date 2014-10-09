@@ -33,6 +33,10 @@ include_directories(${GLFW_INCLUDE_DIRS})
 
 
 set(SOURCE_FILES    ${SRC_DIR}/main.cpp
+					${SRC_DIR}/Scene.cpp
+					${SRC_DIR}/Scene.h
+					${SRC_DIR}/SimpleMeshObject.cpp
+					${SRC_DIR}/SimpleMeshObject.h
 					${SHADER_DIR}/shader.frag
 					${SHADER_DIR}/shader.vert)
 

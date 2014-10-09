@@ -52,11 +52,6 @@ int main()
     return 0;
 }
 
-
-/******************
-    Functions.
- ******************/
-
 GLFWwindow* initWindow()
 {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -73,78 +68,4 @@ GLFWwindow* initWindow()
 
     return window;
 }
-
-
-/******************
-    Classes.
- ******************/
-
-/*
-    SimpleMeshObject: This is an implementation of a very simplistic
-    object to be rendered. It stores all of the info on said object
-    and controls it's individual drawing every frame.
-*/
-
-class SimpleMeshObject
-{
-    public:
-
-        std::vector<GLuint>* buffers;
-
-        SimpleMeshObject()
-        {
-            buffers = new std::vector<GLuint>();
-        }
-
-        virtual ~SimpleMeshObject()
-        {
-        }
-
-        void draw()
-        {
-            //glDrawArrays(GL_TRIANGLES, 0, );
-        }
-};
-
-/*
-    Scene: This stores information on the rendering process and stores a
-    draw call to update the scene every frame.
-*/
-
-class Scene
-{
-    public:
-
-        std::vector<SimpleMeshObject>* objects;
-
-        Scene()
-        {
-            objects = new std::vector<SimpleMeshObject>();
-        }
-
-        virtual ~Scene()
-        {
-        }
-
-        void addObjects(SimpleMeshObject object)
-        {
-            objects->push_back(object);
-        }
-
-        /*
-        void draw(auto uniformSetter, auto attributeSetter)
-        {
-            for (auto currObject = objects->begin(); currObject != objects->end(); currObject++)
-                currObject->draw(uniformSetter, attributeSetter);
-        }
-        */
-};
-
-
-
-
-
-
-
-
 
