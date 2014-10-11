@@ -9,7 +9,7 @@ endif()
 
 IF (APPLE)
 	set(CMAKE_CXX_COMPILER "/usr/bin/cc")
-	set(CMAKE_CXX_FLAGS "-lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
+	set(CMAKE_CXX_FLAGS "-std=c++11 -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
 ENDIF (APPLE)
 
 # Defines where all custom CMake scripts go.
