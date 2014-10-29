@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 2.8.4)
-project(Test)
+project(VirtualVista)
 
 if (NOT CMAKE_BUILD_TYPE)
   message(STATUS "Build type defaulting to \"Release\"")
@@ -8,7 +8,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 IF (APPLE)
-	set(CMAKE_CXX_COMPILER "/usr/bin/cc")
+	set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 	set(CMAKE_CXX_FLAGS "-std=c++11 -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
 ENDIF (APPLE)
 
@@ -18,6 +18,10 @@ set(CMAKE_SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 # Defines where all shader files go.
 set(SHADER_DIR ${SRC_DIR}/shaders)
+
+# Defines where the built source goes.
+set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
 ####### Dependencies
 set(DEPS ${CMAKE_SOURCE_DIR}/deps)
@@ -40,9 +44,9 @@ set(SOURCE_FILES    ${SRC_DIR}/main.cpp
 					${SHADER_DIR}/shader.frag
 					${SHADER_DIR}/shader.vert)
 
-add_executable(Test ${SOURCE_FILES} )
+add_executable(VirtualVista.exe ${SOURCE_FILES})
 
-target_link_libraries(Test ${glfw_LIBRARIES}
+target_link_libraries(VirtualVista.exe ${glfw_LIBRARIES}
 							${GLEW_LIBRARY})
 
 

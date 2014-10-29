@@ -10,7 +10,8 @@
 *.bz2
 
 # CLion Specific
-.idea
+*.idea
+*.app
 
 # Mac OS X
 .DS_Store
