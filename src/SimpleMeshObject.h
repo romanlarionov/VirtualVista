@@ -4,7 +4,7 @@
 
 namespace vv
 {
-    namespace Mesh
+    namespace mesh
     {
         class SimpleMeshObject
         {

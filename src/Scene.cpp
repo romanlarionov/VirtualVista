@@ -16,7 +16,7 @@ namespace vv
         {
         }
         /*
-        void Scene::addObjects(vv::Mesh::SimpleMeshObject object)
+        void Scene::addObjects(vv::mesh::SimpleMeshObject object)
         {
            this->objects.push_back(object);
         }

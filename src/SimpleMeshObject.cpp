@@ -6,7 +6,7 @@
 
 namespace vv
 {
-    namespace Mesh
+    namespace mesh
     {
         SimpleMeshObject::SimpleMeshObject()
         {

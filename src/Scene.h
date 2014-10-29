@@ -13,14 +13,14 @@ namespace vv
             public:
 
                 // Members
-                //std::vector<vv::Mesh::SimpleMeshObject> objects;
+                //std::vector<vv::mesh::SimpleMeshObject> objects;
 
                 // Constructor/Destructor
                 Scene();
                 ~Scene();
 
                 // Methods
-                //void addObjects(vv::Mesh::SimpleMeshObject object);
+                //void addObjects(vv::mesh::SimpleMeshObject object);
                 //void draw(auto uniformSetter, auto attributeSetter);
         };
     }
