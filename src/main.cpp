@@ -26,7 +26,7 @@
 
 // Function Prototypes.
 GLFWwindow* initWindow();
-GLint loadShader(std::string filename, GLchar*& shaderSource);
+void loadShader(std::string filename, GLchar* shaderSource);
 
 int main()
 {
@@ -40,10 +40,15 @@ int main()
     glewInit();
 
     // Scan in Shader code from files.
-    GLchar* vertexShaderCode = nullptr;
-    GLchar* fragmentShaderCode = nullptr;
-    loadShader("../src/shaders/shader.vert", vertexShaderCode);
-    loadShader("../src/shaders/shader.vert", fragmentShaderCode);
+    // TODO: change from magic number.
+    GLchar vertexShaderSource[1000];
+    GLchar fragmentShaderSource[1000];
+
+    loadShader("../src/shaders/shader.vert", vertexShaderSource);
+    loadShader("../src/shaders/shader.frag", fragmentShaderSource);
+
+    if (!vertexShaderSource || !fragmentShaderSource)
+        std::cerr << "ERROR: vertex or fragment shader code not scanning in correctly." << std::endl;
 
     // Main Event Loop.
     while (!glfwWindowShouldClose(window))
@@ -77,7 +82,7 @@ GLFWwindow* initWindow()
     return window;
 }
 
-GLint loadShader(std::string filename, GLchar*& shaderSource)
+void loadShader(std::string filename, GLchar* shaderSource)
 {
     std::ifstream file;
     file.open(filename);
@@ -85,7 +90,7 @@ GLint loadShader(std::string filename, GLchar*& shaderSource)
     if (!file.is_open())
     {
         std::cerr << "ERROR: file - " << filename << " cannot be found." << std::endl;
-        return -1;
+        exit(-1);
     }
 
     std::string temp;
@@ -100,13 +105,16 @@ GLint loadShader(std::string filename, GLchar*& shaderSource)
     if (finished.empty())
     {
        std::cerr << "ERROR: file - " << filename << " is empty." << std::endl;
-       return -2;
+       exit(-2);
     }
 
-    shaderSource = (GLchar*)finished.c_str();
+    int length = finished.length(), i;
+    for (i = 0; i < length; i++)
+        shaderSource[i] = finished[i];
+
+    shaderSource[i] = '\0'; // NULL character at the end of c strings.
 
     file.close();
-    return 0;   // No Error
 }
 
 
