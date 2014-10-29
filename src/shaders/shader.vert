@@ -1,10 +1,9 @@
 
-attribute vec3 position;
+#version 330
 
-varying vec3 vPos;
+in vec3 position;
 
-void main(void)
+void main()
 {
     gl_Position = vec4(position, 1.0);
-    vPos = position;
 }

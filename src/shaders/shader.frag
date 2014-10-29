@@ -1,7 +1,9 @@
 
-varying vec3 vPos;
+#version 330
 
-void main(void) 
+out vec4 FragColor;
+
+void main()
 {
-	gl_FragColor = vec4(vPos, 1.0);
+	FragColor = vec4(0.0, 1.0, 0.0, 1.0);
 }

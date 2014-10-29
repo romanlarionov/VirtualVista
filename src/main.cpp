@@ -27,6 +27,7 @@
 // Function Prototypes.
 GLFWwindow* initWindow();
 void loadShader(std::string filename, GLchar* shaderSource);
+GLuint createProgram(GLchar* vertexSource, GLchar* fragmentSource);
 
 int main()
 {
@@ -49,6 +50,8 @@ int main()
 
     if (!vertexShaderSource || !fragmentShaderSource)
         std::cerr << "ERROR: vertex or fragment shader code not scanning in correctly." << std::endl;
+
+    GLuint program = createProgram(vertexShaderSource, fragmentShaderSource);
 
     // Main Event Loop.
     while (!glfwWindowShouldClose(window))
@@ -82,6 +85,56 @@ GLFWwindow* initWindow()
     return window;
 }
 
+GLuint createProgram(GLchar* vertexSource, GLchar* fragmentSource)
+{
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexSource, NULL);
+    glCompileShader(vertexShader);
+
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+    glCompileShader(fragmentShader);
+
+    auto shaderCompiled = [] (GLuint shader)
+    {
+        GLint compileSuccess;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &compileSuccess);
+
+        if (!compileSuccess)
+        {
+            char buffer[512];
+            glGetShaderInfoLog(shader, 512, NULL, buffer);
+            std::cerr << "Error: failed to compile shader. " << compileSuccess << "\n" << buffer << std::endl;
+            glDeleteShader(shader);
+            exit(EXIT_FAILURE);
+        }
+    };
+
+    shaderCompiled(vertexShader);
+    shaderCompiled(fragmentShader);
+
+    GLuint program = glCreateProgram();
+    glAttachShader(program, vertexShader);
+    glAttachShader(program, fragmentShader);
+
+    glBindAttribLocation(program, 0, "position");
+    glLinkProgram(program);
+
+    GLint linkSuccess;
+    glGetProgramiv(program, GL_LINK_STATUS, &linkSuccess);
+
+    if (!linkSuccess)
+    {
+        std::cerr << "Error: program failed to link correctly." << std::endl;
+        glDeleteProgram(program);
+        exit(EXIT_FAILURE);
+    }
+
+    glUseProgram(program);
+
+    return program;
+}
+
 void loadShader(std::string filename, GLchar* shaderSource)
 {
     std::ifstream file;
@@ -99,7 +152,7 @@ void loadShader(std::string filename, GLchar* shaderSource)
     while (!file.eof())
     {
         std::getline(file, temp);
-        finished += temp;
+        finished += temp + "\n";
     }
 
     if (finished.empty())
