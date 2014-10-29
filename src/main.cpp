@@ -17,14 +17,16 @@
 # define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #endif
 
+#include <iostream>
 #include <vector>
+#include <fstream>
 #include "glm/glm.hpp"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
 // Function Prototypes.
 GLFWwindow* initWindow();
-GLuint createProgram(GLchar const* vertexSource, GLchar const* fragmentSource);
+GLint loadShader(std::string filename, GLchar*& shaderSource);
 
 int main()
 {
@@ -37,18 +39,11 @@ int main()
     glewExperimental = GL_TRUE;
     glewInit();
 
-    int numVerticies = 3;
-
-    float verticies[] = {
-         0.0f,  0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f
-    };
-
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
+    // Scan in Shader code from files.
+    GLchar* vertexShaderCode = nullptr;
+    GLchar* fragmentShaderCode = nullptr;
+    loadShader("../src/shaders/shader.vert", vertexShaderCode);
+    loadShader("../src/shaders/shader.vert", fragmentShaderCode);
 
     // Main Event Loop.
     while (!glfwWindowShouldClose(window))
@@ -82,51 +77,41 @@ GLFWwindow* initWindow()
     return window;
 }
 
-GLuint createProgram(GLchar const* vertexSource, GLchar const* fragmentSource)
+GLint loadShader(std::string filename, GLchar*& shaderSource)
 {
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, NULL);
-    glCompileShader(vertexShader);
+    std::ifstream file;
+    file.open(filename);
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-    glCompileShader(fragmentShader);
-
-    auto shaderCompiled = [] (GLuint shader) -> bool
+    if (!file.is_open())
     {
-        GLint *compileSuccess = NULL;
-        glGetShaderiv(shader, GL_COMPILE_STATUS, compileSuccess);
-
-        if (!compileSuccess)
-        {
-            printf("Error: failed to compile shader.\n");
-            glDeleteShader(shader);
-            return false;
-        }
-
-        return true;
-    };
-
-    if (!shaderCompiled(vertexShader) || !shaderCompiled(fragmentShader))
-        return 0;
-
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-
-    glLinkProgram(program);
-
-    GLint *linkSuccess = NULL;
-    glGetProgramiv(program, GL_LINK_STATUS, linkSuccess);
-
-    if (!linkSuccess)
-    {
-        printf("Error: program failed to link correctly.\n");
-        glDeleteProgram(program);
-        return 0;
+        std::cerr << "ERROR: file - " << filename << " cannot be found." << std::endl;
+        return -1;
     }
 
-    return program;
+    std::string temp;
+    std::string finished;
+
+    while (!file.eof())
+    {
+        std::getline(file, temp);
+        finished += temp;
+    }
+
+    if (finished.empty())
+    {
+       std::cerr << "ERROR: file - " << filename << " is empty." << std::endl;
+       return -2;
+    }
+
+    shaderSource = (GLchar*)finished.c_str();
+
+    file.close();
+    return 0;   // No Error
 }
+
+
+
+
+
 
 
