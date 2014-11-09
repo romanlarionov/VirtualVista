@@ -18,6 +18,7 @@ namespace app
 
     App::~App()
     {
+        glDeleteProgram(program);
     }
 
     bool App::initGL()

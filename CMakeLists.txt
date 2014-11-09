@@ -37,10 +37,16 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
 include_directories(${GLFW_INCLUDE_DIRS})
 
 set(HEADER_FILES ${SRC_DIR}/Utilities.h
+				 ${SRC_DIR}/Scene.h
+				 ${SRC_DIR}/Poly.h
+				 ${SRC_DIR}/PolyFactory.h
 				 ${SRC_DIR}/Application.h)
 
 set(SOURCE_FILES ${SRC_DIR}/main.cpp
 				 ${SRC_DIR}/Utilities.cpp
+				 ${SRC_DIR}/Scene.cpp
+				 ${SRC_DIR}/Poly.cpp
+				 ${SRC_DIR}/PolyFactory.cpp
 				 ${SRC_DIR}/Application.cpp)
 
 set(RUNTIME_DEPS ${SHADER_DIR}/shader.frag
