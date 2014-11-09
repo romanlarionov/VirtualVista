@@ -1,6 +1,7 @@
 
 cmake_minimum_required(VERSION 2.8.4)
 project(VirtualVista)
+set(EXECUTABLE_FILE "VirtualVista.exe")
 
 if (NOT CMAKE_BUILD_TYPE)
   message(STATUS "Build type defaulting to \"Release\"")
@@ -35,19 +36,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
 
 include_directories(${GLFW_INCLUDE_DIRS})
 
+set(HEADER_FILES ${SRC_DIR}/Utilities.h
+				 ${SRC_DIR}/Application.h)
 
-set(SOURCE_FILES    ${SRC_DIR}/main.cpp
-					${SRC_DIR}/Scene.cpp
-					${SRC_DIR}/Scene.h
-					${SRC_DIR}/SimpleMeshObject.cpp
-					${SRC_DIR}/SimpleMeshObject.h
-					${SHADER_DIR}/shader.frag
-					${SHADER_DIR}/shader.vert)
+set(SOURCE_FILES ${SRC_DIR}/main.cpp
+				 ${SRC_DIR}/Utilities.cpp
+				 ${SRC_DIR}/Application.cpp)
 
-add_executable(VirtualVista.exe ${SOURCE_FILES})
+set(RUNTIME_DEPS ${SHADER_DIR}/shader.frag
+				 ${SHADER_DIR}/shader.vert)
 
-target_link_libraries(VirtualVista.exe ${glfw_LIBRARIES}
-							${GLEW_LIBRARY})
+add_executable(${EXECUTABLE_FILE} ${HEADER_FILES}
+								  ${SOURCE_FILES}
+								  ${RUNTIME_DEPS})
 
-
-
+target_link_libraries(${EXECUTABLE_FILE} ${glfw_LIBRARIES}
+									     ${GLEW_LIBRARY})
