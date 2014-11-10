@@ -14,7 +14,7 @@ namespace graphics
         PolyFactory();
         ~PolyFactory();
         PolyFactory* instance();
-        void createPoly();
+        std::unique_ptr<Poly> createPoly();
 
     private:
         // Members

@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
 
     virtualVistaApp.run();
 
-    glfwTerminate();
     return EXIT_SUCCESS;
 }
 

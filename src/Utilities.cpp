@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <OpenGL/OpenGL.h>
 #include "Utilities.h"
 
 namespace vv
@@ -36,7 +35,12 @@ namespace utils
             return true;
         };
 
-        if (!checkCompileStatus(vertexShader) || !checkCompileStatus(fragmentShader)) return false;
+        if (!checkCompileStatus(vertexShader) || !checkCompileStatus(fragmentShader))
+        {
+            glDeleteShader(vertexShader);
+            glDeleteShader(fragmentShader);
+            return false;
+        }
 
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);

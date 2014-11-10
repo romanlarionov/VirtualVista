@@ -1,9 +1,9 @@
 
 // Written by: Roman Larionov
 
-#include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
 #include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "Scene.h"
 
 namespace vv
 {
@@ -26,6 +26,8 @@ namespace app
             // Misc members.
             double tick;
             bool running;
+
+            vv::scene::Scene* scene;
     };
 }
 }

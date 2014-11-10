@@ -1,5 +1,4 @@
 
-#include <OpenGL/OpenGL.h>
 #include <GLFW/glfw3.h>
 
 namespace vv

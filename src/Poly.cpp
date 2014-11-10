@@ -5,19 +5,20 @@
 
 namespace vv
 {
-namespace graphics
-{
-    Poly::Poly()
-    {
+namespace graphics {
+    Poly::Poly() {
     }
 
-    Poly::~Poly()
-    {
+    Poly::~Poly() {
     }
 
-    void Poly::draw()
-    {
+    void Poly::draw() {
         //glDrawArrays(GL_TRIANGLES, 0, );
+    }
+
+    void Poly::initPoly()
+    {
+
     }
 
 }

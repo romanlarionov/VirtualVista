@@ -26,12 +26,14 @@ namespace graphics
         return _instance;
     }
 
-    void PolyFactory::createPoly()
+    std::unique_ptr<Poly> PolyFactory::createPoly()
     {
-        //std::unique_ptr<Poly> poly = new Poly();
+        std::unique_ptr<Poly> poly(new Poly());
+
+        //poly->initBuffers();
 
 
-        //return poly;
+        return poly;
     }
 }
 }

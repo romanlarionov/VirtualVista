@@ -1,6 +1,6 @@
 
+#include <OpenGL/OpenGL.h>
 #include "vector"
-#include "OpenGL/gl3.h"
 
 namespace vv
 {
@@ -10,7 +10,7 @@ namespace graphics
     {
         public:
             // Members
-            std::vector<GLuint>* buffers;
+            std::vector<GLuint> buffers;
 
             // Constructor/Destructor
             Poly();
@@ -18,6 +18,7 @@ namespace graphics
 
             // Functions
             void draw();
+            void initPoly();
     };
 }
 }

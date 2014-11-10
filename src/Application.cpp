@@ -1,11 +1,10 @@
 
 // Written by: Roman Larionov
 
-
-#include <GL/glew.h>
 #include <iostream>
 #include "Application.h"
 #include "Utilities.h"
+#include "glm/glm.hpp"
 
 namespace vv
 {
@@ -14,6 +13,7 @@ namespace app
     App::App()
     : running (true)
     {
+        this->scene = new vv::scene::Scene();
     }
 
     App::~App()
@@ -45,6 +45,9 @@ namespace app
         // Save shader source into variables.
         bool vertexSuccess = vv::utils::Utils::loadShader("../src/shaders/shader.vert", vertexShaderSource);
         bool fragSuccess   = vv::utils::Utils::loadShader("../src/shaders/shader.frag", fragmentShaderSource);
+
+        if (!vertexSuccess || !fragSuccess)
+            return false;
 
         GLuint vao;
         glGenVertexArrays(1, &vao);
@@ -91,6 +94,8 @@ namespace app
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
+
+        glfwTerminate();
     }
 }
 }
