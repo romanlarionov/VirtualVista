@@ -1,7 +1,9 @@
 
 // Written By: Roman Larionov
 
-#include "PolyFactory.h"
+#include "Poly.h"
+#include "string"
+#include "unordered_map"
 
 namespace vv
 {
@@ -10,17 +12,21 @@ namespace vv
         class Scene
         {
             public:
+                // Constructor/Destructor
+                Scene();
+                ~Scene();
 
-            // Members
-            std::vector<vv::graphics::Poly> objects;
+                // Methods
+                void addObjects(vv::graphics::Poly object);
+                void draw();
+                void setGlLocations(GLuint program);
 
-            // Constructor/Destructor
-            Scene();
-            ~Scene();
+            private:
+                // Members
+                std::vector<vv::graphics::Poly> objects;
 
-            // Methods
-            void addObjects(vv::graphics::Poly object);
-            void draw();
+                std::unordered_map<std::string, GLint> uniforms;
+                std::unordered_map<std::string, GLint> attributes;
         };
     }
 }
