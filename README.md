@@ -4,16 +4,18 @@ OpenGL Endeavours
 How to compile and run
 ---------------
 
-####From Terminal
+####Through Terminal
 
-On OS X:
 ```
-cc -o out.exe src/main.cpp -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo && ./out.exe
+cd path/to/build/dir
+cmake ..
+make
+./VirtualVista.exe
 ```
 
-####CLion and CMake: 
+####CLion: 
 
-CMake works, so simply hit RUN and do good things.
+CLion is easy, simply hit RUN and do good things.
 
 It should be noted that GLEW does not have CMake style make files. This is a problem that I have yet to
 resolve. For now, the only way to include it into the project is to manually install it based on the 
