@@ -20,7 +20,11 @@ set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 # Defines where all shader files go.
 set(SHADER_DIR ${SRC_DIR}/shaders)
 
-# Defines where the built source goes.
+# Checks if build directory exists, if not, then create one at build time.
+IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/build/")
+	execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/)
+ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/build/")
+
 set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
@@ -36,6 +40,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
 
 include_directories(${GLFW_INCLUDE_DIRS})
 
+# Setting files necessary for compilation.
 set(HEADER_FILES ${SRC_DIR}/Utilities.h
 				 ${SRC_DIR}/Scene.h
 				 ${SRC_DIR}/Poly.h
@@ -52,9 +57,13 @@ set(SOURCE_FILES ${SRC_DIR}/main.cpp
 set(RUNTIME_DEPS ${SHADER_DIR}/shader.frag
 				 ${SHADER_DIR}/shader.vert)
 
+
 add_executable(${EXECUTABLE_FILE} ${HEADER_FILES}
 								  ${SOURCE_FILES}
 								  ${RUNTIME_DEPS})
 
 target_link_libraries(${EXECUTABLE_FILE} ${glfw_LIBRARIES}
 									     ${GLEW_LIBRARY})
+
+
+
