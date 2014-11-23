@@ -6,7 +6,7 @@
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
-#include "Scene.h"
+#include "Renderer.h"
 
 namespace vv
 {
@@ -18,7 +18,7 @@ namespace app
             App();
             ~App();
 
-            bool initGL();
+            bool init();
             void run();
 
         private:
@@ -30,7 +30,7 @@ namespace app
             double tick;
             bool running;
 
-            vv::scene::Scene* scene;
+            vv::app::Renderer* renderer;
     };
 }
 }

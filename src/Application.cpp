@@ -13,7 +13,6 @@ namespace app
     App::App()
     : running (true)
     {
-        this->scene = new vv::scene::Scene();
     }
 
     App::~App()
@@ -21,11 +20,10 @@ namespace app
         glDeleteProgram(program);
     }
 
-    bool App::initGL()
+    bool App::init()
     {
         glewExperimental = GL_TRUE;
 
-        // If the program hasn't loaded properly.
         if (!glfwInit())
         {
             std::cerr << "ERROR: GLFW failed to initialize." << std::endl;
@@ -33,9 +31,10 @@ namespace app
         }
 
         window = vv::utils::Utils::initWindow();
+	    renderer = new vv::app::Renderer(program);
 
         glewInit();
-        glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.2f, 0.0f);   // Slightly blue background.
 
         // Scan in Shader code from files.
         // TODO: change from magic number.
@@ -67,6 +66,9 @@ namespace app
 
         program = glCreateProgram();
         bool programSuccess = vv::utils::Utils::createProgram(vertexShaderSource, fragmentShaderSource, program);
+
+	    if (!programSuccess)
+		    return false;
 
         GLint posAttrib = glGetAttribLocation(program, "position");
         glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);

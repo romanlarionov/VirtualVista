@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 {
     vv::app::App virtualVistaApp;
 
-    if (!virtualVistaApp.initGL())
+    if (!virtualVistaApp.init())
         return EXIT_FAILURE;
 
     virtualVistaApp.run();

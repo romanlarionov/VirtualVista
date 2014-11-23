@@ -3,27 +3,33 @@
 
 #include <OpenGL/gl3.h>
 #include <iostream>
-#include "Scene.h"
+#include "Renderer.h"
 
 namespace vv
 {
-    namespace scene
+    namespace app
     {
-        Scene::Scene()
+        Renderer::Renderer(GLuint program) :
+	        program(program)
         {
         }
 
-        Scene::~Scene()
+        Renderer::~Renderer()
         {
         }
 
-        void Scene::addObjects(vv::graphics::Poly object)
-        {
-           this->objects.push_back(object);
-        }
+	    void Renderer::init()
+	    {
+		    setGlLocations();
 
-        void Scene::draw()
+
+	    }
+
+        void Renderer::draw()
         {
+	        glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
+	        glUseProgram(program);
+
             // Loops through each object in the scene and calls their own draw function.
             std::for_each(this->objects.begin(), this->objects.end(),
             [] (vv::graphics::Poly o)
@@ -32,7 +38,7 @@ namespace vv
             });
         }
 
-        void Scene::setGlLocations(GLuint program)
+        void Renderer::setGlLocations()
         {
             unsigned int iter;
 
@@ -41,7 +47,7 @@ namespace vv
 
             for (iter = 0; iter < uniformNames->size(); iter++)
             {
-                GLchar const * currUniform = (GLchar*)uniformNames[iter].c_str();
+                GLchar const* currUniform = (GLchar*)uniformNames[iter].c_str();
                 GLint loc = glGetUniformLocation(program, currUniform);
 
                 if (loc)
@@ -56,9 +62,9 @@ namespace vv
             // Set all attribute locations.
             std::string attributeNames[] = {"position"};
 
-            for (iter = 0; iter < uniformNames->size(); iter++)
+            for (iter = 0; iter < attributeNames->size(); iter++)
             {
-                GLchar const * currAttribute = (GLchar*)uniformNames[iter].c_str();
+                GLchar const* currAttribute = (GLchar*)attributeNames[iter].c_str();
                 GLint loc = glGetAttribLocation(program, currAttribute);
 
                 if (loc)

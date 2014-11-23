@@ -10,26 +10,29 @@
 
 namespace vv
 {
-    namespace scene
+    namespace app
     {
-        class Scene
+        class Renderer
         {
             public:
                 // Constructor/Destructor
-                Scene();
-                ~Scene();
+                Renderer(GLuint program);
+                ~Renderer();
 
                 // Methods
-                void addObjects(vv::graphics::Poly object);
+	            void init();
                 void draw();
-                void setGlLocations(GLuint program);
 
             private:
                 // Members
+	            GLuint program;
                 std::vector<vv::graphics::Poly> objects;
 
                 std::unordered_map<std::string, GLint> uniforms;
                 std::unordered_map<std::string, GLint> attributes;
+
+	            // Functions
+				void setGlLocations();
         };
     }
 }
