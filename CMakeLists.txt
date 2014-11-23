@@ -11,7 +11,7 @@ endif()
 IF (APPLE)
 	set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 	set(CMAKE_CXX_FLAGS "-std=c++11 -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
-ENDIF (APPLE)
+ENDIF ()
 
 # Defines where all custom CMake scripts go.
 set(CMAKE_SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
@@ -23,7 +23,7 @@ set(SHADER_DIR ${SRC_DIR}/shaders)
 # Checks if build directory exists, if not, then create one at build time.
 IF (NOT EXISTS "${CMAKE_SOURCE_DIR}/build/")
 	execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/)
-ENDIF (NOT EXISTS "${CMAKE_SOURCE_DIR}/build/")
+ENDIF ()
 
 set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")

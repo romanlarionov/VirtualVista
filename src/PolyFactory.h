@@ -1,6 +1,9 @@
 
 // Written by: Roman Larionov
 
+#ifndef POLY_FACTORY_H
+#define POLY_FACTORY_H
+
 #include "Poly.h"
 
 namespace vv
@@ -23,3 +26,5 @@ namespace graphics
     };
 }
 }
+
+#endif

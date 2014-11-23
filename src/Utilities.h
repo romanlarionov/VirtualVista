@@ -1,4 +1,7 @@
 
+#ifndef UTILITIES_H
+#define UTILITIES_H
+
 #include <GLFW/glfw3.h>
 
 namespace vv
@@ -14,3 +17,5 @@ namespace utils
     };
 }
 }
+
+#endif

@@ -1,4 +1,7 @@
 
+#ifndef POLY_H
+#define POLY_H
+
 #include <OpenGL/OpenGL.h>
 #include "vector"
 
@@ -22,3 +25,5 @@ namespace graphics
     };
 }
 }
+
+#endif

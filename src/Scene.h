@@ -1,6 +1,9 @@
 
 // Written By: Roman Larionov
 
+#ifndef SCENE_H
+#define SCENE_H
+
 #include "Poly.h"
 #include "string"
 #include "unordered_map"
@@ -30,3 +33,5 @@ namespace vv
         };
     }
 }
+
+#endif
