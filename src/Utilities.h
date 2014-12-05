@@ -14,6 +14,7 @@ namespace utils
             static GLFWwindow* initWindow();
             static bool createProgram(GLchar* vertexSource, GLchar* fragmentSource, GLuint &program);
             static bool loadShader(std::string filename, GLchar* shaderSource);
+	        static GLuint initBuffer(const GLvoid* data);
     };
 }
 }

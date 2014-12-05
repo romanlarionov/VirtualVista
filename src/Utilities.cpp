@@ -126,5 +126,14 @@ namespace utils
         file.close();
         return true;
     }
+
+	GLuint Utils::initBuffer(const GLvoid* data)
+	{
+		GLuint buffer;
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+		return buffer;
+	}
 }
 }

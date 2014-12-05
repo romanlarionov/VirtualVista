@@ -27,7 +27,7 @@ namespace vv
 
         void Renderer::draw()
         {
-	        glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
+	        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	        glUseProgram(program);
 
             // Loops through each object in the scene and calls their own draw function.

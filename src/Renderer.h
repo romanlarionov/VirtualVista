@@ -1,8 +1,8 @@
 
 // Written By: Roman Larionov
 
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef RENDERER_H
+#define RENDERER_H
 
 #include "Poly.h"
 #include "string"
