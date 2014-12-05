@@ -42,7 +42,7 @@ namespace app
         GLchar fragmentShaderSource[1000];
 
         // Save shader source into variables.
-        bool vertexSuccess = vv::utils::Utils::loadShader("../src/shaders/vertex.glgl", vertexShaderSource);
+        bool vertexSuccess = vv::utils::Utils::loadShader("../src/shaders/vertex.glsl", vertexShaderSource);
         bool fragSuccess   = vv::utils::Utils::loadShader("../src/shaders/fragment.glsl", fragmentShaderSource);
 
         if (!vertexSuccess || !fragSuccess)
