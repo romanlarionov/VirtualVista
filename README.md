@@ -7,10 +7,8 @@ How to compile and run
 ####Through Terminal
 
 ```
-cd path/to/build/dir
-cmake ..
-make
-./VirtualVista.exe
+cd path/to/VirtualVista
+./build.sh
 ```
 
 ####CLion: 
@@ -24,6 +22,6 @@ instructions they give [here](https://github.com/LuaDist/glew).
 Notes
 ------
 
-This only works on Mac OS X, for now.
+This only works on Mac OS X... for now.
 
 Will extend to other operating systems in the future.
