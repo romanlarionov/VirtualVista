@@ -33,6 +33,7 @@ namespace app
         window = vv::utils::Utils::initWindow();
 	    renderer = new vv::app::Renderer(program);
 
+        // Needs to be called after window creation else seg fault.
         glewInit();
         glClearColor(0.0f, 0.0f, 0.2f, 0.0f);   // Slightly blue background.
 
@@ -79,6 +80,7 @@ namespace app
 
         return programSuccess;
     }
+
 
     void App::run()
     {

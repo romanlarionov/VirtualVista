@@ -54,8 +54,8 @@ set(SOURCE_FILES ${SRC_DIR}/main.cpp
 				 ${SRC_DIR}/PolyFactory.cpp
 				 ${SRC_DIR}/Application.cpp)
 
-set(RUNTIME_DEPS ${SHADER_DIR}/shader.frag
-				 ${SHADER_DIR}/shader.vert)
+set(RUNTIME_DEPS ${SHADER_DIR}/vertex.glsl
+				 ${SHADER_DIR}/fragment.glsl)
 
 
 add_executable(${EXECUTABLE_FILE} ${HEADER_FILES}
