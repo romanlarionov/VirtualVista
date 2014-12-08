@@ -28,6 +28,9 @@ ENDIF ()
 set(BUILD_DIR "${CMAKE_SOURCE_DIR}/build")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
+# Sets the cmake directory for finding dependencies.
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
 ####### Dependencies
 set(DEPS ${CMAKE_SOURCE_DIR}/deps)
 
@@ -35,10 +38,15 @@ set(DEPS ${CMAKE_SOURCE_DIR}/deps)
 set(GLFW_ROOT_DIR ${DEPS}/GLFW)
 add_subdirectory(${GLFW_ROOT_DIR})
 
+# GLEW
 find_package(GLEW REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
 
-include_directories(${GLFW_INCLUDE_DIRS})
+# GLM
+set(GLM_ROOT_DIR ${DEPS}/GLM)
+find_package(GLM REQUIRED)
+
+include_directories(${GLFW_INCLUDE_DIRS} ${GLM_ROOT_DIR})
 
 # Setting files necessary for compilation.
 set(HEADER_FILES ${SRC_DIR}/Utilities.h
