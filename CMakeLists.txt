@@ -40,7 +40,7 @@ add_subdirectory(${GLFW_ROOT_DIR})
 
 # GLEW
 find_package(GLEW REQUIRED)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/include")
 
 # GLM
 set(GLM_ROOT_DIR ${DEPS}/GLM)

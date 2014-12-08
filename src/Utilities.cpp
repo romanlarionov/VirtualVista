@@ -17,7 +17,7 @@ namespace utils
         glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
         glCompileShader(fragmentShader);
 
-        auto checkCompileStatus = [](GLuint shader)
+        auto compilationSuccess = [](GLuint shader) -> bool
         {
             int infoLogLength = 0;
             GLint compileSuccess = GL_FALSE;
@@ -28,14 +28,14 @@ namespace utils
             {
                 char buffer[infoLogLength + 1];
                 glGetShaderInfoLog(shader, infoLogLength, NULL, buffer);
-                std::cerr << "Error: failed to compile shader. " << compileSuccess << std::endl << buffer << std::endl;
+                std::cerr << "Error: failed to compile shader. " << compileSuccess << "\n" << buffer << "\n";
                 glDeleteShader(shader);
                 return false;
             }
             return true;
         };
 
-        if (!checkCompileStatus(vertexShader) || !checkCompileStatus(fragmentShader))
+        if (!compilationSuccess(vertexShader) || !compilationSuccess(fragmentShader))
         {
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
@@ -58,7 +58,7 @@ namespace utils
         {
             char buffer[programInfoLogLength + 1];
             glGetProgramInfoLog(program, programInfoLogLength, NULL, buffer);
-            std::cerr << "Error: program failed to link correctly.\n\n" << buffer << std::endl;
+            std::cerr << "Error: program failed to link correctly.\n\n" << buffer << "\n";
             glDeleteProgram(program);
             return false;
         }
@@ -80,7 +80,7 @@ namespace utils
 
         if (!window)
         {
-            std::cerr << "ERROR: window creation failed." << std::endl;
+            std::cerr << "ERROR: window creation failed.\n";
             exit(EXIT_FAILURE);
         }
 
@@ -97,7 +97,7 @@ namespace utils
 
         if (!file.is_open())
         {
-            std::cerr << "ERROR: file - " << filename << " cannot be found." << std::endl;
+            std::cerr << "ERROR: file - " << filename << " cannot be found.\n";
             return false;
         }
 
@@ -112,7 +112,7 @@ namespace utils
 
         if (finished.empty())
         {
-           std::cerr << "ERROR: file - " << filename << " is empty." << std::endl;
+           std::cerr << "ERROR: file - " << filename << " is empty.\n";
            return false;
         }
 

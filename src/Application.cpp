@@ -26,7 +26,7 @@ namespace app
 
         if (!glfwInit())
         {
-            std::cerr << "ERROR: GLFW failed to initialize." << std::endl;
+            std::cerr << "ERROR: GLFW failed to initialize.\n";
             return false;
         }
 

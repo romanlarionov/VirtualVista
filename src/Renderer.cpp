@@ -54,7 +54,7 @@ namespace vv
                     this->uniforms[currUniform] = loc;  // Hash Map
                 else
                 {
-                    std::cerr << "ERROR: undefined uniform value for: " << currUniform << std::endl;
+                    std::cerr << "ERROR: undefined uniform value for: " << currUniform << "\n";
                     exit(EXIT_FAILURE);
                 }
             }
@@ -71,7 +71,7 @@ namespace vv
                     this->uniforms[currAttribute] = loc;  // Hash Map
                 else
                 {
-                    std::cerr << "ERROR: undefined attribute value for: " << currAttribute << std::endl;
+                    std::cerr << "ERROR: undefined attribute value for: " << currAttribute << "\n";
                     exit(EXIT_FAILURE);
                 }
             }
