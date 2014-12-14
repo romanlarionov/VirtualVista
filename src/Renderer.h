@@ -1,8 +1,8 @@
 
 // Written By: Roman Larionov
 
-#ifndef RENDERER_H
-#define RENDERER_H
+#ifndef VV_RENDERER_H
+#define VV_RENDERER_H
 
 #include "Poly.h"
 #include "string"

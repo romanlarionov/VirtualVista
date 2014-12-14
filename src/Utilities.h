@@ -1,6 +1,6 @@
 
-#ifndef UTILITIES_H
-#define UTILITIES_H
+#ifndef VV_UTILITIES_H
+#define VV_UTILITIES_H
 
 #include <GLFW/glfw3.h>
 

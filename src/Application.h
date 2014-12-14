@@ -1,8 +1,8 @@
 
 // Written by: Roman Larionov
 
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#ifndef VV_APPLICATION_H
+#define VV_APPLICATION_H
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"

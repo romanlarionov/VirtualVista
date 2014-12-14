@@ -1,6 +1,6 @@
 
-#ifndef POLY_H
-#define POLY_H
+#ifndef VV_POLY_H
+#define VV_POLY_H
 
 #include <OpenGL/OpenGL.h>
 #include "vector"
