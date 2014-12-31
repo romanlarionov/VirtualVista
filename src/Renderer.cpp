@@ -1,9 +1,10 @@
 
 // Written By: Roman Larionov
 
-#include <OpenGL/gl3.h>
-#include <iostream>
 #include "Renderer.h"
+
+//#include <OpenGL/gl3.h>
+#include <iostream>
 
 namespace vv
 {
@@ -27,7 +28,6 @@ namespace vv
             // Setup uniforms/attributes.
             this->findActiveUniforms();
             this->findActiveAttributes();
-            this->setGlLocations();
 
             int iter;
             for (iter = 0; iter < maxLivingPolys; iter++)
@@ -46,7 +46,8 @@ namespace vv
             if (currentLivingPolys < maxLivingPolys)
             {
                 vv::graphics::Poly instance;
-                objects.push_back(instance);
+                livingPolyList.push_back(instance);
+                currentLivingPolys++;
                 creationSuccess = true;
             }
 
@@ -57,11 +58,17 @@ namespace vv
         bool Renderer::updatePolys()
         {
             bool updateSuccess = false;
-            unsigned int iter;
-            for (iter = 0; iter < objects.size(); iter++)
+            int iter;
+            for (iter = 0; iter < currentLivingPolys; iter++)
             {
                 // Update poly position/color/other stuff.
                 // TODO: Actually fill in with things to update.
+
+                //  if poly->lifespan >= maxpolylifespan do
+                //      remove poly from livingpolylist
+                //      currentlivingpolys -= 1
+                //      add poly back to object pool
+                //  endif
             }
 
             return updateSuccess;
@@ -74,14 +81,10 @@ namespace vv
             glUseProgram(program);
 
             this->updatePolys();
-
-            // Loops through each object in the scene and calls their own draw function.
-            std::for_each(this->objects.begin(),
-                    this->objects.end(),
-                    [](vv::graphics::Poly o)
-                    {
-                        o.draw();
-                    });
+            // Loop through all Poly's and render them.
+            std::for_each(livingPolyList.begin(), livingPolyList.end(), [](vv::graphics::Poly poly) {
+                // render poly.
+            });
         }
 
 
@@ -93,19 +96,19 @@ namespace vv
             glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, numActiveAttributes);
 
 			GLint i;
-			GLsizei length;
-			GLint size;
-			GLenum type;
 			GLchar* name;
 			for (i = 0; i < (*numActiveAttributes); i++)
 			{
 				// Returns the length, size, type, and name of the attribute.
-				glGetActiveAttrib(program, i, maxAttributeCharacters, &length, &size, &type, name);
+				glGetActiveAttrib(program, i, maxAttributeCharacters, NULL, NULL, NULL, name);
 
 				// If the attribute is on the list of valid attributes.
 				if ((name != NULL) &&
 						(std::find(attributeNames.begin(), attributeNames.end(), name) != attributeNames.end()))
-					activeAttributes.push_back(name);
+                {
+                    GLint loc = glGetAttribLocation(program, name);
+					this->attributeLocations[name] = loc;  // Hash Map
+                }
 				else
 				{
 					std::cerr << "ERROR: attribute " << name << " is declared in " <<
@@ -114,30 +117,30 @@ namespace vv
 					exit(EXIT_FAILURE);
 				}
             }
-        }
+        };
 
 
         void Renderer::findActiveUniforms()
         {
-            const std::vector<GLchar*> uniformNames = {};
+            const std::vector<std::string> uniformNames = {"color"};
             GLsizei maxUniformCharacters = 20;
             GLint* numActiveUniforms = 0;
             glGetProgramiv(program, GL_ACTIVE_UNIFORMS, numActiveUniforms);
 
 			GLint i;
-			GLsizei length;
-			GLint size;
-			GLenum type;
 			GLchar* name;
 			for (i = 0; i < (*numActiveUniforms); i++)
 			{
 				// Returns the length, size, type, and name of the attribute.
-				glGetActiveAttrib(program, i, maxUniformCharacters, &length, &size, &type, name);
+				glGetActiveAttrib(program, i, maxUniformCharacters, NULL, NULL, NULL, name);
 
 				// If the attribute is on the list of valid attributes.
 				if ((name != NULL) &&
 						(std::find(uniformNames.begin(), uniformNames.end(), name) != uniformNames.end()))
-					activeUniforms.push_back(name);
+                {
+					GLint loc = glGetUniformLocation(program, name);
+					this->uniformLocations[name] = loc;  // Hash Map
+                }
 				else
 				{
 					std::cerr << "ERROR: uniform " << name << " is declared in " <<
@@ -148,26 +151,30 @@ namespace vv
             }
         }
 
-
-        void Renderer::setGlLocations()
+        void Renderer::setUniforms()
         {
-            unsigned int iter;
-
-            // Set all uniform locations.
-            for (iter = 0; iter < activeUniforms.size(); iter++)
+            for (auto iter = livingPolyList.begin(); iter != livingPolyList.end(); iter++)
             {
-                GLchar const *currUniform = activeUniforms.at(iter);
-                GLint loc = glGetUniformLocation(program, currUniform);
-				this->uniformLocations[currUniform] = loc;  // Hash Map
+                // TODO: replace with a more general code base.
+                glUniform3f(uniformLocations["color"], (*iter).getPosition()[0],
+                        (*iter).getPosition()[1], (*iter).getPosition()[2]);
+            }
+        }
+
+        void Renderer::setAttributes()
+        {
+            GLuint attributeCounter = 0;
+			for (auto iter = livingPolyList.begin(); iter != livingPolyList.end(); iter++)
+            {
+                GLuint loc = static_cast<GLuint>(attributeLocations["position"]);
+                GLint numComponents = sizeof((*iter).getPosition())/sizeof((*iter).getPosition()[0]);
+                glEnableVertexAttribArray(attributeCounter);
+                glBindBuffer(GL_ARRAY_BUFFER, loc);
+                glVertexAttribPointer(loc, numComponents, GL_FLOAT, GL_FALSE, 0, (void*)0);
+                attributeCounter++;
             }
 
-            // Set all attribute locations.
-            for (iter = 0; iter < activeAttributes.size(); iter++)
-            {
-                GLchar const *currAttribute = activeAttributes.at(iter);
-                GLint loc = glGetAttribLocation(program, currAttribute);
-				this->attributeLocations[currAttribute] = loc;  // Hash Map
-            }
+            attributeCounter = 0;
         }
     }
 }
