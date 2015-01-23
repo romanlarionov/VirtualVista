@@ -3,7 +3,8 @@
 
 #include "Renderer.h"
 
-//#include <OpenGL/gl3.h>
+#include <OpenGL/gl3.h>
+#include <stdlib.h>
 #include <iostream>
 
 namespace vv
@@ -25,15 +26,16 @@ namespace vv
 
         void Renderer::init()
         {
+            //glUseProgram(program);
             // Setup uniforms/attributes.
-            this->findActiveUniforms();
             this->findActiveAttributes();
+            this->findActiveUniforms();
 
-            int iter;
-            for (iter = 0; iter < maxLivingPolys; iter++)
-            {
-                this->createPoly();
-            }
+            //int iter;
+            //for (iter = 0; iter < maxLivingPolys; iter++)
+            //{
+            //    this->createPoly();
+            //}
         }
 
 
@@ -57,10 +59,19 @@ namespace vv
 
         bool Renderer::updatePolys()
         {
+            GLfloat* position = new GLfloat[3];
+			GLfloat* color = new GLfloat[3];
+
             bool updateSuccess = false;
-            int iter;
-            for (iter = 0; iter < currentLivingPolys; iter++)
+            for (auto iter = livingPolyList.begin(); iter != livingPolyList.end(); iter++)
             {
+                position[0] = color[0] = rand() % 5;
+                position[1] = color[1] = rand() % 5;
+                position[2] = color[2] = rand() % 5;
+
+                iter->setPosition(position);
+                iter->setColor(color);
+
                 // Update poly position/color/other stuff.
                 // TODO: Actually fill in with things to update.
 
@@ -78,12 +89,17 @@ namespace vv
         void Renderer::render()
         {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glUseProgram(program);
+            glUseProgram(this->program);
 
-            this->updatePolys();
+            updatePolys();
+            setUniforms();
+            setAttributes();
+
             // Loop through all Poly's and render them.
             std::for_each(livingPolyList.begin(), livingPolyList.end(), [](vv::graphics::Poly poly) {
                 // render poly.
+                // TODO: switch to more generic start and end of mesh buffer.
+                glDrawArrays(GL_TRIANGLES, 0, 3);
             });
         }
 
@@ -92,19 +108,19 @@ namespace vv
         {
             const std::vector<std::string> attributeNames = {"position"};
             GLsizei maxAttributeCharacters = 20;
-            GLint* numActiveAttributes = 0;
+            GLint* numActiveAttributes = new GLint;
             glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, numActiveAttributes);
 
 			GLint i;
-			GLchar* name;
+			GLchar* name = new GLchar[40];
 			for (i = 0; i < (*numActiveAttributes); i++)
 			{
 				// Returns the length, size, type, and name of the attribute.
 				glGetActiveAttrib(program, i, maxAttributeCharacters, NULL, NULL, NULL, name);
 
 				// If the attribute is on the list of valid attributes.
-				if ((name != NULL) &&
-						(std::find(attributeNames.begin(), attributeNames.end(), name) != attributeNames.end()))
+				if ((name != nullptr) &&
+                        (std::find(attributeNames.begin(), attributeNames.end(), name) != attributeNames.end()))
                 {
                     GLint loc = glGetAttribLocation(program, name);
 					this->attributeLocations[name] = loc;  // Hash Map
@@ -117,6 +133,9 @@ namespace vv
 					exit(EXIT_FAILURE);
 				}
             }
+
+            delete numActiveAttributes;
+            delete[] name;
         };
 
 
@@ -124,19 +143,19 @@ namespace vv
         {
             const std::vector<std::string> uniformNames = {"color"};
             GLsizei maxUniformCharacters = 20;
-            GLint* numActiveUniforms = 0;
+            GLint* numActiveUniforms = new GLint;
             glGetProgramiv(program, GL_ACTIVE_UNIFORMS, numActiveUniforms);
 
-			GLint i;
-			GLchar* name;
+			GLuint i;
+			GLchar* name = new GLchar[40];
 			for (i = 0; i < (*numActiveUniforms); i++)
 			{
 				// Returns the length, size, type, and name of the attribute.
-				glGetActiveAttrib(program, i, maxUniformCharacters, NULL, NULL, NULL, name);
+                glGetActiveUniform(program, i, maxUniformCharacters, NULL, NULL, NULL, name);
 
 				// If the attribute is on the list of valid attributes.
-				if ((name != NULL) &&
-						(std::find(uniformNames.begin(), uniformNames.end(), name) != uniformNames.end()))
+				if ((name != nullptr) &&
+                        (std::find(uniformNames.begin(), uniformNames.end(), name) != uniformNames.end()))
                 {
 					GLint loc = glGetUniformLocation(program, name);
 					this->uniformLocations[name] = loc;  // Hash Map
@@ -149,6 +168,9 @@ namespace vv
 					exit(EXIT_FAILURE);
 				}
             }
+
+            delete numActiveUniforms;
+            delete[] name;
         }
 
         void Renderer::setUniforms()
@@ -156,8 +178,7 @@ namespace vv
             for (auto iter = livingPolyList.begin(); iter != livingPolyList.end(); iter++)
             {
                 // TODO: replace with a more general code base.
-                glUniform3f(uniformLocations["color"], (*iter).getPosition()[0],
-                        (*iter).getPosition()[1], (*iter).getPosition()[2]);
+                glUniform3fv(uniformLocations["color"], 3, iter->getColor());
             }
         }
 
@@ -167,7 +188,7 @@ namespace vv
 			for (auto iter = livingPolyList.begin(); iter != livingPolyList.end(); iter++)
             {
                 GLuint loc = static_cast<GLuint>(attributeLocations["position"]);
-                GLint numComponents = sizeof((*iter).getPosition())/sizeof((*iter).getPosition()[0]);
+                GLint numComponents = 3; // TODO: switch to more generic
                 glEnableVertexAttribArray(attributeCounter);
                 glBindBuffer(GL_ARRAY_BUFFER, loc);
                 glVertexAttribPointer(loc, numComponents, GL_FLOAT, GL_FALSE, 0, (void*)0);

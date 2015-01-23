@@ -10,8 +10,8 @@ endif()
 
 if(UNIX OR APPLE)
 	set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-	set(CMAKE_CXX_FLAGS "-std=c++11 -lglfw3")
-endif()
+	set(CMAKE_CXX_FLAGS "-std=c++11 -g -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
+ENDIF ()
 
 if(APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")

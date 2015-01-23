@@ -30,20 +30,20 @@ namespace graphics
         color[1] = position[1];
         color[2] = position[2];
 
-        GLuint positionBuffer;
         glGenBuffers(1, &positionBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(positionBuffer), position, GL_STATIC_DRAW);
 
-        GLuint colorBuffer;
-        glGenBuffers(1, &colorBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(colorBuffer), color, GL_STATIC_DRAW);
+        //glGenBuffers(1, &colorBuffer);
+		//glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(colorBuffer), color, GL_STATIC_DRAW);
     }
 
 
     Poly::~Poly()
     {
+        delete[] position;
+        delete[] color;
     }
 
     GLfloat* Poly::getPosition() const

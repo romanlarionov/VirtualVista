@@ -7,7 +7,7 @@ namespace vv
 {
 namespace utils
 {
-    bool Utils::createProgram(GLchar* vertexSource, GLchar* fragmentSource, GLuint &program)
+    bool Utils::createProgram(GLchar const * const vertexSource, GLchar const * const fragmentSource, GLuint &program)
     {
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShader, 1, &vertexSource, NULL);
@@ -45,7 +45,6 @@ namespace utils
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);
 
-        glBindAttribLocation(program, 0, "position");
         glLinkProgram(program);
 
         GLint linkSuccess = GL_FALSE;

@@ -33,7 +33,10 @@ namespace graphics
 		private:
 
 			// OpenGL Buffers
-			GLfloat* position;
+            GLuint positionBuffer;
+			//GLuint colorBuffer;
+
+            GLfloat* position;
 			GLfloat* color;
     };
 }

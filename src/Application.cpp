@@ -18,6 +18,7 @@ namespace app
     App::~App()
     {
         glDeleteProgram(program);
+        delete renderer;
     }
 
     bool App::init()
@@ -31,7 +32,6 @@ namespace app
         }
 
         window = vv::utils::Utils::initWindow();
-	    renderer = new vv::app::Renderer(program);
 
         // Needs to be called after window creation else seg fault.
         glewInit();
@@ -49,34 +49,14 @@ namespace app
         if (!vertexSuccess || !fragSuccess)
             return false;
 
-        GLuint vao;
-        glGenVertexArrays(1, &vao);
-        glBindVertexArray(vao);
-
-        float vertices[] =
-        {
-            0.0f,  0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f
-        };
-
-        GLuint vbo;
-        glGenBuffers(1, &vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
         program = glCreateProgram();
         bool programSuccess = vv::utils::Utils::createProgram(vertexShaderSource, fragmentShaderSource, program);
 
 	    if (!programSuccess)
 		    return false;
 
-        GLint posAttrib = glGetAttribLocation(program, "position");
-        glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(posAttrib);
-
-        GLint colorUni = glGetUniformLocation(program, "triangleColor");
-        glUniform3f(colorUni, 1.0f, 0.0f, 0.0f);
+        renderer = new vv::app::Renderer(program);
+        renderer->init();
 
         return programSuccess;
     }
@@ -91,9 +71,7 @@ namespace app
             if (glfwGetKey(window, GLFW_KEY_ESCAPE))
                 glfwSetWindowShouldClose(window, GL_TRUE);
 
-            glUseProgram(program);
-
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            //renderer->render();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
