@@ -10,7 +10,7 @@ endif()
 
 if(UNIX OR APPLE)
 	set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-	set(CMAKE_CXX_FLAGS "-std=c++11 -g -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
+	set(CMAKE_CXX_FLAGS "-std=c++11 -g")
 ENDIF ()
 
 if(APPLE)
