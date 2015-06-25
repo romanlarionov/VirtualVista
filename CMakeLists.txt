@@ -4,13 +4,18 @@ project(VirtualVista)
 set(EXECUTABLE_FILE "VirtualVista")
 
 if(NOT CMAKE_BUILD_TYPE)
-  message(STATUS "Build type defaulting to \"Release\"")
-  set(CMAKE_BUILD_TYPE "Release")
+  message(STATUS "Build type defaulting to \"Debug\"")
+  set(CMAKE_BUILD_TYPE "Debug")
+endif()
+
+if (UNIX)
+    set(CMAKE_CXX_COMPILER "/usr/bin/g++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(APPLE)
 	set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
 endif()
 
 # Defines where all source code goes.

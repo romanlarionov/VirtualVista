@@ -21,9 +21,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstdlib>
 
-#include <GLFW/glfw3.h>
-#include "glew.h"
+//#include <GLFW/glfw3.h>
+//#include "glew.h"
 
 #include "Shader.h"
 #include "Utilities.h"
