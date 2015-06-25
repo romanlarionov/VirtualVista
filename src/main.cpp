@@ -18,16 +18,34 @@
 #endif
 
 #include <iostream>
-#include "Application.h"
+#include <OpenGL/OpenGL.h>
+
 
 int main(int argc, char* argv[])
 {
-    vv::app::App virtualVistaApp;
+    /*vv::app::App virtualVistaApp;
 
     if (!virtualVistaApp.init())
         return EXIT_FAILURE;
 
-    virtualVistaApp.run();
+    virtualVistaApp.run();*/
+
+    GLfloat vertices[] = {
+            -0.5f, -0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            0.0f,  0.5f, 0.0f
+    };
+
+    //GLuint VBO;
+    //glGenBuffers(1, &VBO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    //GLchar *frag_source, *vert_source;
+    //vv::Utils::loadShader("../src/shaders/fragment.glsl", frag_source);
+    //vv::Utils::loadShader("../src/shaders/vertex.glsl", vert_source);
+
+
 
     return EXIT_SUCCESS;
 }

@@ -1,0 +1,11 @@
+
+#ifndef VIRTUALVISTA_SHADER_H
+#define VIRTUALVISTA_SHADER_H
+
+
+class Shader {
+
+};
+
+
+#endif //VIRTUALVISTA_SHADER_H

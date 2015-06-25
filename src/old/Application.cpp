@@ -18,7 +18,7 @@ namespace app
     App::~App()
     {
         glDeleteProgram(program);
-        delete renderer;
+        //delete renderer;
     }
 
     bool App::init()
@@ -55,8 +55,8 @@ namespace app
 	    if (!programSuccess)
 		    return false;
 
-        renderer = new vv::app::Renderer(program);
-        renderer->init();
+        //renderer = new vv::app::Renderer(program);
+        //renderer->init();
 
         return programSuccess;
     }

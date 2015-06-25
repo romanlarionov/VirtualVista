@@ -5,8 +5,6 @@
 
 namespace vv
 {
-namespace utils
-{
     bool Utils::createProgram(GLchar const * const vertexSource, GLchar const * const fragmentSource, GLuint &program)
     {
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -89,9 +87,10 @@ namespace utils
         return window;
     }
 
-    bool Utils::loadShader(std::string filename, GLchar* shaderSource)
+    bool Utils::loadShader(std::string filename, GLchar*& shaderSource)
     {
         std::ifstream file;
+        std::string temp, finished;
         file.open(filename);
 
         if (!file.is_open())
@@ -99,9 +98,6 @@ namespace utils
             std::cerr << "ERROR: file - " << filename << " cannot be found.\n";
             return false;
         }
-
-        std::string temp;
-        std::string finished;
 
         while (!file.eof())
         {
@@ -115,12 +111,14 @@ namespace utils
            return false;
         }
 
-        int i;
+        /*
         unsigned long length = finished.length();
-        for (i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             shaderSource[i] = finished[i];
 
-        shaderSource[i] = '\0'; // NULL character at the end of c strings.
+        shaderSource[i] = '\0'; // NULL character at the end of c strings.*/
+
+        shaderSource = const_cast<GLchar *>(finished.c_str());
 
         file.close();
         return true;
@@ -134,5 +132,4 @@ namespace utils
 		glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
 		return buffer;
 	}
-}
 }

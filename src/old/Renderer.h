@@ -4,7 +4,7 @@
 #ifndef VV_RENDERER_H
 #define VV_RENDERER_H
 
-#include "Poly.h"
+//#include "Poly.h"
 #include "string"
 #include "vector"
 #include "unordered_map"
@@ -31,7 +31,7 @@ namespace vv
                 const unsigned int maxLivingPolys;
                 unsigned int currentLivingPolys;
 
-                std::list<vv::graphics::Poly> livingPolyList;
+                //std::list<vv::graphics::Poly> livingPolyList;
 
                 std::unordered_map<std::string, GLint> uniformLocations;
                 std::unordered_map<std::string, GLint> attributeLocations;
