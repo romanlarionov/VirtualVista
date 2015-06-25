@@ -3,7 +3,7 @@
 
 #include "Renderer.h"
 
-#include <OpenGL/gl3.h>
+#include <OpenGL/g3.h>
 #include <stdlib.h>
 #include <iostream>
 

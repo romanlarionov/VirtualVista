@@ -15,14 +15,6 @@ if [[ ! -d "deps" ]]; then
   sudo make install
   cd ../../
 
-  # glew
-  git clone https://github.com/nigels-com/glew.git
-  cd glew
-  make -C auto
-  sudo make install
-  sudo make clean
-  cd ..
-
   # glm 
   curl -o glm.zip -L http://sourceforge.net/projects/ogl-math/files/glm-0.9.6.1/glm-0.9.6.1.zip/download
   unzip glm.zip 
@@ -37,12 +29,12 @@ if [[ ! -d "deps" ]]; then
   cd ../../../
 fi
 
-rm -rf build
-mkdir build
+if [[ ! -d "build" ]]; then
+  mkdir build
+fi
+
 cd build
-cmake ..
+cmake -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF ..
 make
-shopt -s extglob
-rm -rf !(VirtualVista)
-shopt -u extglob
+
 
