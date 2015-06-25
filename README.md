@@ -1,27 +1,25 @@
-OpenGL Endeavours
+Virtual Vista
 =================
 
-How to compile and run
+Soon to be procedural graphics engine.
+
+Build
 ---------------
 
-####Through Terminal
+####OS X:
 
+Make sure to run the build script first to install dependencies.
+``` bash
+./compile.sh
 ```
-cd path/to/VirtualVista
-./build.sh
+
+The output executable will be in the generated build directory.
+``` bash 
+./VirtualVista
 ```
 
-####CLion: 
+Note: Glew is a pain to link correctly; if the build doesn't work because of it, install global static libraries and be done with it.
 
-CLion is easy, simply hit RUN and do good things.
+####CLion:
 
-It should be noted that GLEW does not have CMake style make files. This is a problem that I have yet to
-resolve. For now, the only way to include it into the project is to manually install it based on the 
-instructions they give [here](https://github.com/LuaDist/glew).
-
-Notes
-------
-
-This only works on Mac OS X... for now.
-
-Will extend to other operating systems in the future.
+I suggest building with CLion if on Unix platform. I have yet to make things work for Visual Studio.
