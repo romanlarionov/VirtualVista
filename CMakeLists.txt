@@ -10,12 +10,11 @@ endif()
 
 if (UNIX)
     set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF")
 endif()
 
 if(APPLE)
-	set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
 endif()
 
 # Defines where all source code goes.
@@ -35,13 +34,14 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 ####### Dependencies
 set(DEPS ${CMAKE_SOURCE_DIR}/deps)
+set(GLEW_LOCATION "${DEPS}/glew")
+find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
 add_subdirectory(${DEPS}/glfw)
 include_directories(${DEPS}/glfw/include)
 
 # Setting files necessary for compilation.
 set(SOURCE_FILES ${SRC_DIR}/main.cpp
-                 ${SRC_DIR}/glew.cpp
                  ${SRC_DIR}/Shader.cpp
                  ${SRC_DIR}/Utilities.cpp)
                  #${SRC_DIR}/Renderer.cpp
@@ -49,4 +49,4 @@ set(SOURCE_FILES ${SRC_DIR}/main.cpp
                  #${SRC_DIR}/Application.cpp)
 
 add_executable(${EXECUTABLE_FILE} ${SOURCE_FILES})
-target_link_libraries(${EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES})
+target_link_libraries(${EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY})

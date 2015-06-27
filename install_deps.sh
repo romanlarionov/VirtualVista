@@ -25,6 +25,17 @@ if [ ! -d "glfw" ]; then
   cd ../../
 fi
 
+if [ ! -d "glew" ]; then
+  curl -o glew.tgz -L http://sourceforge.net/projects/glew/files/glew/1.12.0/glew-1.12.0.tgz/download
+  tar -zxvf glew.tgz
+  rm glew.tgz
+  mv glew-1.12.0 glew
+  cd glew
+  make
+  sudo make install
+  cd ..
+fi
+
 # glm
 if [ ! -d "glm" ]; then
   curl -o glm.zip -L http://sourceforge.net/projects/ogl-math/files/glm-0.9.6.1/glm-0.9.6.1.zip/download
