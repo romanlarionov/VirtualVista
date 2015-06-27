@@ -1,47 +1,39 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
+
 #include "Shader.h"
 
 namespace vv
 {
-namespace vis
-{
-    vv::vis::Shader::Shader(std::string vert_filename, std::string frag_filename)
+    vv::Shader::Shader(std::string vert_filename, std::string frag_filename)
     {
-        v_name = vert_filename;
-        f_name = frag_filename;
         program_id = glCreateProgram();
+
+        std::string vert_source = loadShader(vert_filename);
+        std::string frag_source = loadShader(frag_filename);
+        createProgram(vert_source, frag_source);
     }
 
-    vv::vis::Shader::~Shader()
+    vv::Shader::~Shader()
     {
         glDeleteProgram(program_id);
     }
 
-    bool vv::vis::Shader::init()
-    {
-        return createProgram(v_name, f_name);
-    }
-
-    bool vv::vis::Shader::createProgram(std::string vert_filename, std::string frag_filename)
+    bool vv::Shader::createProgram(std::string vert_source, std::string frag_source)
     {
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-        std::string vert1 = loadShader(vert_filename);
-        std::string frag1 = loadShader(frag_filename);
-
-        const GLchar *vert_source = vert1.c_str();
-        const GLchar *frag_source = frag1.c_str();
-
-        glShaderSource(vertexShader, 1, &vert_source, NULL);
-        glShaderSource(fragmentShader, 1, &frag_source, NULL);
-
+        const GLchar *v_source = vert_source.c_str();
+        glShaderSource(vertexShader, 1, &v_source, NULL);
         glCompileShader(vertexShader);
+
+        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        const GLchar *f_source = frag_source.c_str();
+        glShaderSource(fragmentShader, 1, &f_source, NULL);
         glCompileShader(fragmentShader);
 
-        auto compilationSuccess = [](GLuint shader) -> bool
+        auto compilationSuccess = [](GLuint shader, std::string type) -> bool
         {
             int infoLogLength = 0;
             GLint compileSuccess = GL_FALSE;
@@ -52,14 +44,17 @@ namespace vis
             {
                 char buffer[infoLogLength + 1];
                 glGetShaderInfoLog(shader, infoLogLength, NULL, buffer);
-                std::cerr << "Error: failed to compile shader.\n" << buffer << "\n";
+                std::cerr << "ERROR: failed to compile " << type << " shader:\n" << buffer << "\n";
                 glDeleteShader(shader);
                 return false;
             }
             return true;
         };
 
-        if (!compilationSuccess(vertexShader) || !compilationSuccess(fragmentShader))
+        bool vert_success = compilationSuccess(vertexShader, "vertex");
+        bool frag_success = compilationSuccess(fragmentShader, "fragment");
+
+        if (!vert_success || !frag_success)
         {
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
@@ -91,29 +86,25 @@ namespace vis
         return true;
     }
 
-    std::string vv::vis::Shader::loadShader(const std::string filename)
+    std::string vv::Shader::loadShader(const std::string filename)
     {
-        std::ifstream file;
-        file.open(filename);
-        std::string temp, output;
+        std::ifstream file(filename);
+        std::string shader_source;
 
-        if (!file.is_open())
+        try
         {
-            std::cerr << "ERROR: file - " << filename << " cannot be found." << std::endl;
-            return "";
+            std::stringstream shader_stream;
+            shader_stream << file.rdbuf();
+            file.close();
+
+            shader_source = shader_stream.str();
+        }
+        catch (std::exception e)
+        {
+            std::cerr << "ERROR: file: " << filename << " not successfully read:\n";
+            exit(EXIT_FAILURE);
         }
 
-        while (std::getline(file, temp))
-            output += temp + "\n";
-
-        if (output.empty())
-        {
-            std::cerr << "ERROR: file - " << filename << " is empty." << std::endl;
-            return "";
-        }
-
-        file.close();
-        return output;
+        return shader_source;
     }
-}
 }

@@ -10,7 +10,7 @@ endif()
 
 if (UNIX)
     set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 if(APPLE)
@@ -43,10 +43,10 @@ include_directories(${DEPS}/glfw/include)
 # Setting files necessary for compilation.
 set(SOURCE_FILES ${SRC_DIR}/main.cpp
                  ${SRC_DIR}/Shader.cpp
-                 ${SRC_DIR}/Utilities.cpp)
+                 #${SRC_DIR}/Utilities.cpp
                  #${SRC_DIR}/Renderer.cpp
                  #${SRC_DIR}/PolyManager.cpp
-                 #${SRC_DIR}/Application.cpp)
+                 ${SRC_DIR}/Application.cpp)
 
 add_executable(${EXECUTABLE_FILE} ${SOURCE_FILES})
 target_link_libraries(${EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY})

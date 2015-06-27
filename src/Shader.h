@@ -2,13 +2,11 @@
 #ifndef VIRTUALVISTA_SHADER_H
 #define VIRTUALVISTA_SHADER_H
 
-#include "glew.h"
-#include <vector>
-#include <string>
+#ifndef VIRTUALVISTA_APPLICATION_H
+  #include <GL/glew.h>
+#endif
 
 namespace vv
-{
-namespace vis
 {
     class Shader
     {
@@ -16,21 +14,15 @@ namespace vis
         Shader(std::string verg_filename, std::string frag_filename);
         ~Shader();
 
-        bool init();
-
-        GLuint getProgramId() { return program_id; }
-        void setProgramId(GLuint id) { program_id = id; }
+        void useProgram() { glUseProgram(program_id); }
 
     private:
 
-        std::string v_name;
-        std::string f_name;
         GLuint program_id;
 
         std::string loadShader(const std::string filename);
-        bool createProgram(std::string vert_filename, std::string frag_filename);
+        bool createProgram(std::string vert_source, std::string frag_source);
     };
-}
 }
 
 #endif // VIRTUALVISTA_SHADER_H
