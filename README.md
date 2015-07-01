@@ -6,20 +6,14 @@ Soon to be procedural graphics engine.
 Build
 ---------------
 
-####OS X:
+Install all platform dependecies first:
+``` bash
+./install_deps.sh
+```
 
-Make sure to run the build script first to install dependencies.
+Recommended building with script as several environment vars are needed to keep glfw from building extra executables.
 ``` bash
 ./compile.sh
 ```
 
-The output executable will be in the generated build directory.
-``` bash 
-./VirtualVista
-```
-
-Note: Glew is a pain to link correctly; if the build doesn't work because of it, install global static libraries and be done with it.
-
-####CLion:
-
-I suggest building with CLion if on Unix platform. I have yet to make things work for Visual Studio.
+Works and tested on both OS X 10.10.X and Ubuntu 14.04

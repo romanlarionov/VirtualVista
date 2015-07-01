@@ -2,8 +2,7 @@
 
 # Roman Larionov
 # it is assumed that on OS X, you have XCode & Command Line Tools installed. 
-
-if [{uname -o} == "Linux"]; then
+if [ "$(lsb_release -si)" == "Ubuntu" ]; then
   sudo apt-get install xorg-dev libglu1-mesa-dev libXmu-dev libXi-dev dos2unix wget
 fi
 
