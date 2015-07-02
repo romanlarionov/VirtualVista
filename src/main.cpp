@@ -9,18 +9,16 @@
     It also needs GLM, which is an OpenGL linear algebra library.
  */
 
-
 #include <iostream>
-#include "Application.h"
+#include "AppManager.h"
+
 using namespace vv;
 
 int main(int argc, char* argv[])
 {
-    App app;
+  // TODO: process command line input
 
-    if (!app.init()) return EXIT_FAILURE;
-
-    app.run();
-
-    return EXIT_SUCCESS;
+  if (!AppManager::init()) return EXIT_FAILURE;
+  AppManager::instance()->run();
+  return EXIT_SUCCESS;
 }

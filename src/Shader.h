@@ -8,21 +8,23 @@
 
 namespace vv
 {
-    class Shader
+  class Shader
+  {
+  public:
+    Shader(std::string vert_filename, std::string frag_filename);
+    ~Shader();
+
+    void useProgram()
     {
-    public:
-        Shader(std::string verg_filename, std::string frag_filename);
-        ~Shader();
+      glUseProgram(program_id_);
+    }
 
-        void useProgram() { glUseProgram(program_id); }
+  private:
+    GLuint program_id_;
 
-    private:
-
-        GLuint program_id;
-
-        std::string loadShader(const std::string filename);
-        bool createProgram(std::string vert_source, std::string frag_source);
-    };
+    std::string loadShader(const std::string filename);
+    bool createProgram(std::string vert_source, std::string frag_source);
+  };
 }
 
 #endif // VIRTUALVISTA_SHADER_H
