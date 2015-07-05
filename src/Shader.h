@@ -14,10 +14,8 @@ namespace vv
     Shader(std::string vert_filename, std::string frag_filename);
     ~Shader();
 
-    void useProgram()
-    {
-      glUseProgram(program_id_);
-    }
+    GLuint getProgramId();
+    void useProgram();
 
   private:
     GLuint program_id_;

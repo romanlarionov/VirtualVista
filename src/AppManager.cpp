@@ -21,8 +21,8 @@ namespace vv
       }
     }
 
-    glfwSetKeyCallback(app_singleton_->window_, keyboardCallback);
-    glfwSetCursorPosCallback(app_singleton_->window_, mouseCallback);
+    glfwSetKeyCallback(app_singleton_->getWindow(), keyboardCallback);
+    glfwSetCursorPosCallback(app_singleton_->getWindow(), mouseCallback);
     return true;
   }
 

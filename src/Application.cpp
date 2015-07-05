@@ -1,8 +1,10 @@
 
 #include <iostream>
+#include <glm/glm.hpp>
 
 #include "Application.h"
 #include "Input.h"
+#include "Camera.h"
 #include "Shader.h"
 
 namespace vv
@@ -67,6 +69,11 @@ namespace vv
       std::cout << "B\n";
   }
 
+  GLFWwindow* App::getWindow()
+  {
+    return window_;
+  }
+
   void App::run()
   {
     // create program
@@ -74,22 +81,64 @@ namespace vv
     std::string frag_path = "../src/shaders/fragment.glsl";
     Shader shader(vert_path, frag_path);
 
-    std::string vert_path2 = "../src/shaders/vertex2.glsl";
-    std::string frag_path2 = "../src/shaders/fragment2.glsl";
-    Shader shader2(vert_path2, frag_path2);
+    // create camera
+    Camera camera;
 
-    GLfloat vertices[] =
-    {
-      -0.5f, -0.5f, 0.0f,
-      0.5f, -0.5f, 0.0f,
-      0.0f,  0.5f, 0.0f
+    GLfloat vertices[] = {
+      -0.5f, -0.5f, -0.5f,
+      0.5f, -0.5f, -0.5f,
+      0.5f,  0.5f, -0.5f,
+      0.5f,  0.5f, -0.5f,
+      -0.5f,  0.5f, -0.5f,
+      -0.5f, -0.5f, -0.5f,
+
+      -0.5f, -0.5f,  0.5f,
+      0.5f, -0.5f,  0.5f,
+      0.5f,  0.5f,  0.5f,
+      0.5f,  0.5f,  0.5f,
+      -0.5f,  0.5f,  0.5f,
+      -0.5f, -0.5f,  0.5f,
+
+      -0.5f,  0.5f,  0.5f,
+      -0.5f,  0.5f, -0.5f,
+      -0.5f, -0.5f, -0.5f,
+      -0.5f, -0.5f, -0.5f,
+      -0.5f, -0.5f,  0.5f,
+      -0.5f,  0.5f,  0.5f,
+
+      0.5f,  0.5f,  0.5f,
+      0.5f,  0.5f, -0.5f,
+      0.5f, -0.5f, -0.5f,
+      0.5f, -0.5f, -0.5f,
+      0.5f, -0.5f,  0.5f,
+      0.5f,  0.5f,  0.5f,
+
+      -0.5f, -0.5f, -0.5f,
+      0.5f, -0.5f, -0.5f,
+      0.5f, -0.5f,  0.5f,
+      0.5f, -0.5f,  0.5f,
+      -0.5f, -0.5f,  0.5f,
+      -0.5f, -0.5f, -0.5f,
+
+      -0.5f,  0.5f, -0.5f,
+      0.5f,  0.5f, -0.5f,
+      0.5f,  0.5f,  0.5f,
+      0.5f,  0.5f,  0.5f,
+      -0.5f,  0.5f,  0.5f,
+      -0.5f,  0.5f, -0.5f
     };
 
-    GLfloat vertices2[] =
-    {
-      -1.0f, -0.5f, 0.0f,
-      0.0f, -0.5f, 0.0f,
-      -0.5f,  0.0f, 0.0f,
+    glm::vec3 cube_positions[] = {
+      glm::vec3(0.0f, 0.0f, 0.0f),
+      glm::vec3(2.0f, 5.0f, -15.0f),
+      glm::vec3(-1.5f, -2.2f, -2.5f),
+      glm::vec3(-3.8f, -2.0f, -12.3f),
+      glm::vec3(2.4f, -0.4f, -3.5f),
+      glm::vec3(-1.7f, 3.0f, -7.5f),
+      glm::vec3(1.3f, -2.0f, -2.5f),
+      glm::vec3(1.5f, 2.0f, -2.5f),
+      glm::vec3(1.5f, 0.2f, -1.5f),
+      glm::vec3(-1.3f, 1.0f, -1.5f)
     };
 
     // create vertex array object that stores a single configuration of drawing specifications like
@@ -112,24 +161,6 @@ namespace vv
 
     glBindVertexArray(0); // prevent any accidental mis-configurations
 
-    GLuint VAO2 = 0;
-    glGenVertexArrays(1, &VAO2);
-    glBindVertexArray(VAO2); // from here on, all configurations pertain to this VAO.
-
-    // think of this like a data structure on the device, we're generating a new storage space for our data
-    // that we want draw, and then shipping the data from the host to the device.
-    GLuint VBO2 = 0;
-    glGenBuffers(1, &VBO2);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
-
-    // inform the GPU how to understand and process the incoming data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0); // prevent any accidental mis-configurations
-
     // main loop
     while (!glfwWindowShouldClose(window_))
     {
@@ -145,30 +176,40 @@ namespace vv
 
       glfwPollEvents();
       //handleInput();
-      std::cout << (glfwGetKey(window_, 87) == GLFW_PRESS) << "\n";
 
       // update
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
-      // render
       shader.useProgram();
-      glBindVertexArray(VAO);
-      glDrawArrays(GL_TRIANGLES, 0, 3);
-      glBindVertexArray(0);
 
-      shader2.useProgram();
-      glBindVertexArray(VAO2);
-      glDrawArrays(GL_TRIANGLES, 0, 3);
+      camera.update();
+
+      glm::mat4 view_proj;
+      camera.getMVPMat(view_proj);
+      GLint model_location = glGetUniformLocation(shader.getProgramId(), "model");
+      GLint view_proj_location = glGetUniformLocation(shader.getProgramId(), "view_projection");
+
+      glUniformMatrix4fv(view_proj_location, 1, GL_FALSE, glm::value_ptr(view_proj));
+
+      // render
+      glBindVertexArray(VAO);
+      for (GLuint i = 0; i < 10; ++i)
+      {
+        glm::mat4 model;
+        model = glm::translate(model, cube_positions[i]);
+        GLfloat a = 20.0f * i;
+        model = glm::rotate(model, a, glm::vec3(1.0f, 0.3f, 0.5f));
+        glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+      }
       glBindVertexArray(0);
 
       glfwSwapBuffers(window_);
     }
 
     // clean up
-    glDeleteVertexArrays(1, &VAO2);
     glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO2);
     glDeleteBuffers(1, &VBO);
     glfwDestroyWindow(window_);
     glfwTerminate();

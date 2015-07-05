@@ -105,4 +105,14 @@ namespace vv
 
     return shader_source;
   }
+
+  GLuint Shader::getProgramId()
+  {
+    return program_id_;
+  }
+
+  void Shader::useProgram()
+  {
+    glUseProgram(program_id_);
+  }
 } // namespace vv

@@ -10,17 +10,18 @@ namespace vv
 {
   class App
   {
-    friend class AppManager;
   public:
     App();
 
     bool init();
     void run();
 
+    GLFWwindow* getWindow();
+
   private:
     bool first_run_;
     bool app_init_;
-    GLdouble global_time_;
+    double global_time_;
     unsigned int window_width_;
     unsigned int window_height_;
     GLFWwindow* window_;

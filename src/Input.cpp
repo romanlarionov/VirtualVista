@@ -8,7 +8,9 @@ namespace vv
 
   Input::Input() :
     last_x_(0),
-    last_y_(0)
+    last_y_(0),
+    curr_x_(0),
+    curr_y_(0)
   {
     key_pressed_tracker_.resize(GLFW_KEY_LAST);
   }
@@ -29,8 +31,14 @@ namespace vv
 
   void Input::getMouseValues(GLdouble& x, GLdouble& y)
   {
-    x = last_x_;
-    y = last_y_;
+    x = curr_x_;
+    y = curr_y_;
+  }
+
+  void Input::getMousePositionDelta(double &x, double &y)
+  {
+    x = curr_x_ - last_x_;
+    y = curr_y_ - last_y_;
   }
 
   void Input::keyboardEventsCallback(GLFWwindow *window, int key, int scan_code, int action, int mods)
@@ -46,7 +54,9 @@ namespace vv
 
   void Input::mouseEventsCallback(GLFWwindow *window, double curr_x, double curr_y)
   {
-    last_x_ = curr_x;
-    last_y_ = curr_y;
+    last_x_ = curr_x_;
+    last_y_ = curr_y_;
+    curr_x_ = curr_x;
+    curr_y_ = curr_y;
   }
 } // namespace vv
