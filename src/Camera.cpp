@@ -4,18 +4,17 @@
 
 namespace vv
 {
-  Camera::Camera() :
-    field_of_view_(45),  // TODO: change to global settings system
-    near_clip_(10),
-    far_clip_(100),
-    movement_speed_(0.5f),
-    rotation_speed_(0.5f),
-    max_pitch_angle_(5),
-    max_yaw_angle_(5)
+  Camera::Camera(Shader* shader) :
+    pitch_angle_(0),
+    yaw_angle_(0),
+    max_pitch_angle_(1),
+    max_yaw_angle_(1),
+    shader_(*shader)
   {
-    aspect_ratio_ = 800.0 / 600.0;
     up_vec_ = glm::vec3(0, 1, 0);
-    position_vec_ = glm::vec3(0, 0, 0);
+    position_vec_ = glm::vec3(0, 0, 3);
+    look_at_vec_ = glm::vec3(0, 0, 0);
+    position_delta_ = glm::vec3(0, 0, 0);
   }
 
   void Camera::update()
@@ -23,9 +22,6 @@ namespace vv
     // compute helper vectors
     direction_vec_ = glm::normalize(look_at_vec_ - position_vec_);
     glm::vec3 right_vec = glm::cross(direction_vec_, up_vec_);
-
-    this->updatePosition();
-    this->updateOrientation();
 
     // find component-wise rotation quaternions
     glm::quat pitch_quat = glm::angleAxis(pitch_angle_, right_vec);
@@ -36,55 +32,53 @@ namespace vv
 
     // perform rotation and store
     direction_vec_ = glm::rotate(combined_rotations, direction_vec_);
+    position_vec_ += position_delta_;
+    position_delta_ = glm::vec3(0, 0, 0);
     look_at_vec_ = position_vec_ + direction_vec_ * 1.0f;
-
-    // compute matrices
-    projection_mat_ = glm::perspective(field_of_view_, aspect_ratio_, near_clip_, far_clip_);
-    view_mat_ = glm::lookAt(position_vec_, look_at_vec_, up_vec_);
-    model_mat_ = glm::mat4(1.0f);
-    model_view_projection_mat_ = projection_mat_ * view_mat_ * model_mat_;
+    pitch_angle_ = 0;
+    yaw_angle_ = 0;
   }
 
-  void Camera::updatePosition()
+  void Camera::move(GLint key, double movement_speed)
   {
-    if (Input::instance()->keyIsPressed(GLFW_KEY_W))
-      position_vec_ += direction_vec_ * movement_speed_;
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_S))
-      position_vec_ -= direction_vec_ * movement_speed_;
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_D))
-      position_vec_ += glm::cross(direction_vec_, up_vec_) * movement_speed_;
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_A))
-      position_vec_ -= glm::cross(direction_vec_, up_vec_) * movement_speed_;
+    switch (key)
+    {
+      case GLFW_KEY_W: position_delta_ += direction_vec_ * float(movement_speed);
+                       break;
+      case GLFW_KEY_S: position_delta_ += direction_vec_ * float(movement_speed);
+                       break;
+      case GLFW_KEY_D: position_delta_ += direction_vec_ * float(movement_speed);
+                       break;
+      case GLFW_KEY_A: position_delta_ += direction_vec_ * float(movement_speed);
+                       break;
+      default: break;
+    }
   }
 
-  void Camera::updateOrientation()
+  void Camera::rotate(double x, double y, double rotation_speed)
   {
-    // update mouse cursor position
-    double x = 0, y = 0;
-    Input::instance()->getMousePositionDelta(x, y);
-    x *= 0.08; // TODO: change from magic number
-    y *= 0.08;
+    x *= rotation_speed;
+    y *= rotation_speed;
 
     // yaw
     if (x < -max_yaw_angle_)     x = -max_yaw_angle_;
     else if (x > max_yaw_angle_) x = max_yaw_angle_;
 
+    yaw_angle_ -= x;
+
     // put bounds on the yaw for a more natural fps camera feeling
-    if (((pitch_angle_ >  90) && (pitch_angle_ <  270)) ||
-        ((pitch_angle_ < -90) && (pitch_angle_ > -270)))
-      yaw_angle_ -= x;
-    else
-      yaw_angle_ += x;
+//    if (((pitch_angle_ >  90) && (pitch_angle_ <  270)) ||
+//        ((pitch_angle_ < -90) && (pitch_angle_ > -270)))
+//      yaw_angle_ -= x;
+//    else
+//      yaw_angle_ += x;
 
-    if (yaw_angle_ > 360.0f)
-      yaw_angle_ -= 360.0f;
-    else if (yaw_angle_ < -360.0f)
-      yaw_angle_ += 360.0f;
+//    if (yaw_angle_ > 360.0f)
+//      yaw_angle_ -= 360.0f;
+//    else if (yaw_angle_ < -360.0f)
+//      yaw_angle_ += 360.0f;
 
-    // pitch
+  // pitch
     if (y < -max_pitch_angle_)
       y = -max_pitch_angle_;
     else if (y > max_pitch_angle_)
@@ -92,24 +86,16 @@ namespace vv
 
     pitch_angle_ += y;
 
-    if (pitch_angle_ > 360.0f)
-      pitch_angle_ -= 360.0f;
-    else if (pitch_angle_ < -360.0f)
-      pitch_angle_ += 360.0f;
+    if (pitch_angle_ > 89.0f)
+      pitch_angle_ = 89.0f;
+    else if (pitch_angle_ < -89.0f)
+      pitch_angle_ = -89.0f;
   }
 
-  void Camera::getViewMat(glm::mat4 &V)
+  void Camera::bindViewMatrix()
   {
-    V = view_mat_;
-  }
-
-  void Camera::getProjectionMat(glm::mat4 &P)
-  {
-    P = projection_mat_;
-  }
-
-  void Camera::getMVPMat(glm::mat4 &MVP)
-  {
-    MVP = model_view_projection_mat_;
+    view_mat_ = glm::lookAt(position_vec_, look_at_vec_, up_vec_);
+    GLint view_location = glGetUniformLocation(shader_.getProgramId(), "view");
+    glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_mat_));
   }
 } // namespace vv

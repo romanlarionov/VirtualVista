@@ -16,12 +16,9 @@ namespace vv
 
     bool keyIsPressed(int key);
     void getMouseValues(double &x, double &y);
-    void getMousePositionDelta(double &x, double &y);
 
   private:
     static Input *input_singleton_;
-    double last_x_;  // previous cursor coordinates
-    double last_y_;
     double curr_x_;
     double curr_y_;
     std::vector<bool> key_pressed_tracker_;

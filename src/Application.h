@@ -5,6 +5,7 @@
 #include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "Camera.h"
 
 namespace vv
 {
@@ -20,13 +21,16 @@ namespace vv
 
   private:
     bool first_run_;
+    bool first_input_;
     bool app_init_;
     double global_time_;
+    double last_x_;
+    double last_y_;
     unsigned int window_width_;
     unsigned int window_height_;
     GLFWwindow* window_;
 
-    void handleInput();
+    void handleInput(Camera* cam, double delta_time);
   };
 }
 

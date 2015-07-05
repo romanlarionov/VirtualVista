@@ -7,8 +7,6 @@ namespace vv
   Input* Input::input_singleton_ = NULL;
 
   Input::Input() :
-    last_x_(0),
-    last_y_(0),
     curr_x_(0),
     curr_y_(0)
   {
@@ -29,16 +27,10 @@ namespace vv
     return false;
   }
 
-  void Input::getMouseValues(GLdouble& x, GLdouble& y)
+  void Input::getMouseValues(double& x, double& y)
   {
     x = curr_x_;
     y = curr_y_;
-  }
-
-  void Input::getMousePositionDelta(double &x, double &y)
-  {
-    x = curr_x_ - last_x_;
-    y = curr_y_ - last_y_;
   }
 
   void Input::keyboardEventsCallback(GLFWwindow *window, int key, int scan_code, int action, int mods)
@@ -54,8 +46,6 @@ namespace vv
 
   void Input::mouseEventsCallback(GLFWwindow *window, double curr_x, double curr_y)
   {
-    last_x_ = curr_x_;
-    last_y_ = curr_y_;
     curr_x_ = curr_x;
     curr_y_ = curr_y;
   }

@@ -11,45 +11,36 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Shader.h"
+
 namespace vv
 {
   class Camera
   {
   public:
-    Camera();
+    Camera(Shader* shader); // TODO: change to more general solution
 
     void update();
+    void move(GLint key, double movement_speed);
+    void rotate(double x, double y, double rotation_speed);
 
-    void getViewMat(glm::mat4 &V);
-    void getProjectionMat(glm::mat4 &P);
-    void getMVPMat(glm::mat4 &MVP);
+    void bindViewMatrix();
 
   private:
-    double aspect_ratio_;
-    double field_of_view_;
-    double near_clip_;
-    double far_clip_;
-
-    float movement_speed_;
-    float rotation_speed_;
-
+    Shader shader_;
     float pitch_angle_;
     float yaw_angle_;
     float max_pitch_angle_;
     float max_yaw_angle_;
 
-    glm::vec3 position_vec_;  // global coordinate point
-    glm::vec3 direction_vec_; // look at - position
-    glm::vec3 look_at_vec_;   // position of observed point
-    glm::vec3 up_vec_;        // global up direction
+    glm::vec3 position_delta_; // change in position from input
+    glm::vec3 position_vec_;   // global coordinate point
+    glm::vec3 direction_vec_;  // look at - position
+    glm::vec3 look_at_vec_;    // position of observed point
+    glm::vec3 up_vec_;         // global up direction
 
-    glm::mat4 model_mat_;
     glm::mat4 view_mat_;
-    glm::mat4 projection_mat_;
-    glm::mat4 model_view_projection_mat_;
 
-    void updatePosition();
-    void updateOrientation();
   };
 }
 

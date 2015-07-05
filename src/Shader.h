@@ -6,6 +6,8 @@
   #include <GL/glew.h>
 #endif
 
+#include <string>
+
 namespace vv
 {
   class Shader

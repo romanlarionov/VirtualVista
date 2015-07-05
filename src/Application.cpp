@@ -4,14 +4,16 @@
 
 #include "Application.h"
 #include "Input.h"
-#include "Camera.h"
 #include "Shader.h"
 
 namespace vv
 {
   App::App() :
     first_run_(true),
+    first_input_(true),
     app_init_(false),
+    last_x_(0),
+    last_y_(0),
     global_time_(0)
   {
     window_width_ = 800;
@@ -31,7 +33,6 @@ namespace vv
       glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
       glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
       glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-      //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
       glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
       glfwWindowHint(GLFW_SAMPLES, 4);
 
@@ -44,6 +45,7 @@ namespace vv
       }
 
       glfwMakeContextCurrent(window_);
+//      glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
       glViewport(0, 0, window_width_, window_height_);
 
@@ -57,16 +59,44 @@ namespace vv
     return true;
   }
 
-  void App::handleInput()
+  void App::handleInput(Camera* cam, double delta_time)
   {
+    double movement_speed = 30 * delta_time;
+    double rotation_speed = 0.35 * delta_time;
+
+    // TODO: fix key input on linux
     if (Input::instance()->keyIsPressed(GLFW_KEY_ESCAPE))
       glfwSetWindowShouldClose(window_, GL_TRUE);
 
+    // Camera movements
     if (Input::instance()->keyIsPressed(GLFW_KEY_W))
-      std::cout << "W\n";
+      cam->move(GLFW_KEY_W, movement_speed);
 
-    if (Input::instance()->keyIsPressed(GLFW_KEY_W))
-      std::cout << "B\n";
+    if (Input::instance()->keyIsPressed(GLFW_KEY_A))
+      cam->move(GLFW_KEY_A, movement_speed);
+
+    if (Input::instance()->keyIsPressed(GLFW_KEY_S))
+      cam->move(GLFW_KEY_S, movement_speed);
+
+    if (Input::instance()->keyIsPressed(GLFW_KEY_D))
+      cam->move(GLFW_KEY_D, movement_speed);
+
+    // Camera rotations
+    double curr_x, curr_y;
+    Input::instance()->getMouseValues(curr_x, curr_y);
+    if (first_input_ && (curr_x != 0 && curr_y != 0))
+    {
+      last_x_ = curr_x;
+      last_y_ = curr_y;
+      first_input_ = false;
+    }
+
+    double delta_x = (curr_x - last_x_);
+    double delta_y = (last_y_ - curr_y);
+    last_x_ = curr_x;
+    last_y_ = curr_y;
+
+    cam->rotate(delta_x, delta_y, rotation_speed);
   }
 
   GLFWwindow* App::getWindow()
@@ -81,8 +111,7 @@ namespace vv
     std::string frag_path = "../src/shaders/fragment.glsl";
     Shader shader(vert_path, frag_path);
 
-    // create camera
-    Camera camera;
+    Camera camera(&shader);
 
     GLfloat vertices[] = {
       -0.5f, -0.5f, -0.5f,
@@ -141,6 +170,8 @@ namespace vv
       glm::vec3(-1.3f, 1.0f, -1.5f)
     };
 
+    glEnable(GL_DEPTH_TEST);
+
     // create vertex array object that stores a single configuration of drawing specifications like
     // which attributes to use, how many VBOs to use, etc.
     GLuint VAO = 0;
@@ -165,32 +196,38 @@ namespace vv
     while (!glfwWindowShouldClose(window_))
     {
       // collect input
-      GLdouble curr_time = glfwGetTime();
+      double curr_time = glfwGetTime();
       if (first_run_)
       {
         global_time_ = curr_time;
         first_run_ = false;
       }
-      GLdouble delta_time = global_time_ - curr_time;
+      double delta_time = curr_time - global_time_;
       global_time_ = curr_time;
 
       glfwPollEvents();
-      //handleInput();
+      handleInput(&camera, delta_time);
+      camera.update();
 
       // update
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       shader.useProgram();
 
-      camera.update();
+      // TODO: change later
+      float aspect = window_width_ / window_height_;
+      float fov = 45.0f;
+      float near = 0.1f;
+      float far = 1000.0f;
 
-      glm::mat4 view_proj;
-      camera.getMVPMat(view_proj);
+      glm::mat4 perspective_mat = glm::perspective(fov, aspect, near, far);
+      camera.bindViewMatrix();
+
       GLint model_location = glGetUniformLocation(shader.getProgramId(), "model");
-      GLint view_proj_location = glGetUniformLocation(shader.getProgramId(), "view_projection");
+      GLint proj_location = glGetUniformLocation(shader.getProgramId(), "projection");
 
-      glUniformMatrix4fv(view_proj_location, 1, GL_FALSE, glm::value_ptr(view_proj));
+      glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(perspective_mat));
 
       // render
       glBindVertexArray(VAO);
@@ -207,6 +244,7 @@ namespace vv
 
       glfwSwapBuffers(window_);
     }
+    glDisable(GL_DEPTH_TEST);
 
     // clean up
     glDeleteVertexArrays(1, &VAO);
