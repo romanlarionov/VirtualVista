@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "Input.h"
+#include "Mesh.h"
 #include "Settings.h"
 
 namespace vv
@@ -148,6 +149,17 @@ namespace vv
       -0.5f,  0.5f, -0.5f
     };
 
+    // convert to array of structures
+    std::vector<Vertex> vertices_vec;
+    for (int i = 0; i < 36; ++i)
+    {
+      Vertex v;
+      v.position = glm::vec3(vertices[3*i], vertices[3*i+1], vertices[3*i+2]);
+      vertices_vec.push_back(v);
+    }
+
+    Mesh mesh(vertices_vec);
+
     glm::vec3 cube_positions[] = {
       glm::vec3(0.0f, 0.0f, 0.0f),
       glm::vec3(2.0f, 5.0f, -15.0f),
@@ -163,30 +175,14 @@ namespace vv
 
     glEnable(GL_DEPTH_TEST);
 
-    // create vertex array object that stores a single configuration of drawing specifications like
-    // which attributes to use, how many VBOs to use, etc.
-    GLuint VAO = 0;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO); // from here on, all configurations pertain to this VAO.
-
-    // think of this like a data structure on the device, we're generating a new storage space for our data
-    // that we want draw, and then shipping the data from the host to the device.
-    GLuint VBO = 0;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // inform the GPU how to understand and process the incoming data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0); // prevent any accidental mis-configurations
-
     // main loop
     while (!glfwWindowShouldClose(window_))
     {
-      // collect input
+      // reset framebuffer
+      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+      // manage time
       double curr_time = glfwGetTime();
       if (first_run_)
       {
@@ -196,39 +192,29 @@ namespace vv
       double delta_time = curr_time - global_time_;
       global_time_ = curr_time;
 
+      // handle input
       glfwPollEvents();
       handleInput(&camera, delta_time);
       camera.update();
 
-      // update
-      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
       shader.useProgram();
+
+      // update uniforms
       camera.bindMatrices();
 
-      GLint model_location = glGetUniformLocation(shader.getProgramId(), "model");
+      GLfloat a = 1.0f * float(delta_time);
+      mesh.rotate(a, glm::vec3(1.0f, 0.3f, 0.5f));
+      mesh.rotate(a, glm::vec3(0.0f, 1.0f, 0.0f));
+      mesh.bindMatrices(&shader);
 
       // render
-      glBindVertexArray(VAO);
-      for (GLuint i = 0; i < 10; ++i)
-      {
-        glm::mat4 model;
-        model = glm::translate(model, cube_positions[i]);
-        GLfloat a = 20.0f * i;
-        model = glm::rotate(model, a, glm::vec3(1.0f, 0.3f, 0.5f));
-        glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model));
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-      }
-      glBindVertexArray(0);
+      mesh.render();
 
       glfwSwapBuffers(window_);
     }
     glDisable(GL_DEPTH_TEST);
 
     // clean up
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
     glfwDestroyWindow(window_);
     glfwTerminate();
   }
