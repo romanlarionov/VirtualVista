@@ -1,6 +1,7 @@
 
 #include "Camera.h"
 #include "Input.h"
+#include "Settings.h"
 
 namespace vv
 {
@@ -19,11 +20,6 @@ namespace vv
 
   void Camera::update()
   {
-    // TODO: add perspective matrix creation to camera class
-    // TODO: add option for orthogonal camera
-
-    //glViewport(0, 0, window_width_, window_height_);
-
     // compute helper vectors
     direction_vec_ = glm::normalize(look_at_vec_ - position_vec_);
     glm::vec3 right_vec = glm::cross(direction_vec_, up_vec_);
@@ -35,7 +31,7 @@ namespace vv
     // combine both components
     glm::quat combined_rotations = glm::normalize(glm::cross(pitch_quat, yaw_quat));
 
-    // perform rotation and store
+    // perform rotation and translation, then store
     direction_vec_ = glm::rotate(combined_rotations, direction_vec_);
     position_vec_ += position_delta_;
     position_delta_ = glm::vec3(0, 0, 0);
@@ -71,19 +67,7 @@ namespace vv
 
     yaw_angle_ -= x;
 
-    // put bounds on the yaw for a more natural fps camera feeling
-//    if (((pitch_angle_ >  90) && (pitch_angle_ <  270)) ||
-//        ((pitch_angle_ < -90) && (pitch_angle_ > -270)))
-//      yaw_angle_ -= x;
-//    else
-//      yaw_angle_ += x;
-
-//    if (yaw_angle_ > 360.0f)
-//      yaw_angle_ -= 360.0f;
-//    else if (yaw_angle_ < -360.0f)
-//      yaw_angle_ += 360.0f;
-
-  // pitch
+    // pitch
     if (y < -max_pitch_angle_)
       y = -max_pitch_angle_;
     else if (y > max_pitch_angle_)
@@ -97,8 +81,21 @@ namespace vv
       pitch_angle_ = -89.0f;
   }
 
-  void Camera::bindViewMatrix()
+  void Camera::bindMatrices()
   {
+    // Set Viewport
+    int x, y, width, height;
+    Settings::instance()->getViewport(x, y, width, height);
+    glViewport(x, y, width, height);
+
+    // Projection Matrix
+    float fov, aspect, near, far;
+    Settings::instance()->getPerspective(fov, aspect, near, far);
+    projection_mat_ = glm::perspective(fov, aspect, near, far);
+    GLint proj_location = glGetUniformLocation(shader_.getProgramId(), "projection");
+    glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(projection_mat_));
+
+    // View Matrix
     view_mat_ = glm::lookAt(position_vec_, look_at_vec_, up_vec_);
     GLint view_location = glGetUniformLocation(shader_.getProgramId(), "view");
     glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_mat_));

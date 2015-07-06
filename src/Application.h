@@ -26,8 +26,6 @@ namespace vv
     double global_time_;
     double last_x_;
     double last_y_;
-    unsigned int window_width_;
-    unsigned int window_height_;
     GLFWwindow* window_;
 
     void handleInput(Camera* cam, double delta_time);

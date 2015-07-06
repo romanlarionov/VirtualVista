@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "Input.h"
+#include "Settings.h"
 
 namespace vv
 {
@@ -15,8 +16,6 @@ namespace vv
     last_y_(0),
     global_time_(0)
   {
-    window_width_ = 800;
-    window_height_ = 600;
   }
 
   bool App::init()
@@ -35,7 +34,9 @@ namespace vv
       glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
       glfwWindowHint(GLFW_SAMPLES, 4);
 
-      window_ = glfwCreateWindow(window_width_, window_height_, "Virtual Vista", nullptr, nullptr); // Not fullscreen
+      int x, y, width, height;
+      Settings::instance()->getViewport(x, y, width, height);
+      window_ = glfwCreateWindow(width, height, "Virtual Vista", nullptr, nullptr);
 
       if (!window_)
       {
@@ -44,8 +45,6 @@ namespace vv
       }
 
       glfwMakeContextCurrent(window_);
-
-      glViewport(0, 0, window_width_, window_height_);
 
       // Needs to be called after window_ creation else seg fault.
       glewExperimental = GL_TRUE;
@@ -59,8 +58,8 @@ namespace vv
 
   void App::handleInput(Camera* cam, double delta_time)
   {
-    double movement_speed = 30 * delta_time;
-    double rotation_speed = 0.35 * delta_time;
+    double movement_speed = Settings::instance()->getMovementSpeed() * delta_time;
+    double rotation_speed = Settings::instance()->getRotationSpeed() * delta_time;
 
     // TODO: fix key input on linux
     if (Input::instance()->keyIsPressed(GLFW_KEY_ESCAPE))
@@ -100,9 +99,8 @@ namespace vv
   void App::run()
   {
     // create program
-    std::string vert_path = "../src/shaders/vertex.glsl";
-    std::string frag_path = "../src/shaders/fragment.glsl";
-    Shader shader(vert_path, frag_path);
+    std::string path = Settings::instance()->getShaderLocation();
+    Shader shader(path + "vertex.glsl", path + "fragment.glsl");
 
     Camera camera(&shader);
 
@@ -207,20 +205,9 @@ namespace vv
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       shader.useProgram();
-
-      // TODO: change later
-      float aspect = window_width_ / window_height_;
-      float fov = 45.0f;
-      float near = 0.1f;
-      float far = 1000.0f;
-
-      glm::mat4 perspective_mat = glm::perspective(fov, aspect, near, far);
-      camera.bindViewMatrix();
+      camera.bindMatrices();
 
       GLint model_location = glGetUniformLocation(shader.getProgramId(), "model");
-      GLint proj_location = glGetUniformLocation(shader.getProgramId(), "projection");
-
-      glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(perspective_mat));
 
       // render
       glBindVertexArray(VAO);

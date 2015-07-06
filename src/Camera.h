@@ -18,13 +18,13 @@ namespace vv
   class Camera
   {
   public:
-    Camera(Shader* shader); // TODO: change to more general solution
+    Camera(Shader* shader);
 
     void update();
     void move(GLint key, double movement_speed);
     void rotate(double x, double y, double rotation_speed);
 
-    void bindViewMatrix();
+    void bindMatrices();
 
   private:
     Shader shader_;
@@ -39,6 +39,7 @@ namespace vv
     glm::vec3 look_at_vec_;    // position of observed point
     glm::vec3 up_vec_;         // global up direction
 
+    glm::mat4 projection_mat_;
     glm::mat4 view_mat_;
   };
 }
