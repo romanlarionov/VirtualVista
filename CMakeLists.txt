@@ -56,7 +56,8 @@ set(SOURCE_FILES ${SRC_DIR}/main.cpp
                  ${SRC_DIR}/Application.cpp
                  ${SRC_DIR}/Input.cpp
                  ${SRC_DIR}/Shader.cpp
-                 ${SRC_DIR}/Camera.cpp)
+                 ${SRC_DIR}/Camera.cpp
+                 ${SRC_DIR}/Settings.cpp)
                  #${SRC_DIR}/Utilities.cpp
                  #${SRC_DIR}/Renderer.cpp)
 

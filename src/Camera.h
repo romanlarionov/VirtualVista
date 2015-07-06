@@ -40,7 +40,6 @@ namespace vv
     glm::vec3 up_vec_;         // global up direction
 
     glm::mat4 view_mat_;
-
   };
 }
 

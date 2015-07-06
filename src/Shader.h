@@ -2,9 +2,7 @@
 #ifndef VIRTUALVISTA_SHADER_H
 #define VIRTUALVISTA_SHADER_H
 
-#ifndef VIRTUALVISTA_APPLICATION_H
-  #include <GL/glew.h>
-#endif
+#include <GL/glew.h>
 
 #include <string>
 

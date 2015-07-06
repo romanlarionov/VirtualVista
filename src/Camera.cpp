@@ -19,6 +19,11 @@ namespace vv
 
   void Camera::update()
   {
+    // TODO: add perspective matrix creation to camera class
+    // TODO: add option for orthogonal camera
+
+    //glViewport(0, 0, window_width_, window_height_);
+
     // compute helper vectors
     direction_vec_ = glm::normalize(look_at_vec_ - position_vec_);
     glm::vec3 right_vec = glm::cross(direction_vec_, up_vec_);

@@ -4,7 +4,6 @@
 
 #include "Application.h"
 #include "Input.h"
-#include "Shader.h"
 
 namespace vv
 {
@@ -45,7 +44,6 @@ namespace vv
       }
 
       glfwMakeContextCurrent(window_);
-//      glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
       glViewport(0, 0, window_width_, window_height_);
 
@@ -97,11 +95,6 @@ namespace vv
     last_y_ = curr_y;
 
     cam->rotate(delta_x, delta_y, rotation_speed);
-  }
-
-  GLFWwindow* App::getWindow()
-  {
-    return window_;
   }
 
   void App::run()
@@ -251,5 +244,10 @@ namespace vv
     glDeleteBuffers(1, &VBO);
     glfwDestroyWindow(window_);
     glfwTerminate();
+  }
+
+  GLFWwindow* App::getWindow()
+  {
+    return window_;
   }
 } // namespace vv
