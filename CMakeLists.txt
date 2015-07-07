@@ -52,6 +52,9 @@ find_package(GLM REQUIRED)
 add_subdirectory(${VV_DEPS_DIR}/glfw)
 include_directories(${VV_DEPS_DIR}/glfw/include)
 
+# ASSIMP
+find_package(assimp REQUIRED)
+
 ######################################################## Linking
 include_directories(${VV_INCLUDE_DIR})
 

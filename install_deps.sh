@@ -50,5 +50,17 @@ if [ ! -d "glm" ]; then
   cd ../../
 fi
 
+if [ ! -d "assimp" ]; then                                                                             
+  git clone https://github.com/assimp/assimp.git 
+  cd assimp 
+  git checkout 1c4a8e90177a61740a5665bc31ba027c4a65d4db 
+  mkdir build 
+  cd build 
+  cmake -G 'Unix Makefiles' -DASSIMP_BUILD_STATIC_LIB=ON .. 
+  make 
+  sudo make install 
+  cd ../../ 
+fi
+
 cd ../
 echo "Complete Dependency Downloads"
