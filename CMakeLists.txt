@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 2.8.4)
 project(VirtualVista)
-set(EXECUTABLE_FILE "VirtualVista")
+set(VV_EXECUTABLE_FILE "VirtualVista")
 
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Build type defaulting to \"Debug\"")
@@ -19,7 +19,6 @@ if(APPLE)
 endif()
 
 ######################################################## Generation
-# Checks if build directory exists, if not, then create one at build time.
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/build/")
 	execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/)
 endif()
@@ -55,11 +54,14 @@ include_directories(${VV_DEPS_DIR}/glfw/include)
 # ASSIMP
 find_package(assimp REQUIRED)
 
+# SOIL
+find_package(SOIL REQUIRED)
+
 ######################################################## Linking
 include_directories(${VV_INCLUDE_DIR})
 
 # Setting files necessary for compilation.
-set(SOURCE_FILES ${VV_SRC_DIR}/main.cpp
+set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                  ${VV_SRC_DIR}/AppManager.cpp
                  ${VV_SRC_DIR}/Application.cpp
                  ${VV_SRC_DIR}/Input.cpp
@@ -67,8 +69,6 @@ set(SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                  ${VV_SRC_DIR}/Camera.cpp
                  ${VV_SRC_DIR}/Mesh.cpp
                  ${VV_SRC_DIR}/Settings.cpp)
-                 #${VV_SRC_DIR}/Utilities.cpp
-                 #${VV_SRC_DIR}/Renderer.cpp)
 
-add_executable(${EXECUTABLE_FILE} ${SOURCE_FILES})
-target_link_libraries(${EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
+add_executable(${VV_EXECUTABLE_FILE} ${VV_SOURCE_FILES})
+target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY})

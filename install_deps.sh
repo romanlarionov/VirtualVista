@@ -50,7 +50,7 @@ if [ ! -d "glm" ]; then
   cd ../../
 fi
 
-if [ ! -d "assimp" ]; then                                                                             
+if [ ! -d "assimp" ]; then
   git clone https://github.com/assimp/assimp.git 
   cd assimp 
   git checkout 1c4a8e90177a61740a5665bc31ba027c4a65d4db 
@@ -60,6 +60,18 @@ if [ ! -d "assimp" ]; then
   make 
   sudo make install 
   cd ../../ 
+fi
+
+if [ ! -d "soil" ]; then
+  git clone https://github.com/kbranigan/Simple-OpenGL-Image-Library.git
+  mv Simple-OpenGL-Image-Library soil
+  cd soil
+  mkdir build
+  cd build
+  cmake ..
+  make
+  sudo make install
+  cd ../../
 fi
 
 cd ../
