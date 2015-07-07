@@ -62,7 +62,6 @@ namespace vv
     double movement_speed = Settings::instance()->getMovementSpeed() * delta_time;
     double rotation_speed = Settings::instance()->getRotationSpeed() * delta_time;
 
-    // TODO: fix key input on linux
     if (Input::instance()->keyIsPressed(GLFW_KEY_ESCAPE))
       glfwSetWindowShouldClose(window_, GL_TRUE);
 

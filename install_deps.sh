@@ -16,6 +16,7 @@ cd deps
 if [ ! -d "glfw" ]; then
   git clone https://github.com/glfw/glfw.git
   cd glfw
+  git checkout 29b40112c234c3021648ea42a5e74cc122ba08b4
   mkdir build
   cd build
   cmake ..
