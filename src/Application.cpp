@@ -46,6 +46,7 @@ namespace vv
       }
 
       glfwMakeContextCurrent(window_);
+      glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
       // Needs to be called after window_ creation else seg fault.
       glewExperimental = GL_TRUE;

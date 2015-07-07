@@ -46,11 +46,11 @@ namespace vv
     {
       case GLFW_KEY_W: position_delta_ += direction_vec_ * float(movement_speed);
                        break;
-      case GLFW_KEY_S: position_delta_ += direction_vec_ * float(movement_speed);
+      case GLFW_KEY_S: position_delta_ -= direction_vec_ * float(movement_speed);
                        break;
-      case GLFW_KEY_D: position_delta_ += direction_vec_ * float(movement_speed);
+      case GLFW_KEY_D: position_delta_ += glm::cross(direction_vec_, up_vec_) * float(movement_speed);
                        break;
-      case GLFW_KEY_A: position_delta_ += direction_vec_ * float(movement_speed);
+      case GLFW_KEY_A: position_delta_ -= glm::cross(direction_vec_, up_vec_) * float(movement_speed);
                        break;
       default: break;
     }
