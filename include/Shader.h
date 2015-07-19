@@ -2,9 +2,9 @@
 #ifndef VIRTUALVISTA_SHADER_H
 #define VIRTUALVISTA_SHADER_H
 
-#include <GL/glew.h>
-
 #include <string>
+
+#include <GL/glew.h>
 
 namespace vv
 {

@@ -1,5 +1,6 @@
 
 #include <iostream>
+
 #include "Input.h"
 
 namespace vv
@@ -13,12 +14,14 @@ namespace vv
     key_pressed_tracker_.resize(GLFW_KEY_LAST);
   }
 
+
   Input* Input::instance()
   {
     if (!input_singleton_)
       input_singleton_ = new Input;
     return input_singleton_;
   }
+
 
   bool Input::keyIsPressed(int key)
   {
@@ -27,11 +30,13 @@ namespace vv
     return false;
   }
 
+
   void Input::getMouseValues(double& x, double& y)
   {
     x = curr_x_;
     y = curr_y_;
   }
+
 
   void Input::keyboardEventsCallback(GLFWwindow *window, int key, int scan_code, int action, int mods)
   {
@@ -43,6 +48,7 @@ namespace vv
         key_pressed_tracker_[key] = false;
     }
   }
+
 
   void Input::mouseEventsCallback(GLFWwindow *window, double curr_x, double curr_y)
   {

@@ -1,5 +1,4 @@
 
-#include <stdlib.h>
 #include <iostream>
 
 #include "AppManager.h"
@@ -26,6 +25,7 @@ namespace vv
     return true;
   }
 
+
   App* AppManager::instance()
   {
     if (!app_singleton_)
@@ -38,10 +38,12 @@ namespace vv
     return app_singleton_;
   }
 
+
   void AppManager::keyboardCallback(GLFWwindow *window, int key, int scan_code, int action, int mods)
   {
     Input::instance()->keyboardEventsCallback(window, key, scan_code, action, mods);
   }
+
 
   void AppManager::mouseCallback(GLFWwindow *window, double curr_x, double curr_y)
   {

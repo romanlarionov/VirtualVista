@@ -18,6 +18,7 @@ namespace vv
     position_delta_ = glm::vec3(0, 0, 0);
   }
 
+
   void Camera::update()
   {
     // compute helper vectors
@@ -40,6 +41,7 @@ namespace vv
     yaw_angle_ = 0;
   }
 
+
   void Camera::move(GLint key, double movement_speed)
   {
     switch (key)
@@ -55,6 +57,7 @@ namespace vv
       default: break;
     }
   }
+
 
   void Camera::rotate(double x, double y, double rotation_speed)
   {
@@ -80,6 +83,7 @@ namespace vv
     else if (pitch_angle_ < -89.0f)
       pitch_angle_ = -89.0f;
   }
+
 
   void Camera::bindMatrices()
   {

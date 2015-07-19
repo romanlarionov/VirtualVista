@@ -16,10 +16,12 @@ namespace vv
     createProgram(vert_source, frag_source);
   }
 
+
   vv::Shader::~Shader()
   {
     glDeleteProgram(program_id_);
   }
+
 
   bool vv::Shader::createProgram(std::string vert_source, std::string frag_source)
   {
@@ -85,6 +87,7 @@ namespace vv
     return true;
   }
 
+
   std::string vv::Shader::loadShader(const std::string filename)
   {
     std::ifstream file(filename);
@@ -106,10 +109,12 @@ namespace vv
     return shader_source;
   }
 
+
   GLuint Shader::getProgramId()
   {
     return program_id_;
   }
+  
 
   void Shader::useProgram()
   {

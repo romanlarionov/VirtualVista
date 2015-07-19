@@ -2,9 +2,10 @@
 #ifndef VIRTUALVISTA_SETTINGS_H
 #define VIRTUALVISTA_SETTINGS_H
 
+#include <string>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <string>
 
 enum camera_type
 {

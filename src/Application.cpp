@@ -1,5 +1,6 @@
 
 #include <iostream>
+
 #include <glm/glm.hpp>
 
 #include "Application.h"
@@ -18,6 +19,7 @@ namespace vv
     global_time_(0)
   {
   }
+
 
   bool App::init()
   {
@@ -58,6 +60,7 @@ namespace vv
     return true;
   }
 
+
   void App::handleInput(Camera* cam, double delta_time)
   {
     double movement_speed = Settings::instance()->getMovementSpeed() * delta_time;
@@ -96,6 +99,7 @@ namespace vv
 
     cam->rotate(delta_x, delta_y, rotation_speed);
   }
+
 
   void App::run()
   {
@@ -205,7 +209,7 @@ namespace vv
       GLfloat a = 1.0f * float(delta_time);
       mesh.rotate(a, glm::vec3(1.0f, 0.3f, 0.5f));
       mesh.rotate(a, glm::vec3(0.0f, 1.0f, 0.0f));
-      mesh.bindMatrices(&shader);
+      mesh.bindUniforms(&shader);
 
       // render
       mesh.render();
@@ -218,6 +222,7 @@ namespace vv
     glfwDestroyWindow(window_);
     glfwTerminate();
   }
+
 
   GLFWwindow* App::getWindow()
   {

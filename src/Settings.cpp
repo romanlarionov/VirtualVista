@@ -17,6 +17,7 @@ namespace vv
     return instance_;
   }
 
+
   void Settings::setDefault()
   {
     // window settings
@@ -46,6 +47,7 @@ namespace vv
     default_ = true;
   }
 
+
   void Settings::setViewport(const int start_x, const int start_y, const int width, const int height)
   {
     start_x_ = start_x;
@@ -56,11 +58,13 @@ namespace vv
     default_ = false;
   }
 
+
   void Settings::setFieldOfView(const float fov)
   {
     field_of_view_ = fov;
     default_ = false;
   }
+
 
   void Settings::setClipDistance(const float near, const float far)
   {
@@ -69,20 +73,24 @@ namespace vv
     default_ = false;
   }
 
+
   std::string Settings::getShaderLocation() const
   {
     return shader_location_;
   }
+
 
   bool Settings::getWindowsShouldResize() const
   {
     return window_resize_;
   }
 
+
   float Settings::getCameraType() const
   {
     return camera_type_;
   }
+
 
   void Settings::getViewport(int &x, int &y, int &width, int &height) const
   {
@@ -92,6 +100,7 @@ namespace vv
     height = window_height_;
   }
 
+
   void Settings::getPerspective(float &fov, float &aspect, float &near, float &far) const
   {
     fov = field_of_view_;
@@ -100,10 +109,12 @@ namespace vv
     far = far_clip_;
   }
 
+
   double Settings::getMovementSpeed() const
   {
     return movement_speed_;
   }
+
 
   double Settings::getRotationSpeed() const
   {
