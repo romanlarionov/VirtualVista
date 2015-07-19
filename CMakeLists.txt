@@ -11,7 +11,7 @@ endif()
 ######################################################## OS Specific
 if(UNIX) # OS X included
     set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lassimp")
 endif()
 
 if(APPLE)
@@ -33,6 +33,9 @@ set(VV_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 # Defines where all dependecies go.
 set(VV_DEPS_DIR ${CMAKE_SOURCE_DIR}/deps)
 
+# Defines where all binaries for dependecies go.
+set(VV_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
+
 # So cmake knows where to put the executable and helper files.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
@@ -51,11 +54,8 @@ find_package(GLM REQUIRED)
 add_subdirectory(${VV_DEPS_DIR}/glfw)
 include_directories(${VV_DEPS_DIR}/glfw/include)
 
-# ASSIMP
-find_package(assimp REQUIRED)
-
-# SOIL
-find_package(SOIL REQUIRED)
+# ASSIMP & SOIL
+link_directories(${VV_BIN_DIR})
 
 ######################################################## Linking
 include_directories(${VV_INCLUDE_DIR})
@@ -68,7 +68,8 @@ set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                  ${VV_SRC_DIR}/Shader.cpp
                  ${VV_SRC_DIR}/Camera.cpp
                  ${VV_SRC_DIR}/Mesh.cpp
+                 ${VV_SRC_DIR}/Model.cpp
                  ${VV_SRC_DIR}/Settings.cpp)
 
 add_executable(${VV_EXECUTABLE_FILE} ${VV_SOURCE_FILES})
-target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY})
+target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY} assimp SOIL)

@@ -3,11 +3,15 @@
 # Roman Larionov
 # it is assumed that on OS X, you have XCode & Command Line Tools installed. 
 if [ "$(lsb_release -si)" == "Ubuntu" ]; then
-  sudo apt-get install git cmake xorg-dev libglu1-mesa-dev libXmu-dev libXi-dev dos2unix wget
+  sudo apt-get install g++ curl git cmake xorg-dev libglu1-mesa-dev libXmu-dev libXi-dev dos2unix wget libboost-dev zlib1g-dev
 fi
 
 if [ ! -d "deps" ]; then
   mkdir deps
+fi
+
+if [ ! -d "bin" ]; then
+  mkdir bin
 fi
 
 cd deps
@@ -53,13 +57,14 @@ fi
 if [ ! -d "assimp" ]; then
   git clone https://github.com/assimp/assimp.git 
   cd assimp 
-  git checkout 1c4a8e90177a61740a5665bc31ba027c4a65d4db 
+  git checkout 36c08a0a7df8f79d0abe869768f6b912c75f2969
   mkdir build 
   cd build 
-  cmake -G 'Unix Makefiles' -DASSIMP_BUILD_STATIC_LIB=ON .. 
-  make 
-  sudo make install 
-  cd ../../ 
+  cmake -G 'Unix Makefiles' .. 
+  make
+  cd code
+  mv libassimp.so ../../../../bin/
+  cd ../../../
 fi
 
 if [ ! -d "soil" ]; then
@@ -70,7 +75,7 @@ if [ ! -d "soil" ]; then
   cd build
   cmake ..
   make
-  sudo make install
+  cp libSOIL.a ../../../bin/
   cd ../../
 fi
 
