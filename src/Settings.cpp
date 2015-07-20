@@ -39,6 +39,7 @@ namespace vv
     far_clip_ = 1000.0f;
 
     shader_location_ = "../src/shaders/";
+    assets_location_ = "../assets/";
 
     // speed
     movement_speed_ = 1.0;
@@ -80,9 +81,9 @@ namespace vv
   }
 
 
-  bool Settings::getWindowsShouldResize() const
+  std::string Settings::getAssetsLocation() const
   {
-    return window_resize_;
+    return assets_location_;
   }
 
 

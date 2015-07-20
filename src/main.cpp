@@ -1,6 +1,4 @@
 
-#include <iostream>
-
 #include "AppManager.h"
 
 using namespace vv;
@@ -11,5 +9,6 @@ int main(int argc, char* argv[])
 
   if (!AppManager::init()) return EXIT_FAILURE;
   AppManager::instance()->run();
+
   return EXIT_SUCCESS;
 }

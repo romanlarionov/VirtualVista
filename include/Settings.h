@@ -31,6 +31,7 @@ namespace vv
     void setClipDistance(const float near, const float far);
 
     std::string getShaderLocation() const;
+    std::string getAssetsLocation() const;
     bool getWindowsShouldResize() const;
     float getCameraType() const;
     void getViewport(int &x, int &y, int &width, int &height) const;
@@ -60,6 +61,7 @@ namespace vv
     float far_clip_;
 
     std::string shader_location_;
+    std::string assets_location_;
 
     // Speed
     double movement_speed_;

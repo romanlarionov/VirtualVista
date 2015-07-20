@@ -11,7 +11,7 @@ endif()
 ######################################################## OS Specific
 if(UNIX) # OS X included
     set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lassimp")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 endif()
 
 if(APPLE)

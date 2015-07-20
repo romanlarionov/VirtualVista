@@ -21,10 +21,9 @@ namespace vv
     Camera(Shader* shader);
 
     void update();
-    void move(GLint key, double movement_speed);
-    void rotate(double x, double y, double rotation_speed);
 
-    void bindMatrices();
+    void translate(GLint key, double movement_speed);
+    void rotate(double x, double y, double rotation_speed);
 
   private:
     Shader shader_;
