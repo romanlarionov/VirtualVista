@@ -5,7 +5,7 @@
 
 #include "Application.h"
 #include "Input.h"
-#include "Mesh.h"
+#include "Model.h"
 #include "Settings.h"
 
 namespace vv
@@ -63,6 +63,7 @@ namespace vv
 
   void App::handleInput(Camera* cam, double delta_time)
   {
+    glfwPollEvents();
     double movement_speed = Settings::instance()->getMovementSpeed() * delta_time;
     double rotation_speed = Settings::instance()->getRotationSpeed() * delta_time;
 
@@ -71,16 +72,16 @@ namespace vv
 
     // Camera movements
     if (Input::instance()->keyIsPressed(GLFW_KEY_W))
-      cam->move(GLFW_KEY_W, movement_speed);
+      cam->translate(GLFW_KEY_W, movement_speed);
 
     if (Input::instance()->keyIsPressed(GLFW_KEY_A))
-      cam->move(GLFW_KEY_A, movement_speed);
+      cam->translate(GLFW_KEY_A, movement_speed);
 
     if (Input::instance()->keyIsPressed(GLFW_KEY_S))
-      cam->move(GLFW_KEY_S, movement_speed);
+      cam->translate(GLFW_KEY_S, movement_speed);
 
     if (Input::instance()->keyIsPressed(GLFW_KEY_D))
-      cam->move(GLFW_KEY_D, movement_speed);
+      cam->translate(GLFW_KEY_D, movement_speed);
 
     // Camera rotations
     double curr_x, curr_y;
@@ -105,77 +106,14 @@ namespace vv
   {
     // create program
     std::string path = Settings::instance()->getShaderLocation();
-    Shader shader(path + "vertex.glsl", path + "fragment.glsl");
+    Shader shader(path + "nanosuit.vert", path + "nanosuit.frag");
 
     Camera camera(&shader);
 
-    GLfloat vertices[] = {
-      -0.5f, -0.5f, -0.5f,
-      0.5f, -0.5f, -0.5f,
-      0.5f,  0.5f, -0.5f,
-      0.5f,  0.5f, -0.5f,
-      -0.5f,  0.5f, -0.5f,
-      -0.5f, -0.5f, -0.5f,
-
-      -0.5f, -0.5f,  0.5f,
-      0.5f, -0.5f,  0.5f,
-      0.5f,  0.5f,  0.5f,
-      0.5f,  0.5f,  0.5f,
-      -0.5f,  0.5f,  0.5f,
-      -0.5f, -0.5f,  0.5f,
-
-      -0.5f,  0.5f,  0.5f,
-      -0.5f,  0.5f, -0.5f,
-      -0.5f, -0.5f, -0.5f,
-      -0.5f, -0.5f, -0.5f,
-      -0.5f, -0.5f,  0.5f,
-      -0.5f,  0.5f,  0.5f,
-
-      0.5f,  0.5f,  0.5f,
-      0.5f,  0.5f, -0.5f,
-      0.5f, -0.5f, -0.5f,
-      0.5f, -0.5f, -0.5f,
-      0.5f, -0.5f,  0.5f,
-      0.5f,  0.5f,  0.5f,
-
-      -0.5f, -0.5f, -0.5f,
-      0.5f, -0.5f, -0.5f,
-      0.5f, -0.5f,  0.5f,
-      0.5f, -0.5f,  0.5f,
-      -0.5f, -0.5f,  0.5f,
-      -0.5f, -0.5f, -0.5f,
-
-      -0.5f,  0.5f, -0.5f,
-      0.5f,  0.5f, -0.5f,
-      0.5f,  0.5f,  0.5f,
-      0.5f,  0.5f,  0.5f,
-      -0.5f,  0.5f,  0.5f,
-      -0.5f,  0.5f, -0.5f
-    };
-
-    // convert to array of structures
-    std::vector<Vertex> vertices_vec;
-    for (int i = 0; i < 36; ++i)
-    {
-      Vertex v;
-      v.position = glm::vec3(vertices[3*i], vertices[3*i+1], vertices[3*i+2]);
-      vertices_vec.push_back(v);
-    }
-
-    Mesh mesh(vertices_vec);
-
-    glm::vec3 cube_positions[] = {
-      glm::vec3(0.0f, 0.0f, 0.0f),
-      glm::vec3(2.0f, 5.0f, -15.0f),
-      glm::vec3(-1.5f, -2.2f, -2.5f),
-      glm::vec3(-3.8f, -2.0f, -12.3f),
-      glm::vec3(2.4f, -0.4f, -3.5f),
-      glm::vec3(-1.7f, 3.0f, -7.5f),
-      glm::vec3(1.3f, -2.0f, -2.5f),
-      glm::vec3(1.5f, 2.0f, -2.5f),
-      glm::vec3(1.5f, 0.2f, -1.5f),
-      glm::vec3(-1.3f, 1.0f, -1.5f)
-    };
+    GLchar *suit_path = const_cast<GLchar *>((Settings::instance()->getAssetsLocation() + "nanosuit/nanosuit.obj").c_str());
+    Model nanosuit(suit_path, false);
+    nanosuit.translate(glm::vec3(0.0f, -1.75f, 0.0f));
+    nanosuit.scale(glm::vec3(0.2f, 0.2f, 0.2f));
 
     glEnable(GL_DEPTH_TEST);
 
@@ -197,22 +135,11 @@ namespace vv
       global_time_ = curr_time;
 
       // handle input
-      glfwPollEvents();
       handleInput(&camera, delta_time);
       camera.update();
-
       shader.useProgram();
 
-      // update uniforms
-      camera.bindMatrices();
-
-      GLfloat a = 1.0f * float(delta_time);
-      mesh.rotate(a, glm::vec3(1.0f, 0.3f, 0.5f));
-      mesh.rotate(a, glm::vec3(0.0f, 1.0f, 0.0f));
-      mesh.bindUniforms(&shader);
-
-      // render
-      mesh.render();
+      nanosuit.render(&shader);
 
       glfwSwapBuffers(window_);
     }
