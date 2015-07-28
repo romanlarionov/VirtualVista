@@ -3,6 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Model.h"
+#include "ShaderManager.h"
 
 namespace vv
 {
@@ -32,14 +33,17 @@ namespace vv
   }
 
 
-  void Model::render(Shader *shader)
+  void Model::render()
   {
+    Shader *shader = ShaderManager::instance()->getModelShader();
+    shader->useProgram();
+
     // model matrix
     GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
     glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_mat_));
 
-    for (GLuint i = 0; i < meshes_.size(); ++i)
-      meshes_[i].render(shader);
+    for (auto mesh : meshes_)
+      mesh.render(shader);
   }
 
 

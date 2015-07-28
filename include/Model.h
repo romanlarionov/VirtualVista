@@ -26,7 +26,7 @@ namespace vv
     void rotate(float angle, glm::vec3 axis);
     void scale(glm::vec3 scaling);
 
-    void render(Shader *shader);
+    void render();
 
   private:
     glm::mat4 model_mat_;

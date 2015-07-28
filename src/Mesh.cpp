@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "Mesh.h"
+#include "ShaderManager.h"
 
 namespace vv
 {
@@ -102,11 +103,13 @@ namespace vv
 
     glBindVertexArray(VAO_);
 
+    // Render
     if (has_indices_)
       glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices_.size()), GL_UNSIGNED_INT, 0);
     else
       glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices_.size()));
 
+    // Cleanup
     glBindVertexArray(0);
 
     if (has_textures_)
@@ -118,4 +121,4 @@ namespace vv
       }
     }
   }
-}
+} // namespace vv

@@ -1,16 +1,16 @@
 
 #include "Camera.h"
 #include "Input.h"
+#include "ShaderManager.h"
 #include "Settings.h"
 
 namespace vv
 {
-  Camera::Camera(Shader* shader) :
+  Camera::Camera() :
     pitch_angle_(0),
     yaw_angle_(0),
     max_pitch_angle_(1),
-    max_yaw_angle_(1),
-    shader_(*shader)
+    max_yaw_angle_(1)
   {
     up_vec_ = glm::vec3(0, 1, 0);
     position_vec_ = glm::vec3(0, 0, 3);
@@ -21,8 +21,6 @@ namespace vv
 
   void Camera::update()
   {
-    // Update all camera values
-
     // compute helper vectors
     direction_vec_ = glm::normalize(look_at_vec_ - position_vec_);
     glm::vec3 right_vec = glm::cross(direction_vec_, up_vec_);
@@ -41,9 +39,11 @@ namespace vv
     look_at_vec_ = position_vec_ + direction_vec_ * 1.0f;
     pitch_angle_ = 0;
     yaw_angle_ = 0;
+  }
 
-    // Bind all necessary uniform variables before rendering
 
+  void Camera::setUniforms(Shader *shader)
+  {
     // Set Viewport
     int x, y, width, height;
     Settings::instance()->getViewport(x, y, width, height);
@@ -53,12 +53,12 @@ namespace vv
     float fov, aspect, near, far;
     Settings::instance()->getPerspective(fov, aspect, near, far);
     projection_mat_ = glm::perspective(fov, aspect, near, far);
-    GLint proj_location = glGetUniformLocation(shader_.getProgramId(), "projection");
+    GLint proj_location = glGetUniformLocation(shader->getProgramId(), "projection");
     glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(projection_mat_));
 
     // View Matrix
     view_mat_ = glm::lookAt(position_vec_, look_at_vec_, up_vec_);
-    GLint view_location = glGetUniformLocation(shader_.getProgramId(), "view");
+    GLint view_location = glGetUniformLocation(shader->getProgramId(), "view");
     glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_mat_));
   }
 

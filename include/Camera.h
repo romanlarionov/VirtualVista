@@ -18,15 +18,15 @@ namespace vv
   class Camera
   {
   public:
-    Camera(Shader* shader);
+    Camera();
 
     void update();
 
+    void setUniforms(Shader *shader);
     void translate(GLint key, double movement_speed);
     void rotate(double x, double y, double rotation_speed);
 
   private:
-    Shader shader_;
     float pitch_angle_;
     float yaw_angle_;
     float max_pitch_angle_;
