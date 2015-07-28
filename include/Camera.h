@@ -3,10 +3,8 @@
 #define VIRTUALVISTA_CAMERA_H
 
 #include <GL/glew.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
-#include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -23,6 +21,7 @@ namespace vv
     void update();
 
     void setUniforms(Shader *shader);
+
     void translate(GLint key, double movement_speed);
     void rotate(double x, double y, double rotation_speed);
 

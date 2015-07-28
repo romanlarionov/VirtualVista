@@ -8,28 +8,10 @@
 namespace vv
 {
   Model::Model(GLchar *path, bool gamma) :
+    Entity(),
     gamma_correction_(gamma)
   {
-    model_mat_ = glm::mat4(1.0f);
     loadModel(path);
-  }
-
-
-  void Model::translate(glm::vec3 translation)
-  {
-    model_mat_ = glm::translate(model_mat_, translation);
-  }
-
-
-  void Model::rotate(float angle, glm::vec3 axis)
-  {
-    model_mat_ = glm::rotate(model_mat_, angle, axis);
-  }
-
-
-  void Model::scale(glm::vec3 scaling)
-  {
-    model_mat_ = glm::scale(model_mat_, scaling);
   }
 
 

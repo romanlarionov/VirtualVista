@@ -26,4 +26,4 @@ namespace vv
   };
 }
 
-#endif //VIRTUALVISTA_SHADERMANAGER_H
+#endif // VIRTUALVISTA_SHADERMANAGER_H

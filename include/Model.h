@@ -13,24 +13,19 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Entity.h"
 #include "Mesh.h"
 
 namespace vv
 {
-  class Model
+  class Model : public Entity
   {
   public:
     Model(GLchar *path, bool gamma = false);
 
-    void translate(glm::vec3 translation);
-    void rotate(float angle, glm::vec3 axis);
-    void scale(glm::vec3 scaling);
-
     void render();
 
   private:
-    glm::mat4 model_mat_;
-
     std::vector<Texture> textures_loaded_;
     std::vector<Mesh> meshes_;
     std::string directory_;

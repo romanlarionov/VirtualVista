@@ -69,9 +69,9 @@ namespace vv
   }
 
   Light::Light(bool point_light) :
+    Entity(),
     is_point_light_(point_light)
   {
-    model_mat_ = glm::mat4(1.0f);
     cube_mesh_ = new Mesh(createCube(cube_vertices_));
   }
 
@@ -82,27 +82,15 @@ namespace vv
   }
 
 
-  void Light::translate(glm::vec3 translation)
-  {
-    model_mat_ = glm::translate(model_mat_, translation);
-  }
-
-
-  void Light::rotate(float angle, glm::vec3 axis)
-  {
-    model_mat_ = glm::rotate(model_mat_, angle, axis);
-  }
-
-
-  void Light::scale(glm::vec3 scaling)
-  {
-    model_mat_ = glm::scale(model_mat_, scaling);
-  }
-
-
   void Light::update()
   {
 
+  }
+
+
+  glm::mat4 Light::getModel()
+  {
+    return model_mat_;
   }
 
 
