@@ -20,7 +20,7 @@ namespace vv
 
     void update();
 
-    void setUniforms(Shader *shader);
+    void updateUniforms(Shader *shader);
 
     void translate(GLint key, double movement_speed);
     void rotate(double x, double y, double rotation_speed);

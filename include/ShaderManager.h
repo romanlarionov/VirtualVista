@@ -21,8 +21,8 @@ namespace vv
     Shader *model_shader_;
 
     ShaderManager();
-    ShaderManager(ShaderManager const&) {};
-    ShaderManager& operator=(ShaderManager const&) const { return *manager_singleton_; };
+    ShaderManager(ShaderManager const&);
+    ShaderManager& operator=(ShaderManager const&);
   };
 }
 

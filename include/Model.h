@@ -21,7 +21,7 @@ namespace vv
   class Model : public Entity
   {
   public:
-    Model(GLchar *path, bool gamma = false);
+    Model(std::string path, bool gamma = false);
 
     void render();
 
@@ -29,6 +29,7 @@ namespace vv
     std::vector<Texture> textures_loaded_;
     std::vector<Mesh> meshes_;
     std::string directory_;
+
     bool gamma_correction_;
 
     void loadModel(std::string path);

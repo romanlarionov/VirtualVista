@@ -69,7 +69,7 @@ namespace vv
 
     Settings();
     Settings(const Settings& s);
-    Settings* operator=(const Settings& s) const;
+    Settings* operator=(const Settings& s);
   };
 }
 

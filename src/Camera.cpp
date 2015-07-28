@@ -42,7 +42,7 @@ namespace vv
   }
 
 
-  void Camera::setUniforms(Shader *shader)
+  void Camera::updateUniforms(Shader *shader)
   {
     // Set Viewport
     int x, y, width, height;

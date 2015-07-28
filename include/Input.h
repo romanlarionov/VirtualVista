@@ -26,8 +26,8 @@ namespace vv
     std::vector<bool> key_pressed_tracker_;
 
     Input();
-    Input(Input const&) {};
-    Input& operator=(Input const&) const { return *input_singleton_; };
+    Input(Input const&);
+    Input& operator=(Input const&);
 
     // only used in one place, don't need to be seen by anything other than AppManager
     void keyboardEventsCallback(GLFWwindow* window, int key, int scan_code, int action, int mods);

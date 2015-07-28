@@ -7,7 +7,7 @@
 
 namespace vv
 {
-  Model::Model(GLchar *path, bool gamma) :
+  Model::Model(std::string path, bool gamma) :
     Entity(),
     gamma_correction_(gamma)
   {
