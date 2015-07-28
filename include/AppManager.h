@@ -18,6 +18,10 @@ namespace vv
   private:
     static App *app_singleton_;
 
+    AppManager();
+    AppManager(AppManager const&) {};
+    App& operator=(AppManager const&) const { return *app_singleton_; };
+
     static void keyboardCallback(GLFWwindow *window, int key, int scan_code, int action, int mods);
     static void mouseCallback(GLFWwindow *window, double curr_x, double curr_y);
   };

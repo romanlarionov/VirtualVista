@@ -2,11 +2,13 @@
 #include <iostream>
 
 #include <glm/glm.hpp>
+#include <ShaderManager.h>
 
 #include "Application.h"
-#include "Input.h"
 #include "Model.h"
+#include "Input.h"
 #include "Settings.h"
+#include "Light.h"
 
 namespace vv
 {
@@ -104,11 +106,10 @@ namespace vv
 
   void App::run()
   {
-    // create program
-    std::string path = Settings::instance()->getShaderLocation();
-    Shader shader(path + "nanosuit.vert", path + "nanosuit.frag");
-
-    Camera camera(&shader);
+    Camera camera;
+    Light light;
+    light.translate(glm::vec3(3.0f, 0.0f, 0.0f));
+    light.scale(glm::vec3(0.4f, 0.4f, 0.4f));
 
     GLchar *suit_path = const_cast<GLchar *>((Settings::instance()->getAssetsLocation() + "nanosuit/nanosuit.obj").c_str());
     Model nanosuit(suit_path, false);
@@ -137,9 +138,12 @@ namespace vv
       // handle input
       handleInput(&camera, delta_time);
       camera.update();
-      shader.useProgram();
 
-      nanosuit.render(&shader);
+      camera.setUniforms(ShaderManager::instance()->getLightCubeShader());
+      light.render();
+
+      camera.setUniforms(ShaderManager::instance()->getModelShader());
+      nanosuit.render();
 
       glfwSwapBuffers(window_);
     }
