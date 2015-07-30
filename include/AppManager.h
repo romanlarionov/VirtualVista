@@ -24,6 +24,7 @@ namespace vv
 
     static void keyboardCallback(GLFWwindow *window, int key, int scan_code, int action, int mods);
     static void mouseCallback(GLFWwindow *window, double curr_x, double curr_y);
+    static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
   };
 }
 

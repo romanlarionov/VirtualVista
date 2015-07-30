@@ -101,7 +101,7 @@ namespace vv
         indices.push_back(face.mIndices[j]);
     }
 
-    if (mesh->mMaterialIndex >= 0)
+    if (mesh->mMaterialIndex > 0)
     {
       aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 

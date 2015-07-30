@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Roman Larionov
-# it is assumed that on OS X, you have XCode & Command Line Tools installed. 
+# it is assumed that on OS X, you have XCode & Command Line Tools installed.
+
 if [ "$(lsb_release -si)" == "Ubuntu" ]; then
   sudo apt-get install g++ curl git cmake xorg-dev libglu1-mesa-dev libXmu-dev libXi-dev dos2unix wget libboost-dev zlib1g-dev
 fi
@@ -16,17 +17,11 @@ fi
 
 cd deps
 
-# glfw
 if [ ! -d "glfw" ]; then
   git clone https://github.com/glfw/glfw.git
   cd glfw
   git checkout 29b40112c234c3021648ea42a5e74cc122ba08b4
-  mkdir build
-  cd build
-  cmake ..
-  make
-  sudo make install
-  cd ../../
+  cd ../
 fi
 
 if [ ! -d "glew" ]; then
@@ -36,11 +31,9 @@ if [ ! -d "glew" ]; then
   mv glew-1.12.0 glew
   cd glew
   make
-  sudo make install
   cd ..
 fi
 
-# glm
 if [ ! -d "glm" ]; then
   curl -o glm.zip -L http://sourceforge.net/projects/ogl-math/files/glm-0.9.6.1/glm-0.9.6.1.zip/download
   unzip glm.zip 
@@ -63,8 +56,11 @@ if [ ! -d "assimp" ]; then
   cmake -G 'Unix Makefiles' .. 
   make
   cd code
-  mv libassimp.so ../../../../bin/
-  cd ../../../
+  cp libassimp.so ../../../../bin/
+  cp libassimp.dylib ../../../../bin/
+  cd ../../
+  cp -r include ../../bin/
+  cd ../
 fi
 
 if [ ! -d "soil" ]; then
@@ -76,8 +72,9 @@ if [ ! -d "soil" ]; then
   cmake ..
   make
   cp libSOIL.a ../../../bin/
+  cp -r ../src/*.h ../../../bin/include/
   cd ../../
 fi
 
 cd ../
-echo "Complete Dependency Downloads"
+echo "Completed Dependency Downloads"

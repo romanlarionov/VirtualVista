@@ -58,7 +58,7 @@ include_directories(${VV_DEPS_DIR}/glfw/include)
 link_directories(${VV_BIN_DIR})
 
 ######################################################## Linking
-include_directories(${VV_INCLUDE_DIR})
+include_directories(${VV_INCLUDE_DIR} ${VV_BIN_DIR}/include)
 
 # Setting files necessary for compilation.
 set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp

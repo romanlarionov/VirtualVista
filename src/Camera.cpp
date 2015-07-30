@@ -44,11 +44,6 @@ namespace vv
 
   void Camera::updateUniforms(Shader *shader)
   {
-    // Set Viewport
-    int x, y, width, height;
-    Settings::instance()->getViewport(x, y, width, height);
-    glViewport(x, y, width, height);
-
     // Projection Matrix
     float fov, aspect, near, far;
     Settings::instance()->getPerspective(fov, aspect, near, far);

@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "AppManager.h"
+#include "Settings.h"
 #include "Input.h"
 
 namespace vv
@@ -22,6 +23,7 @@ namespace vv
 
     glfwSetKeyCallback(app_singleton_->getWindow(), keyboardCallback);
     glfwSetCursorPosCallback(app_singleton_->getWindow(), mouseCallback);
+    glfwSetFramebufferSizeCallback(app_singleton_->getWindow(), framebufferSizeCallback);
     return true;
   }
 
@@ -48,5 +50,12 @@ namespace vv
   void AppManager::mouseCallback(GLFWwindow *window, double curr_x, double curr_y)
   {
     Input::instance()->mouseEventsCallback(window, curr_x, curr_y);
+  }
+
+
+  void AppManager::framebufferSizeCallback(GLFWwindow* window, int width, int height)
+  {
+    glViewport(0, 0, width, height);
+    Settings::instance()->setViewport(0, 0, width, height);
   }
 } // namespace vv
