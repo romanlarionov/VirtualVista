@@ -9,6 +9,7 @@ namespace vv
   Entity::Entity()
   {
     model_mat_ = glm::mat4(1.0f);
+    position_world_coords_ = glm::vec3(0.0f, 0.0f, 0.0f);
   }
 
 
@@ -20,6 +21,7 @@ namespace vv
   void Entity::translate(glm::vec3 translation)
   {
     model_mat_ = glm::translate(model_mat_, translation);
+    position_world_coords_ += translation;
   }
 
 

@@ -10,7 +10,7 @@ namespace vv
   {
     std::string directory = Settings::instance()->getShaderLocation();
     light_cube_shader_ = new Shader(directory + "light_cube.vert", directory + "light_cube.frag");
-    model_shader_ = new Shader(directory + "nanosuit.vert", directory + "nanosuit.frag");
+    model_shader_ = new Shader(directory + "lighting.vert", directory + "lighting.frag");
   }
 
 

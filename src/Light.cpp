@@ -70,9 +70,11 @@ namespace vv
 
   Light::Light(bool point_light) :
     Entity(),
-    is_point_light_(point_light)
+    is_point_light_(point_light),
+    intensity_(100.0f)
   {
     cube_mesh_ = new Mesh(createCube(cube_vertices_));
+    color_ = glm::vec3(1.0f, 1.0f, 1.0f);
   }
 
 
@@ -82,28 +84,25 @@ namespace vv
   }
 
 
-  void Light::update()
+  void Light::update(Shader *shader)
   {
+    GLint light_color_location = glGetUniformLocation(shader->getProgramId(), "light_color");
+    glUniform3f(light_color_location, color_.x, color_.y, color_.z);
 
-  }
-
-
-  glm::mat4 Light::getModel()
-  {
-    return model_mat_;
+    GLint light_position_location = glGetUniformLocation(shader->getProgramId(), "light_position");
+    glUniform3f(light_position_location, position_world_coords_.x, position_world_coords_.y, position_world_coords_.z);
   }
 
 
   void Light::render()
   {
     Shader *shader = ShaderManager::instance()->getLightCubeShader();
-    shader->useProgram();
 
     GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
     glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_mat_));
 
     GLint light_color_location = glGetUniformLocation(shader->getProgramId(), "light_color");
-    glUniform3f(light_color_location, 0.0f, 1.0f, 1.0f);
+    glUniform3f(light_color_location, color_.x, color_.y, color_.z);
 
     cube_mesh_->render(shader);
   }

@@ -18,7 +18,6 @@ namespace vv
   void Model::render()
   {
     Shader *shader = ShaderManager::instance()->getModelShader();
-    shader->useProgram();
 
     // model matrix
     GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
@@ -70,14 +69,10 @@ namespace vv
       Vertex vertex;
       glm::vec3 vector;
 
-      vector.x = mesh->mVertices[i].x;
-      vector.y = mesh->mVertices[i].y;
-      vector.z = mesh->mVertices[i].z;
+      vector = glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
       vertex.position = vector;
 
-      vector.x = mesh->mNormals[i].x;
-      vector.y = mesh->mNormals[i].y;
-      vector.z = mesh->mNormals[i].z;
+      vector = glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
       vertex.normal = vector;
 
       if (mesh->mTextureCoords[0])

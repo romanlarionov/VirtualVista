@@ -42,7 +42,7 @@ namespace vv
     assets_location_ = "../assets/";
 
     // speed
-    movement_speed_ = 1.0;
+    movement_speed_ = 4.0;
     rotation_speed_ = 0.35; // TODO: check if good initial values
 
     default_ = true;

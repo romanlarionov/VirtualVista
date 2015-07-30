@@ -18,9 +18,7 @@ namespace vv
     Light(bool point_light = true);
     ~Light();
 
-    void update();
-
-    glm::mat4 getModel();
+    void update(Shader *shader);
 
     // renders a cube that represents the light
     void render();
@@ -30,11 +28,9 @@ namespace vv
 
     bool is_point_light_;
 
-    GLuint VAO_;
-    GLuint VBO_;
-
     glm::vec3 color_;
-
+    GLfloat intensity_;
+    glm::vec3 direction_;
  };
 }
 

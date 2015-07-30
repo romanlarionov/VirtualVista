@@ -24,12 +24,7 @@ if [ ! -d "glfw" ]; then
   git clone https://github.com/glfw/glfw.git
   cd glfw
   git checkout 29b40112c234c3021648ea42a5e74cc122ba08b4
-  mkdir build
-  cd build
-  cmake ..
-  make
-  sudo make install
-  cd ../../
+  cd ../
 fi
 
 if [ ! -d "glew" ]; then
@@ -57,7 +52,8 @@ fi
 
 if [ ! -d "assimp" ]; then
   git clone https://github.com/assimp/assimp.git 
-  cd assimp 
+  cd assimp
+  git add . -u && git commit -m "VirtualVista line endings commit."
   git checkout 36c08a0a7df8f79d0abe869768f6b912c75f2969
   mkdir build 
   cd build 

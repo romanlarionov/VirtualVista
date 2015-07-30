@@ -109,7 +109,7 @@ namespace vv
   {
     Camera camera;
     Light light;
-    light.translate(glm::vec3(3.0f, 0.0f, 0.0f));
+    light.translate(glm::vec3(1.0f, 1.0f, -1.0f));
     light.scale(glm::vec3(0.4f, 0.4f, 0.4f));
 
     std::string suit_path = Settings::instance()->getAssetsLocation() + "nanosuit/nanosuit.obj";
@@ -140,11 +140,14 @@ namespace vv
       handleInput(&camera, delta_time);
       camera.update();
 
-      camera.updateUniforms(ShaderManager::instance()->getLightCubeShader());
-      light.render();
-
+      ShaderManager::instance()->getModelShader()->useProgram();
+      light.update(ShaderManager::instance()->getModelShader());
       camera.updateUniforms(ShaderManager::instance()->getModelShader());
       nanosuit.render();
+
+      ShaderManager::instance()->getLightCubeShader()->useProgram();
+      camera.updateUniforms(ShaderManager::instance()->getLightCubeShader());
+      light.render();
 
       glfwSwapBuffers(window_);
     }

@@ -48,13 +48,17 @@ namespace vv
     float fov, aspect, near, far;
     Settings::instance()->getPerspective(fov, aspect, near, far);
     projection_mat_ = glm::perspective(fov, aspect, near, far);
-    GLint proj_location = glGetUniformLocation(shader->getProgramId(), "projection");
-    glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(projection_mat_));
+    GLint projection_matrix_location = glGetUniformLocation(shader->getProgramId(), "projection");
+    glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE, glm::value_ptr(projection_mat_));
 
     // View Matrix
     view_mat_ = glm::lookAt(position_vec_, look_at_vec_, up_vec_);
-    GLint view_location = glGetUniformLocation(shader->getProgramId(), "view");
-    glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_mat_));
+    GLint view_matrix_location = glGetUniformLocation(shader->getProgramId(), "view");
+    glUniformMatrix4fv(view_matrix_location, 1, GL_FALSE, glm::value_ptr(view_mat_));
+
+    // Camera Position for specular lighting calculations
+    GLint view_direction_location = glGetUniformLocation(shader->getProgramId(), "view_position");
+    glUniform3f(view_direction_location, position_vec_.x, position_vec_.y, position_vec_.z);
   }
 
 
