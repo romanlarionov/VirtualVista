@@ -62,17 +62,17 @@ include_directories(${VV_INCLUDE_DIR} ${VV_BIN_DIR}/include)
 
 # Setting files necessary for compilation.
 set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
-                 ${VV_SRC_DIR}/AppManager.cpp
-                 ${VV_SRC_DIR}/Application.cpp
-                 ${VV_SRC_DIR}/Input.cpp
-                 ${VV_SRC_DIR}/ShaderManager.cpp
-                 ${VV_SRC_DIR}/Shader.cpp
-                 ${VV_SRC_DIR}/Camera.cpp
-                 ${VV_SRC_DIR}/Entity.cpp
-                 ${VV_SRC_DIR}/Light.cpp
-                 ${VV_SRC_DIR}/Mesh.cpp
-                 ${VV_SRC_DIR}/Model.cpp
-                 ${VV_SRC_DIR}/Settings.cpp)
+                    ${VV_SRC_DIR}/AppManager.cpp
+                    ${VV_SRC_DIR}/Application.cpp
+                    ${VV_SRC_DIR}/Input.cpp
+                    ${VV_SRC_DIR}/ShaderManager.cpp
+                    ${VV_SRC_DIR}/Shader.cpp
+                    ${VV_SRC_DIR}/Camera.cpp
+                    ${VV_SRC_DIR}/Entity.cpp
+                    ${VV_SRC_DIR}/Light.cpp
+                    ${VV_SRC_DIR}/Mesh.cpp
+                    ${VV_SRC_DIR}/Model.cpp
+                    ${VV_SRC_DIR}/Settings.cpp)
 
 add_executable(${VV_EXECUTABLE_FILE} ${VV_SOURCE_FILES})
 target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY} assimp SOIL)

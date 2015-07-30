@@ -30,7 +30,7 @@ namespace vv
       if (!glfwInit())
       {
         std::cerr << "ERROR: GLFW failed to initialize.\n";
-        return EXIT_FAILURE;
+        return false;
       }
 
       glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

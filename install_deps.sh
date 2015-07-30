@@ -12,7 +12,10 @@ if [ ! -d "deps" ]; then
 fi
 
 if [ ! -d "bin" ]; then
-  mkdir bin
+  mkdir bin && cd bin
+  mkdir include && cd include
+  mkdir SOIL assimp
+  cd ../../
 fi
 
 cd deps
@@ -21,7 +24,12 @@ if [ ! -d "glfw" ]; then
   git clone https://github.com/glfw/glfw.git
   cd glfw
   git checkout 29b40112c234c3021648ea42a5e74cc122ba08b4
-  cd ../
+  mkdir build
+  cd build
+  cmake ..
+  make
+  sudo make install
+  cd ../../
 fi
 
 if [ ! -d "glew" ]; then
@@ -56,8 +64,7 @@ if [ ! -d "assimp" ]; then
   cmake -G 'Unix Makefiles' .. 
   make
   cd code
-  cp libassimp.so ../../../../bin/
-  cp libassimp.dylib ../../../../bin/
+  cp libassimp.* ../../../../bin/
   cd ../../
   cp -r include ../../bin/
   cd ../
@@ -72,7 +79,7 @@ if [ ! -d "soil" ]; then
   cmake ..
   make
   cp libSOIL.a ../../../bin/
-  cp -r ../src/*.h ../../../bin/include/
+  cp -r ../src/*.h ../../../bin/include/SOIL/
   cd ../../
 fi
 
