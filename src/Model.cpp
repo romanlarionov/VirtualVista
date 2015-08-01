@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
+#include <Renderer.h>
 
 #include "Model.h"
 #include "ShaderManager.h"
@@ -11,11 +12,13 @@ namespace vv
     gamma_correction_(gamma)
   {
     transform_ = new Transform;
+    Renderer::instance()->addToRenderList(this);
     loadModel(path);
   }
 
   Model::~Model()
   {
+    Renderer::instance()->removeFromRenderList(this);
     delete transform_;
   }
 

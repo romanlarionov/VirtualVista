@@ -4,11 +4,9 @@
 #include <glm/glm.hpp>
 
 #include "Application.h"
-#include "Model.h"
+#include "Renderer.h"
 #include "Input.h"
-#include "ShaderManager.h"
 #include "Settings.h"
-#include "Light.h"
 
 namespace vv
 {
@@ -119,14 +117,14 @@ namespace vv
 
     glEnable(GL_DEPTH_TEST);
 
-    // main loop
+    // Main loop
     while (!glfwWindowShouldClose(window_))
     {
-      // reset framebuffer
+      // Reset framebuffer
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      // manage time
+      // Manage time
       double curr_time = glfwGetTime();
       if (first_run_)
       {
@@ -136,19 +134,11 @@ namespace vv
       double delta_time = curr_time - global_time_;
       global_time_ = curr_time;
 
-      // handle input
+      // Handle input
       handleInput(&camera, delta_time);
-      camera.update();
 
-      ShaderManager::instance()->getModelShader()->useProgram();
-      light.update(ShaderManager::instance()->getModelShader());
-      camera.updateUniforms(ShaderManager::instance()->getModelShader());
-      nanosuit.render();
-
-      ShaderManager::instance()->getLightCubeShader()->useProgram();
-      camera.updateUniforms(ShaderManager::instance()->getLightCubeShader());
-      light.render();
-
+      // Render
+      Renderer::instance()->render(&camera);
       glfwSwapBuffers(window_);
     }
     glDisable(GL_DEPTH_TEST);

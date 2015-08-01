@@ -5,6 +5,7 @@
 #include <glm/gtx/transform.hpp>
 
 #include "Light.h"
+#include "Renderer.h"
 #include "ShaderManager.h"
 
 namespace vv
@@ -69,20 +70,29 @@ namespace vv
   }
 
 
-  Light::Light(bool point_light) :
+  Light::Light(bool can_render, bool point_light) :
+    can_render_(can_render),
     is_point_light_(point_light),
     intensity_(100.0f)
   {
     transform_ = new Transform;
     cube_mesh_ = new Mesh(createCube(cube_vertices_));
     color_ = glm::vec3(1.0f, 1.0f, 1.0f);
+    Renderer::instance()->addToRenderList(this);
   }
 
 
   Light::~Light()
   {
+    Renderer::instance()->removeFromRenderList(this);
     delete transform_;
     delete cube_mesh_;
+  }
+
+
+  bool Light::canRender()
+  {
+    return can_render_;
   }
 
 

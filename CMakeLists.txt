@@ -65,11 +65,11 @@ set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                     ${VV_SRC_DIR}/AppManager.cpp
                     ${VV_SRC_DIR}/Application.cpp
                     ${VV_SRC_DIR}/Transform.cpp
+                    ${VV_SRC_DIR}/Renderer.cpp
                     ${VV_SRC_DIR}/Input.cpp
                     ${VV_SRC_DIR}/ShaderManager.cpp
                     ${VV_SRC_DIR}/Shader.cpp
                     ${VV_SRC_DIR}/Camera.cpp
-                    ${VV_SRC_DIR}/Entity.cpp
                     ${VV_SRC_DIR}/Light.cpp
                     ${VV_SRC_DIR}/Mesh.cpp
                     ${VV_SRC_DIR}/Model.cpp
