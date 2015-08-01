@@ -13,19 +13,24 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "Entity.h"
 #include "Mesh.h"
+#include "Transform.h"
 
 namespace vv
 {
-  class Model : public Entity
+  class Model
   {
   public:
     Model(std::string path, bool gamma = false);
+    ~Model();
+
+    Transform* getTransform();
 
     void render();
 
   private:
+    Transform *transform_;
+
     std::vector<Texture> textures_loaded_;
     std::vector<Mesh> meshes_;
     std::string directory_;

@@ -109,13 +109,13 @@ namespace vv
   {
     Camera camera;
     Light light;
-    light.translate(glm::vec3(1.0f, 1.0f, -1.0f));
-    light.scale(glm::vec3(0.4f, 0.4f, 0.4f));
+    light.getTransform()->translate(glm::vec3(1.0f, 1.0f, -1.0f));
+    light.getTransform()->scale(glm::vec3(0.4f, 0.4f, 0.4f));
 
     std::string suit_path = Settings::instance()->getAssetsLocation() + "nanosuit/nanosuit.obj";
     Model nanosuit(suit_path, false);
-    nanosuit.translate(glm::vec3(0.0f, -1.75f, 0.0f));
-    nanosuit.scale(glm::vec3(0.2f, 0.2f, 0.2f));
+    nanosuit.getTransform()->translate(glm::vec3(0.0f, -1.75f, 0.0f));
+    nanosuit.getTransform()->scale(glm::vec3(0.2f, 0.2f, 0.2f));
 
     glEnable(GL_DEPTH_TEST);
 

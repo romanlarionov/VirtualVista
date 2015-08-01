@@ -64,6 +64,7 @@ include_directories(${VV_INCLUDE_DIR} ${VV_BIN_DIR}/include)
 set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                     ${VV_SRC_DIR}/AppManager.cpp
                     ${VV_SRC_DIR}/Application.cpp
+                    ${VV_SRC_DIR}/Transform.cpp
                     ${VV_SRC_DIR}/Input.cpp
                     ${VV_SRC_DIR}/ShaderManager.cpp
                     ${VV_SRC_DIR}/Shader.cpp

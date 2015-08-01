@@ -2,21 +2,25 @@
 #ifndef VIRTUALVISTA_LIGHT_H
 #define VIRTUALVISTA_LIGHT_H
 
+#include <set>
+
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/matrix.hpp>
 
-#include "Entity.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "Transform.h"
 
 namespace vv
 {
-  class Light : public Entity
+  class Light
   {
   public:
     Light(bool point_light = true);
     ~Light();
+
+    Transform* getTransform();
 
     void update(Shader *shader);
 
@@ -24,6 +28,10 @@ namespace vv
     void render();
 
   private:
+    Transform *transform_;
+
+    static std::set<Light *> lights_;
+
     Mesh *cube_mesh_;
 
     bool is_point_light_;

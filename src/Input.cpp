@@ -5,7 +5,7 @@
 
 namespace vv
 {
-  Input* Input::input_singleton_ = NULL;
+  Input* Input::input_singleton_ = nullptr;
 
   Input::Input() :
     curr_x_(0),
@@ -19,6 +19,7 @@ namespace vv
   {
     if (!input_singleton_)
       input_singleton_ = new Input;
+
     return input_singleton_;
   }
 

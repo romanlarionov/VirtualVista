@@ -8,10 +8,21 @@
 namespace vv
 {
   Model::Model(std::string path, bool gamma) :
-    Entity(),
     gamma_correction_(gamma)
   {
+    transform_ = new Transform;
     loadModel(path);
+  }
+
+  Model::~Model()
+  {
+    delete transform_;
+  }
+
+
+  Transform* Model::getTransform()
+  {
+    return transform_;
   }
 
 
@@ -21,7 +32,7 @@ namespace vv
 
     // model matrix
     GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
-    glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_mat_));
+    glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(transform_->getMatrix()));
 
     for (auto mesh : meshes_)
       mesh.render(shader);
