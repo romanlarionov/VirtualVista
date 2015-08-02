@@ -3,6 +3,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
+#include <iostream>
 
 #include "Light.h"
 #include "Renderer.h"
@@ -102,17 +103,6 @@ namespace vv
   }
 
 
-  void Light::update(Shader *shader)
-  {
-    GLint light_color_location = glGetUniformLocation(shader->getProgramId(), "light_color");
-    glUniform3f(light_color_location, color_.x, color_.y, color_.z);
-
-    GLint light_position_location = glGetUniformLocation(shader->getProgramId(), "light_position");
-    glm::vec3 position = transform_->getTranslation();
-    glUniform3f(light_position_location, position.x, position.y, position.z);
-  }
-
-
   void Light::render()
   {
     Shader *shader = ShaderManager::instance()->getLightCubeShader();
@@ -124,5 +114,18 @@ namespace vv
     glUniform3f(light_color_location, color_.x, color_.y, color_.z);
 
     cube_mesh_->render(shader);
+  }
+
+
+  void Light::setUniforms(int num, Shader *shader)
+  {
+    const GLchar *light_position = ("lights[" + std::to_string(num) + "].position").c_str();
+    GLint light_position_location = glGetUniformLocation(shader->getProgramId(), light_position);
+    glm::vec3 position = transform_->getTranslation();
+    glUniform3f(light_position_location, position.x, position.y, position.z);
+
+    const GLchar *light_color = ("lights[" + std::to_string(num) + "].color").c_str();
+    GLint light_color_location = glGetUniformLocation(shader->getProgramId(), light_color);
+    glUniform3f(light_color_location, color_.x, color_.y, color_.z);
   }
 } // namespace vv

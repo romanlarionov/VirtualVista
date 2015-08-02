@@ -36,22 +36,23 @@ namespace vv
 
   void Renderer::render(Camera *camera)
   {
-    camera->update();
-
     // Render light sources first
-    ShaderManager::instance()->getLightCubeShader()->useProgram();
-    camera->updateUniforms(ShaderManager::instance()->getLightCubeShader());
+    Shader *shader = ShaderManager::instance()->getLightCubeShader();
+    shader->useProgram();
+    camera->setUniforms(shader);
 
     for (auto l : lights_)
       if (l->canRender())
         l->render();
 
     // Render models
-    ShaderManager::instance()->getModelShader()->useProgram();
-    camera->updateUniforms(ShaderManager::instance()->getModelShader());
+    shader = ShaderManager::instance()->getModelShader();
+    shader->useProgram();
+    camera->setUniforms(shader);
 
+    int i = 0;
     for (auto l : lights_)
-      l->update(ShaderManager::instance()->getModelShader());
+      l->setUniforms(i++, shader);
 
     for (auto m : models_)
       m->render();

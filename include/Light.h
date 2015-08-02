@@ -14,14 +14,13 @@ namespace vv
 {
   class Light
   {
+    friend class Renderer;
   public:
     Light(bool can_render = true, bool point_light = true);
     ~Light();
 
     bool canRender();
     Transform* getTransform();
-
-    void update(Shader *shader);
 
     // renders a cube that represents the light
     void render();
@@ -36,6 +35,8 @@ namespace vv
     glm::vec3 color_;
     GLfloat intensity_;
     glm::vec3 direction_;
+
+    void setUniforms(int num, Shader *shader);
  };
 }
 

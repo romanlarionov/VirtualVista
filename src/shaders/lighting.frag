@@ -1,8 +1,15 @@
 #version 330 core
 
+struct Light
+{
+  vec3 position;
+  vec3 color;
+};
+
+const int NUM_LIGHTS = 16;
+
+uniform Light lights[NUM_LIGHTS];
 uniform sampler2D texture_diffuse1;
-uniform vec3 light_color;
-uniform vec3 light_position;
 uniform vec3 view_position;
 
 in vec2 Tex_Coord;
@@ -14,17 +21,23 @@ out vec4 color;
 void main()
 {
   float ambient_strength = 0.2f;
+  float specular_intensity = 0.5f;
+  float shininess = 32;
 
   vec3 unit_normal = normalize(Normal);
-  vec3 unit_light_direction = normalize(light_position - Frag_Position);
-  float diffuse_strength = max(dot(unit_light_direction, unit_normal), 0.0f);
-
-  float specular_intensity = 0.5f;
-  float shininess = 64;
   vec3 view_direction = normalize(view_position - Frag_Position);
-  vec3 reflection_direction = reflect(-unit_light_direction, unit_normal);
-  float specular_strength = specular_intensity * pow(max(dot(view_direction, reflection_direction), 0.0f), shininess);
+  vec3 final_light_color = vec3(ambient_strength);
 
-  vec4 final_light_color = vec4((ambient_strength + diffuse_strength + specular_strength) * light_color, 1.0f);
-  color = final_light_color * texture(texture_diffuse1, Tex_Coord);
+  for (int i = 0; i < NUM_LIGHTS; ++i)
+  {
+    vec3 unit_light_direction = normalize(lights[i].position - Frag_Position);
+    vec3 halfway_direction = normalize(unit_light_direction + view_direction);
+
+    float diffuse_strength = max(dot(unit_light_direction, unit_normal), 0.0f);
+    float specular_strength = specular_intensity * pow(max(dot(unit_normal, halfway_direction), 0.0f), shininess);
+
+    final_light_color += vec3((diffuse_strength + specular_strength) * lights[i].color);
+  }
+
+  color = vec4(final_light_color, 1.0f) * texture(texture_diffuse1, Tex_Coord);
 }

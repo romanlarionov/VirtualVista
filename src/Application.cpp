@@ -110,6 +110,10 @@ namespace vv
     light.getTransform()->translate(glm::vec3(1.0f, 1.0f, -1.0f));
     light.getTransform()->scale(glm::vec3(0.4f, 0.4f, 0.4f));
 
+    Light light2;
+    light2.getTransform()->translate(glm::vec3(-1.0f, -1.0f, 1.0f));
+    light2.getTransform()->scale(glm::vec3(0.4f, 0.4f, 0.4f));
+
     std::string suit_path = Settings::instance()->getAssetsLocation() + "nanosuit/nanosuit.obj";
     Model nanosuit(suit_path, false);
     nanosuit.getTransform()->translate(glm::vec3(0.0f, -1.75f, 0.0f));
@@ -136,6 +140,8 @@ namespace vv
 
       // Handle input
       handleInput(&camera, delta_time);
+
+      camera.update();
 
       // Render
       Renderer::instance()->render(&camera);

@@ -42,7 +42,7 @@ namespace vv
   }
 
 
-  void Camera::updateUniforms(Shader *shader)
+  void Camera::setUniforms(Shader *shader)
   {
     // Projection Matrix
     float fov, aspect, near, far;
