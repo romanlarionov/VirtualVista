@@ -6,14 +6,7 @@ namespace vv
 {
   ShaderManager* ShaderManager::manager_singleton_ = nullptr;
 
-  ShaderManager::ShaderManager()
-  {
-    std::string directory = Settings::instance()->getShaderLocation();
-    light_cube_shader_ = new Shader(directory + "light_cube.vert", directory + "light_cube.frag");
-    model_shader_ = new Shader(directory + "lighting.vert", directory + "lighting.frag");
-  }
-
-
+  /////////////////////////////////////////////////////////////////////// public
   ShaderManager* ShaderManager::instance()
   {
     if (!manager_singleton_)
@@ -32,5 +25,14 @@ namespace vv
   Shader* ShaderManager::getModelShader()
   {
     return model_shader_;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  ShaderManager::ShaderManager()
+  {
+    std::string directory = Settings::instance()->getShaderLocation();
+    light_cube_shader_ = new Shader(directory + "light_cube.vert", directory + "light_cube.frag");
+    model_shader_ = new Shader(directory + "lighting.vert", directory + "lighting.frag");
   }
 } // namespace vv

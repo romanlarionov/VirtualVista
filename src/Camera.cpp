@@ -6,6 +6,7 @@
 
 namespace vv
 {
+  /////////////////////////////////////////////////////////////////////// public
   Camera::Camera() :
     pitch_angle_(0),
     yaw_angle_(0),

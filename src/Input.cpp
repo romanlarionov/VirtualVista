@@ -7,14 +7,7 @@ namespace vv
 {
   Input* Input::input_singleton_ = nullptr;
 
-  Input::Input() :
-    curr_x_(0),
-    curr_y_(0)
-  {
-    key_pressed_tracker_.resize(GLFW_KEY_LAST);
-  }
-
-
+  /////////////////////////////////////////////////////////////////////// public
   Input* Input::instance()
   {
     if (!input_singleton_)
@@ -36,6 +29,15 @@ namespace vv
   {
     x = curr_x_;
     y = curr_y_;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  Input::Input() :
+    curr_x_(0),
+    curr_y_(0)
+  {
+    key_pressed_tracker_.resize(GLFW_KEY_LAST);
   }
 
 

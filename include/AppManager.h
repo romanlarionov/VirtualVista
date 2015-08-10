@@ -12,8 +12,8 @@ namespace vv
   class AppManager
   {
   public:
-    static bool init();
     static App* instance();
+    static bool init();
 
   private:
     static App *app_singleton_;

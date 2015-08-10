@@ -11,7 +11,8 @@
 
 namespace vv
 {
-  GLfloat cube_vertices_[] = {
+  GLfloat cube_vertices_[] =
+  {
     -0.5f, -0.5f, -0.5f,
      0.5f, -0.5f, -0.5f,
      0.5f,  0.5f, -0.5f,
@@ -71,6 +72,7 @@ namespace vv
   }
 
 
+  /////////////////////////////////////////////////////////////////////// public
   Light::Light(bool can_render, bool point_light) :
     can_render_(can_render),
     is_point_light_(point_light),
@@ -117,6 +119,7 @@ namespace vv
   }
 
 
+  ////////////////////////////////////////////////////////////////////// private
   void Light::setUniforms(int num, Shader *shader)
   {
     const GLchar *light_position = ("lights[" + std::to_string(num) + "].position").c_str();

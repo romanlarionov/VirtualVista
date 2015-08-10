@@ -3,6 +3,7 @@
 
 namespace vv
 {
+  /////////////////////////////////////////////////////////////////////// public
   Transform::Transform()
   {
     homogeneous_transform_mat_ = glm::mat4(1.0f);

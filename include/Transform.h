@@ -27,7 +27,6 @@ namespace vv
 
   private:
     glm::mat4 homogeneous_transform_mat_;
-
   };
 }
 

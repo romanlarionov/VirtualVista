@@ -20,7 +20,7 @@ namespace vv
   private:
     GLuint program_id_;
 
-    std::string loadShader(const std::string filename);
+    std::string loadShaderFromFile(const std::string filename);
     bool createProgram(std::string vert_source, std::string frag_source);
   };
 }

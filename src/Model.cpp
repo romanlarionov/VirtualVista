@@ -8,6 +8,7 @@
 
 namespace vv
 {
+  /////////////////////////////////////////////////////////////////////// public
   Model::Model(std::string path, bool gamma) :
     gamma_correction_(gamma)
   {
@@ -15,6 +16,7 @@ namespace vv
     Renderer::instance()->addToRenderList(this);
     loadModel(path);
   }
+
 
   Model::~Model()
   {
@@ -42,6 +44,7 @@ namespace vv
   }
 
 
+  ////////////////////////////////////////////////////////////////////// private
   void Model::loadModel(std::string path)
   {
     Assimp::Importer importer;

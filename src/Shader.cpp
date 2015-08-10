@@ -7,23 +7,59 @@
 
 namespace vv
 {
-  vv::Shader::Shader(std::string vert_filename, std::string frag_filename)
+  /////////////////////////////////////////////////////////////////////// public
+  Shader::Shader(std::string vert_filename, std::string frag_filename)
   {
     program_id_ = glCreateProgram();
 
-    std::string vert_source = loadShader(vert_filename);
-    std::string frag_source = loadShader(frag_filename);
+    std::string vert_source = loadShaderFromFile(vert_filename);
+    std::string frag_source = loadShaderFromFile(frag_filename);
     createProgram(vert_source, frag_source);
   }
 
 
-  vv::Shader::~Shader()
+  Shader::~Shader()
   {
     glDeleteProgram(program_id_);
   }
 
 
-  bool vv::Shader::createProgram(std::string vert_source, std::string frag_source)
+  GLuint Shader::getProgramId()
+  {
+    return program_id_;
+  }
+
+
+  void Shader::useProgram()
+  {
+    glUseProgram(program_id_);
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  std::string Shader::loadShaderFromFile(const std::string filename)
+  {
+    std::ifstream file(filename);
+    std::string shader_source;
+
+    try
+    {
+      std::stringstream shader_stream;
+      shader_stream << file.rdbuf();
+      file.close();
+
+      shader_source = shader_stream.str();
+    } catch (std::exception e)
+    {
+      std::cerr << "ERROR: file: " << filename << " not successfully read:\n";
+      exit(EXIT_FAILURE);
+    }
+
+    return shader_source;
+  }
+
+
+  bool Shader::createProgram(std::string vert_source, std::string frag_source)
   {
     GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     const GLchar *v_source = vert_source.c_str();
@@ -85,39 +121,5 @@ namespace vv
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
     return true;
-  }
-
-
-  std::string vv::Shader::loadShader(const std::string filename)
-  {
-    std::ifstream file(filename);
-    std::string shader_source;
-
-    try
-    {
-      std::stringstream shader_stream;
-      shader_stream << file.rdbuf();
-      file.close();
-
-      shader_source = shader_stream.str();
-    } catch (std::exception e)
-    {
-      std::cerr << "ERROR: file: " << filename << " not successfully read:\n";
-      exit(EXIT_FAILURE);
-    }
-
-    return shader_source;
-  }
-
-
-  GLuint Shader::getProgramId()
-  {
-    return program_id_;
-  }
-  
-
-  void Shader::useProgram()
-  {
-    glUseProgram(program_id_);
   }
 } // namespace vv

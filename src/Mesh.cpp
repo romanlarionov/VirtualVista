@@ -6,7 +6,8 @@
 
 namespace vv
 {
-    Mesh::Mesh(const std::vector<Vertex>& vertices)
+  /////////////////////////////////////////////////////////////////////// public
+  Mesh::Mesh(const std::vector<Vertex>& vertices)
   {
     vertices_ = vertices;
     has_indices_ = false;
@@ -14,7 +15,7 @@ namespace vv
     init();
   }
 
-    Mesh::Mesh(const std::vector<Vertex>& vertices,
+  Mesh::Mesh(const std::vector<Vertex>& vertices,
              const std::vector<GLuint>& indices)
   {
     vertices_ = vertices;
@@ -24,7 +25,7 @@ namespace vv
     init();
   }
 
-    Mesh::Mesh(const std::vector<Vertex>& vertices,
+  Mesh::Mesh(const std::vector<Vertex>& vertices,
              const std::vector<Texture>& textures)
   {
     vertices_ = vertices;
@@ -45,33 +46,6 @@ namespace vv
     has_indices_ = true;
     has_textures_ = true;
     init();
-  }
-
-
-  void Mesh::init()
-  {
-    glGenVertexArrays(1, &VAO_);
-    glBindVertexArray(VAO_);
-
-    glGenBuffers(1, &VBO_);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_);
-    glBufferData(GL_ARRAY_BUFFER, vertices_.size() * sizeof(Vertex), &vertices_[0], GL_STATIC_DRAW);
-
-    if (has_indices_)
-    {
-      glGenBuffers(1, &EBO_);
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_);
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_.size() * sizeof(GLuint), &indices_[0], GL_STATIC_DRAW);
-    }
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)offsetof(Vertex, normal));
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)offsetof(Vertex, tex_coords));
-
-    glBindVertexArray(0);
   }
 
 
@@ -120,5 +94,33 @@ namespace vv
         glBindTexture(GL_TEXTURE_2D, 0);
       }
     }
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  void Mesh::init()
+  {
+    glGenVertexArrays(1, &VAO_);
+    glBindVertexArray(VAO_);
+
+    glGenBuffers(1, &VBO_);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_);
+    glBufferData(GL_ARRAY_BUFFER, vertices_.size() * sizeof(Vertex), &vertices_[0], GL_STATIC_DRAW);
+
+    if (has_indices_)
+    {
+      glGenBuffers(1, &EBO_);
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_);
+      glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_.size() * sizeof(GLuint), &indices_[0], GL_STATIC_DRAW);
+    }
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)offsetof(Vertex, normal));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)offsetof(Vertex, tex_coords));
+
+    glBindVertexArray(0);
   }
 } // namespace vv

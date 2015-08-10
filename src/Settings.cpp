@@ -3,13 +3,9 @@
 
 namespace vv
 {
-  Settings* Settings::instance_ = 0;
+  Settings* Settings::instance_ = nullptr;
 
-  Settings::Settings()
-  {
-    setDefault();
-  }
-
+  /////////////////////////////////////////////////////////////////////// public
   Settings* Settings::instance()
   {
     if (!instance_)
@@ -120,5 +116,12 @@ namespace vv
   double Settings::getRotationSpeed() const
   {
     return rotation_speed_;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  Settings::Settings()
+  {
+    setDefault();
   }
 } // namespace vv

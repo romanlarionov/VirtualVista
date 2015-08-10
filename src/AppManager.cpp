@@ -7,7 +7,21 @@
 
 namespace vv
 {
-  App* AppManager::app_singleton_ = NULL;
+  App* AppManager::app_singleton_ = nullptr;
+
+  /////////////////////////////////////////////////////////////////////// public
+  App* AppManager::instance()
+  {
+    if (!app_singleton_)
+    {
+      std::cerr << "ERROR: failed to access instance of Application.\n";
+      std::cerr << "Probably forgot AppManager::init() somewhere.\n";
+      exit(EXIT_FAILURE);
+    }
+
+    return app_singleton_;
+  }
+
 
   bool AppManager::init()
   {
@@ -28,16 +42,9 @@ namespace vv
   }
 
 
-  App* AppManager::instance()
+  ////////////////////////////////////////////////////////////////////// private
+  AppManager::AppManager()
   {
-    if (!app_singleton_)
-    {
-      std::cerr << "ERROR: failed to access instance of Application.\n";
-      std::cerr << "Probably forgot AppManager::init() somewhere.\n";
-      exit(EXIT_FAILURE);
-    }
-
-    return app_singleton_;
   }
 
 

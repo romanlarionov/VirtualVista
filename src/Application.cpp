@@ -10,6 +10,7 @@
 
 namespace vv
 {
+  /////////////////////////////////////////////////////////////////////// public
   App::App() :
     first_run_(true),
     first_input_(true),
@@ -59,47 +60,6 @@ namespace vv
     }
 
     return true;
-  }
-
-
-  void App::handleInput(Camera* cam, double delta_time)
-  {
-    glfwPollEvents();
-    double movement_speed = Settings::instance()->getMovementSpeed() * delta_time;
-    double rotation_speed = Settings::instance()->getRotationSpeed() * delta_time;
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_ESCAPE))
-      glfwSetWindowShouldClose(window_, GL_TRUE);
-
-    // Camera movements
-    if (Input::instance()->keyIsPressed(GLFW_KEY_W))
-      cam->translate(GLFW_KEY_W, movement_speed);
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_A))
-      cam->translate(GLFW_KEY_A, movement_speed);
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_S))
-      cam->translate(GLFW_KEY_S, movement_speed);
-
-    if (Input::instance()->keyIsPressed(GLFW_KEY_D))
-      cam->translate(GLFW_KEY_D, movement_speed);
-
-    // Camera rotations
-    double curr_x, curr_y;
-    Input::instance()->getMouseValues(curr_x, curr_y);
-    if (first_input_ && (curr_x != 0 && curr_y != 0))
-    {
-      last_x_ = curr_x;
-      last_y_ = curr_y;
-      first_input_ = false;
-    }
-
-    double delta_x = (curr_x - last_x_);
-    double delta_y = (last_y_ - curr_y);
-    last_x_ = curr_x;
-    last_y_ = curr_y;
-
-    cam->rotate(delta_x, delta_y, rotation_speed);
   }
 
 
@@ -158,5 +118,47 @@ namespace vv
   GLFWwindow* App::getWindow()
   {
     return window_;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  void App::handleInput(Camera* cam, double delta_time)
+  {
+    glfwPollEvents();
+    double movement_speed = Settings::instance()->getMovementSpeed() * delta_time;
+    double rotation_speed = Settings::instance()->getRotationSpeed() * delta_time;
+
+    if (Input::instance()->keyIsPressed(GLFW_KEY_ESCAPE))
+      glfwSetWindowShouldClose(window_, GL_TRUE);
+
+    // Camera movements
+    if (Input::instance()->keyIsPressed(GLFW_KEY_W))
+      cam->translate(GLFW_KEY_W, movement_speed);
+
+    if (Input::instance()->keyIsPressed(GLFW_KEY_A))
+      cam->translate(GLFW_KEY_A, movement_speed);
+
+    if (Input::instance()->keyIsPressed(GLFW_KEY_S))
+      cam->translate(GLFW_KEY_S, movement_speed);
+
+    if (Input::instance()->keyIsPressed(GLFW_KEY_D))
+      cam->translate(GLFW_KEY_D, movement_speed);
+
+    // Camera rotations
+    double curr_x, curr_y;
+    Input::instance()->getMouseValues(curr_x, curr_y);
+    if (first_input_ && (curr_x != 0 && curr_y != 0))
+    {
+      last_x_ = curr_x;
+      last_y_ = curr_y;
+      first_input_ = false;
+    }
+
+    double delta_x = (curr_x - last_x_);
+    double delta_y = (last_y_ - curr_y);
+    last_x_ = curr_x;
+    last_y_ = curr_y;
+
+    cam->rotate(delta_x, delta_y, rotation_speed);
   }
 } // namespace vv

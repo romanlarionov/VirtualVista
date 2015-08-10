@@ -32,7 +32,6 @@ namespace vv
 
     std::string getShaderLocation() const;
     std::string getAssetsLocation() const;
-    bool getWindowsShouldResize() const;
     float getCameraType() const;
     void getViewport(int &x, int &y, int &width, int &height) const;
     void getPerspective(float &fov, float &aspect, float &near, float &far) const;

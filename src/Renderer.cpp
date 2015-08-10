@@ -8,11 +8,7 @@ namespace vv
   std::set<Light *> Renderer::lights_;
   std::set<Model *> Renderer::models_;
 
-  Renderer::Renderer()
-  {
-  }
-
-
+  /////////////////////////////////////////////////////////////////////// public
   Renderer* Renderer::instance()
   {
    if (!renderer_singleton_)
@@ -56,6 +52,12 @@ namespace vv
 
     for (auto m : models_)
       m->render();
+  }
+
+
+  ////////////////////////////////////////////////////////////////////// private
+  Renderer::Renderer()
+  {
   }
 
 
