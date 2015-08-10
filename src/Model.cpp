@@ -57,7 +57,7 @@ namespace vv
       return;
     }
 
-    directory_ = path.substr(0, path.find_last_of('/'));
+    directory_ = path.substr(0, path.find_last_of('/') + 1);
     processNode(scene->mRootNode, scene);
   }
 
@@ -159,7 +159,7 @@ namespace vv
   }
 
 
-  std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
+  std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string type_name)
   {
     std::vector<Texture> textures;
     for (GLuint i = 0; i < mat->GetTextureCount(type); ++i)
@@ -170,19 +170,17 @@ namespace vv
       bool already_loaded = false;
       for (auto t : textures_loaded_)
       {
-        if (t.path == str)
+        if (t.getFilePath() == str.C_Str())
         {
           textures.push_back(t);
           already_loaded = true;
           break;
         }
       }
+
       if (!already_loaded)
       {
-        Texture texture;
-        texture.id = TextureFromFile(str.C_Str(), directory_, false);
-        texture.type = typeName;
-        texture.path = str;
+        Texture texture(directory_ + str.C_Str(), type_name, false);
         textures.push_back(texture);
         textures_loaded_.push_back(texture);
       }

@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <assimp/scene.h>
 
+#include "Texture.h"
 #include "Shader.h"
 
 namespace vv
@@ -18,12 +19,12 @@ namespace vv
     glm::vec2 tex_coords;
   };
 
-  struct Texture
+  /*struct Texture
   {
     GLuint id;
     std::string type;
-    aiString path;
-  };
+    std::string path;
+  };*/
 
   class Mesh
   {

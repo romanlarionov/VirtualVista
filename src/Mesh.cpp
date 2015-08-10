@@ -60,18 +60,18 @@ namespace vv
         glActiveTexture(GL_TEXTURE0 + i);
         std::stringstream ss;
         std::string number;
-        std::string name = textures_[i].type;
+        std::string uniform_name = textures_[i].getTextureType();
 
-        if (name == "texture_diffuse")
+        if (uniform_name == "texture_diffuse")
           ss << num_diffuse++;
 
-        else if (name == "texture_specular")
+        else if (uniform_name == "texture_specular")
           ss << num_specular++;
 
         number = ss.str();
 
-        glUniform1f(glGetUniformLocation(shader->getProgramId(), (name + number).c_str()), i);
-        glBindTexture(GL_TEXTURE_2D, textures_[i].id);
+        glUniform1f(glGetUniformLocation(shader->getProgramId(), (uniform_name + number).c_str()), i);
+        glBindTexture(GL_TEXTURE_2D, textures_[i].getTextureId());
       }
     }
 
