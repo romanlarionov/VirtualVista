@@ -1,13 +1,13 @@
 
+#include <iostream>
 #include <vector>
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
-#include <iostream>
 
-#include "Light.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include "vv/Light.h"
+#include "vv/Renderer.h"
+#include "vv/ResourceManager.h"
 
 namespace vv
 {

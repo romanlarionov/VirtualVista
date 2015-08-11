@@ -1,8 +1,8 @@
 
-#include "Camera.h"
-#include "Input.h"
-#include "ResourceManager.h"
-#include "Settings.h"
+#include "vv/Camera.h"
+#include "vv/Input.h"
+#include "vv/ResourceManager.h"
+#include "vv/Settings.h"
 
 namespace vv
 {

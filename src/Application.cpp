@@ -3,12 +3,12 @@
 
 #include <glm/glm.hpp>
 
-#include "Application.h"
-#include "Renderer.h"
-#include "Light.h"
-#include "Model.h"
-#include "Input.h"
-#include "Settings.h"
+#include "vv/Application.h"
+#include "vv/Renderer.h"
+#include "vv/Light.h"
+#include "vv/Model.h"
+#include "vv/Input.h"
+#include "vv/Settings.h"
 
 namespace vv
 {

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Shader.h"
+#include "vv/Shader.h"
 
 namespace vv
 {

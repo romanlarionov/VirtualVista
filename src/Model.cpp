@@ -1,10 +1,10 @@
 
 #include <iostream>
-#include <glm/gtc/type_ptr.hpp>
-#include <Renderer.h>
 
-#include "Model.h"
-#include "ResourceManager.h"
+#include <glm/gtc/type_ptr.hpp>
+
+#include "vv/Model.h"
+#include "vv/ResourceManager.h"
 
 namespace vv
 {

@@ -1,8 +1,8 @@
 
 #include <sstream>
 
-#include "Mesh.h"
-#include "ResourceManager.h"
+#include "vv/Mesh.h"
+#include "vv/ResourceManager.h"
 
 namespace vv
 {

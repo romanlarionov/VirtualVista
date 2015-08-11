@@ -1,9 +1,9 @@
 
 #include <iostream>
 
-#include "AppManager.h"
-#include "Settings.h"
-#include "Input.h"
+#include "vv/AppManager.h"
+#include "vv/Settings.h"
+#include "vv/Input.h"
 
 namespace vv
 {

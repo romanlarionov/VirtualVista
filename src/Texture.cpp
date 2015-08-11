@@ -1,8 +1,8 @@
 
 #include <SOIL/SOIL.h>
 
-#include "Texture.h"
-#include "ResourceManager.h"
+#include "vv/Texture.h"
+#include "vv/ResourceManager.h"
 
 namespace vv
 {

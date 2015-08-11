@@ -2,7 +2,6 @@
 #ifndef VIRTUALVISTA_INPUT_H
 #define VIRTUALVISTA_INPUT_H
 
-
 #include <vector>
 
 #include <GLFW/glfw3.h>

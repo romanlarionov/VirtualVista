@@ -1,9 +1,6 @@
 
-#include "Renderer.h"
-#include "ResourceManager.h"
-#include "Light.h"
-#include "Model.h"
-#include "Texture.h"
+#include "vv/Renderer.h"
+#include "vv/ResourceManager.h"
 
 namespace vv
 {
@@ -12,7 +9,7 @@ namespace vv
   /////////////////////////////////////////////////////////////////////// public
   Renderer* Renderer::instance()
   {
-   if (!renderer_singleton_)
+    if (!renderer_singleton_)
      renderer_singleton_ = new Renderer;
 
     return renderer_singleton_;

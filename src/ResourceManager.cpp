@@ -1,6 +1,6 @@
 
-#include "ResourceManager.h"
-#include "Settings.h"
+#include "vv/ResourceManager.h"
+#include "vv/Settings.h"
 
 namespace vv
 {
