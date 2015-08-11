@@ -5,6 +5,8 @@
 
 #include "Application.h"
 #include "Renderer.h"
+#include "Light.h"
+#include "Model.h"
 #include "Input.h"
 #include "Settings.h"
 

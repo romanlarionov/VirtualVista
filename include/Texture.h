@@ -14,6 +14,8 @@ namespace vv
     Texture(std::string file_path, std::string texture_type, bool correct_gamma = true);
     ~Texture();
 
+    void bind();
+
     GLuint getTextureId();
     std::string getTextureType();
     std::string getFilePath();

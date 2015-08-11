@@ -68,7 +68,7 @@ set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                     ${VV_SRC_DIR}/Renderer.cpp
                     ${VV_SRC_DIR}/Input.cpp
                     ${VV_SRC_DIR}/Texture.cpp
-                    ${VV_SRC_DIR}/ShaderManager.cpp
+                    ${VV_SRC_DIR}/ResourceManager.cpp
                     ${VV_SRC_DIR}/Shader.cpp
                     ${VV_SRC_DIR}/Camera.cpp
                     ${VV_SRC_DIR}/Light.cpp

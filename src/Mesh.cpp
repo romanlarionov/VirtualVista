@@ -2,7 +2,7 @@
 #include <sstream>
 
 #include "Mesh.h"
-#include "ShaderManager.h"
+#include "ResourceManager.h"
 
 namespace vv
 {

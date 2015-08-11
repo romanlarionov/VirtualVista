@@ -1,12 +1,13 @@
 
 #include "Renderer.h"
-#include "ShaderManager.h"
+#include "ResourceManager.h"
+#include "Light.h"
+#include "Model.h"
+#include "Texture.h"
 
 namespace vv
 {
   Renderer* Renderer::renderer_singleton_ = nullptr;
-  std::set<Light *> Renderer::lights_;
-  std::set<Model *> Renderer::models_;
 
   /////////////////////////////////////////////////////////////////////// public
   Renderer* Renderer::instance()
@@ -33,24 +34,27 @@ namespace vv
   void Renderer::render(Camera *camera)
   {
     // Render light sources first
-    Shader *shader = ShaderManager::instance()->getLightCubeShader();
+    Shader *shader = ResourceManager::instance()->getLightCubeShader();
     shader->useProgram();
     camera->setUniforms(shader);
 
-    for (auto l : lights_)
+    std::set<Light *> lights = ResourceManager::instance()->getLights();
+    std::set<Model *> models = ResourceManager::instance()->getModels();
+
+    for (auto l : lights)
       if (l->canRender())
         l->render();
 
     // Render models
-    shader = ShaderManager::instance()->getModelShader();
+    shader = ResourceManager::instance()->getModelShader();
     shader->useProgram();
     camera->setUniforms(shader);
 
     int i = 0;
-    for (auto l : lights_)
+    for (auto l : lights)
       l->setUniforms(i++, shader);
 
-    for (auto m : models_)
+    for (auto m : models)
       m->render();
   }
 
@@ -58,29 +62,5 @@ namespace vv
   ////////////////////////////////////////////////////////////////////// private
   Renderer::Renderer()
   {
-  }
-
-
-  void Renderer::addToRenderList(Light *light)
-  {
-    lights_.insert(light);
-  }
-
-
-  void Renderer::removeFromRenderList(Light *light)
-  {
-    lights_.erase(light);
-  }
-
-
-  void Renderer::addToRenderList(Model *model)
-  {
-    models_.insert(model);
-  }
-
-
-  void Renderer::removeFromRenderList(Model *model)
-  {
-    models_.erase(model);
   }
 } // namespace vv

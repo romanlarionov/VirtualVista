@@ -1,7 +1,7 @@
 
 #include "Camera.h"
 #include "Input.h"
-#include "ShaderManager.h"
+#include "ResourceManager.h"
 #include "Settings.h"
 
 namespace vv

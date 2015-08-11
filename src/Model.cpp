@@ -4,7 +4,7 @@
 #include <Renderer.h>
 
 #include "Model.h"
-#include "ShaderManager.h"
+#include "ResourceManager.h"
 
 namespace vv
 {
@@ -13,14 +13,14 @@ namespace vv
     gamma_correction_(gamma)
   {
     transform_ = new Transform;
-    Renderer::instance()->addToRenderList(this);
+    ResourceManager::instance()->manage(this);
     loadModel(path);
   }
 
 
   Model::~Model()
   {
-    Renderer::instance()->removeFromRenderList(this);
+    ResourceManager::instance()->stopManaging(this);
     delete transform_;
   }
 
@@ -33,7 +33,7 @@ namespace vv
 
   void Model::render()
   {
-    Shader *shader = ShaderManager::instance()->getModelShader();
+    Shader *shader = ResourceManager::instance()->getModelShader();
 
     // model matrix
     GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");

@@ -2,12 +2,14 @@
 #include <SOIL/SOIL.h>
 
 #include "Texture.h"
+#include "ResourceManager.h"
 
 namespace vv
 {
   /////////////////////////////////////////////////////////////////////// public
   Texture::Texture()
   {
+    ResourceManager::instance()->manage(this);
   }
 
 
@@ -16,12 +18,20 @@ namespace vv
     texture_type_(texture_type),
     correct_gamma_(correct_gamma)
   {
+    ResourceManager::instance()->manage(this);
     loadTextureFromFile();
   }
 
 
   Texture::~Texture()
   {
+    ResourceManager::instance()->stopManaging(this);
+  }
+
+
+  void Texture::bind()
+  {
+
   }
 
 
@@ -44,6 +54,7 @@ namespace vv
 
 
   ////////////////////////////////////////////////////////////////////// private
+  // TODO: add a more generalized method of creating textures to accommodate for a variety of texture types
   void Texture::loadTextureFromFile()
   {
     glGenTextures(1, &texture_id_);

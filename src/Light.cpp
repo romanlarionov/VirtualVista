@@ -7,7 +7,7 @@
 
 #include "Light.h"
 #include "Renderer.h"
-#include "ShaderManager.h"
+#include "ResourceManager.h"
 
 namespace vv
 {
@@ -81,13 +81,13 @@ namespace vv
     transform_ = new Transform;
     cube_mesh_ = new Mesh(createCube(cube_vertices_));
     color_ = glm::vec3(1.0f, 1.0f, 1.0f);
-    Renderer::instance()->addToRenderList(this);
+    ResourceManager::instance()->manage(this);
   }
 
 
   Light::~Light()
   {
-    Renderer::instance()->removeFromRenderList(this);
+    ResourceManager::instance()->stopManaging(this);
     delete transform_;
     delete cube_mesh_;
   }
@@ -107,7 +107,7 @@ namespace vv
 
   void Light::render()
   {
-    Shader *shader = ShaderManager::instance()->getLightCubeShader();
+    Shader *shader = ResourceManager::instance()->getLightCubeShader();
 
     GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
     glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(transform_->getMatrix()));
