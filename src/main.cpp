@@ -1,4 +1,6 @@
 
+#include <cstdlib>
+
 #include "vv/AppManager.h"
 
 using namespace vv;

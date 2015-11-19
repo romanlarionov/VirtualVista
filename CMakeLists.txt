@@ -44,7 +44,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 ######################################################## Dependencies
 # GLEW
-set(GLEW_LOCATION "${VV_DEPS_DIR}/glew")
+#set(GLEW_LOCATION "${VV_DEPS_DIR}/glew")
 find_package(GLEW REQUIRED)
 
 # GLM
@@ -54,11 +54,14 @@ find_package(GLM REQUIRED)
 add_subdirectory(${VV_DEPS_DIR}/glfw)
 include_directories(${VV_DEPS_DIR}/glfw/include)
 
-# ASSIMP & SOIL
+# ASSIMP
+find_package(ASSIMP REQUIRED)
+
+# SOIL
 link_directories(${VV_BIN_DIR})
 
 ######################################################## Linking
-include_directories(${VV_INCLUDE_DIR} ${VV_BIN_DIR}/include)
+include_directories(${VV_INCLUDE_DIR} ${VV_BIN_DIR}/include ${GLEW_INCLUDE_DIR} ${ASSIMP_INCLUDE_DIR} ${GLM_INCLUDE_DIRS})
 
 # Setting files necessary for compilation.
 set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
@@ -77,4 +80,4 @@ set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
                     ${VV_SRC_DIR}/Settings.cpp)
 
 add_executable(${VV_EXECUTABLE_FILE} ${VV_SOURCE_FILES})
-target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY} assimp SOIL)
+target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY} ${ASSIMP_LIBRARY} SOIL)

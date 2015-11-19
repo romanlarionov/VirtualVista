@@ -88,9 +88,6 @@ if (${CMAKE_HOST_UNIX})
             "${GLEW_LOCATION}/lib"
             "$ENV{GLEW_LOCATION}/lib"
         PATHS
-            /usr/lib64
-            /usr/lib
-            /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
             /usr/local/lib64
             /usr/local/lib
             /sw/lib
