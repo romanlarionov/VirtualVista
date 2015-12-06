@@ -1,5 +1,5 @@
 
-#include <SOIL/SOIL.h>
+#include <SOIL.h>
 
 #include "vv/Texture.h"
 #include "vv/ResourceManager.h"

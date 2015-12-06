@@ -18,7 +18,7 @@ namespace vv
 
   bool Renderer::init()
   {
-
+    return false;
   }
 
 

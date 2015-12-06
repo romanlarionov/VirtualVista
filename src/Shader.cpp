@@ -80,10 +80,11 @@ namespace vv
 
       if (!compile_success)
       {
-        char buffer[info_log_length + 1];
+        char *buffer = new char[info_log_length + 1];
         glGetShaderInfoLog(shader, info_log_length, NULL, buffer);
         std::cerr << "ERROR: failed to compile " << type << " shader:\n" << buffer << "\n";
         glDeleteShader(shader);
+        delete buffer;
         return false;
       }
       return true;
@@ -111,10 +112,11 @@ namespace vv
 
     if (!link_success)
     {
-      char buffer[program_info_log_length + 1];
+      char *buffer = new char[program_info_log_length + 1];
       glGetProgramInfoLog(program_id_, program_info_log_length, NULL, buffer);
       std::cerr << "Error: program failed to link correctly.\n\n" << buffer << "\n";
       glDeleteProgram(program_id_);
+      delete buffer;
       return false;
     }
 

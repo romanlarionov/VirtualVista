@@ -22,9 +22,9 @@ namespace vv
     // viewport
     start_x_ = 0;
     start_y_ = 0;
-    window_width_ = 800;
-    window_height_ = 600;
-    aspect_ratio_ = 800 / 600;
+    window_width_ = 1920;
+    window_height_ = 1080;
+    aspect_ratio_ = 1920.0 / 1080.0;
     camera_type_ = PERSPECTIVE;
 
     // fov
@@ -34,8 +34,14 @@ namespace vv
     near_clip_ = 0.1f;
     far_clip_ = 1000.0f;
 
+	// todo: make sure this works for every platform
+#ifdef _WIN32
+    shader_location_ = "../../src/shaders/";
+    assets_location_ = "../../assets/";
+#else
     shader_location_ = "../src/shaders/";
     assets_location_ = "../assets/";
+#endif
 
     // speed
     movement_speed_ = 4.0;
@@ -63,10 +69,10 @@ namespace vv
   }
 
 
-  void Settings::setClipDistance(const float near, const float far)
+  void Settings::setClipDistance(float near_plane, float far_plane)
   {
-    near_clip_ = near;
-    far_clip_ = far;
+    near_clip_ = near_plane;
+    far_clip_ = far_plane;
     default_ = false;
   }
 
@@ -98,12 +104,12 @@ namespace vv
   }
 
 
-  void Settings::getPerspective(float &fov, float &aspect, float &near, float &far) const
+  void Settings::getPerspective(float &fov, float &aspect, float &near_plane, float &far_plane) const
   {
     fov = field_of_view_;
     aspect = aspect_ratio_;
-    near = near_clip_;
-    far = far_clip_;
+    near_plane = near_clip_;
+    far_plane = far_clip_;
   }
 
 

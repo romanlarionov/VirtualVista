@@ -46,9 +46,9 @@ namespace vv
   void Camera::setUniforms(Shader *shader)
   {
     // Projection Matrix
-    float fov, aspect, near, far;
-    Settings::instance()->getPerspective(fov, aspect, near, far);
-    projection_mat_ = glm::perspective(fov, aspect, near, far);
+    float fov, aspect, near_plane, far_plane;
+    Settings::instance()->getPerspective(fov, aspect, near_plane, far_plane);
+    projection_mat_ = glm::perspective(fov, aspect, near_plane, far_plane);
     GLint projection_matrix_location = glGetUniformLocation(shader->getProgramId(), "projection");
     glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE, glm::value_ptr(projection_mat_));
 

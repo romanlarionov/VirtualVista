@@ -11,6 +11,8 @@ option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
 add_subdirectory(deps/assimp)
 
+ADD_SUBDIRECTORY(deps/Simple-OpenGL-Image-Library)
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
@@ -57,8 +59,7 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
                                ${PROJECT_CONFIGS}
                                ${DEPS_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} assimp glfw SOIL
-                      ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} assimp glfw SOIL ${SOIL_LIBRARIES} ${GLFW_LIBRARIES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")

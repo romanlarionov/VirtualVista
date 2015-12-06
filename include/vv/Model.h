@@ -32,6 +32,11 @@ namespace vv
   private:
     Transform *transform_;
 
+	// todo: each model should have a handle to its own shader stored within the Resource Manager.
+	// That way, I can just query for the shader at draw time based on whatever was placed on the
+	// model on instantiation. This would also mean that the Resource Manager can be more generic 
+	// in regards to shaders. (Would be a good way of allowing user shaders)
+
     std::vector<Texture> textures_loaded_;
     std::vector<Mesh> meshes_;
     std::string directory_;

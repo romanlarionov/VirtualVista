@@ -45,20 +45,22 @@ namespace vv
       Settings::instance()->getViewport(x, y, width, height);
       window_ = glfwCreateWindow(width, height, "Virtual Vista", nullptr, nullptr);
 
+      glfwMakeContextCurrent(window_);
+      glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
       if (!window_)
       {
         std::cerr << "ERROR: Window context failed to initialize.\n";
+        glfwTerminate();
         return false; // Maybe have a try catch here
       }
 
       if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-	  {
-        std::cerr << "ERROR: Glad failed to initialize.\n";
-		return false;
+      {
+        std::cout << "ERROR: Failed to initialize OpenGL context.\n";
+        glfwTerminate();
+        return false;
       }
-
-      glfwMakeContextCurrent(window_);
-      glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
       app_init_ = true;
     }

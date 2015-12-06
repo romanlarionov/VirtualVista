@@ -24,12 +24,15 @@ namespace vv
     std::set<Model *>& getModels();
     std::set<Texture *>& getTextures();
 
+	// todo: remove such non-generic shader get functions
     Shader* getLightCubeShader();
     Shader* getModelShader();
 
   private:
     static ResourceManager *resource_manager_singleton_;
 
+	// todo: remove these from the Resource Manager. The scene should store
+	// references to such renderable objects. 
     std::set<Light *> lights_;
     std::set<Model *> models_;
     std::set<Texture *> textures_;
