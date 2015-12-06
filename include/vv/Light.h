@@ -13,7 +13,7 @@
 
 namespace vv
 {
-  class Light : RenderableObject
+  class Light : public RenderableObject
   {
     friend class Renderer;
 

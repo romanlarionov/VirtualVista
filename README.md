@@ -1,19 +1,18 @@
 Virtual Vista
 =================
 
-Soon to be procedural graphics engine.
+My personal creative coding and rendering toolkit (Still in progress).
 
 Build
 ---------------
 
-Install all platform dependecies first:
+This should just work:
 ``` bash
-./install_deps.sh
+git clone --recursive https://github.com/romanlarionov/VirtualVista.git
+cd VirtualVista
+mkdir build
+cd build
+cmake ..
+make
+./VirtualVista
 ```
-
-Recommended building with script as several environment vars are needed to keep glfw from building extra executables.
-``` bash
-./compile.sh
-```
-
-Works and tested on both OS X 10.10.X and Ubuntu 14.04
