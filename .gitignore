@@ -16,7 +16,4 @@
 # Mac OS X
 .DS_Store
 
-# Libraries
-deps/
 build/
-bin/
