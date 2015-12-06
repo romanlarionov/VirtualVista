@@ -1,0 +1,20 @@
+[submodule "deps/assimp"]
+    path = deps/assimp
+    url = https://github.com/assimp/assimp.git
+    branch = master
+[submodule "deps/glad"]
+    path = deps/glad
+    url = https://github.com/Dav1dde/glad.git
+    branch = c
+[submodule "deps/glfw"]
+    path = deps/glfw
+    url = https://github.com/glfw/glfw.git
+    branch = master
+[submodule "deps/glm"]
+    path = deps/glm
+    url = https://github.com/g-truc/glm.git
+    branch = master
+[submodule "deps/soil"]
+    path = deps/soil
+    url = https://github.com/kbranigan/Simple-OpenGL-Image-Library.git
+    branch = master

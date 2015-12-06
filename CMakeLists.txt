@@ -1,83 +1,63 @@
-
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 3.0)
 project(VirtualVista)
-set(VV_EXECUTABLE_FILE "VirtualVista")
 
-if(NOT CMAKE_BUILD_TYPE)
-  message(STATUS "Build type defaulting to \"Debug\"")
-  set(CMAKE_BUILD_TYPE "Debug")
+option(GLFW_BUILD_DOCS OFF)
+option(GLFW_BUILD_EXAMPLES OFF)
+option(GLFW_BUILD_TESTS OFF)
+add_subdirectory(deps/glfw)
+
+option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+option(ASSIMP_BUILD_SAMPLES OFF)
+option(ASSIMP_BUILD_TESTS OFF)
+add_subdirectory(deps/assimp)
+
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -std=c++11")
+    if(NOT WIN32)
+        set(GLAD_LIBRARIES dl)
+    endif()
 endif()
 
-######################################################## Compiler Settings
-if(UNIX) # OS X included
-    set(CMAKE_CXX_COMPILER "/usr/bin/g++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
-endif()
-
-if(APPLE)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo")
-endif()
-
-######################################################## Generation
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/build/")
-	execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/)
 endif()
 
-######################################################## Defines
-# Defines where all source files go.
-set(VV_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+include_directories("include/"
+                    "deps/assimp/include/"
+                    "deps/glad/include/"
+                    "deps/glfw/include/"
+                    "deps/glm/")
 
-# Defines where all header files go.
-set(VV_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+file(GLOB DEPS_SOURCES deps/glad/src/glad.c)
+file(GLOB PROJECT_HEADERS include/*.h)
+file(GLOB PROJECT_SOURCES Sources/*.cpp)
+file(GLOB PROJECT_SHADERS src/shaders/*.comp
+                          src/shaders/*.frag
+                          src/shaders/*.geom
+                          src/shaders/*.vert)
 
-# Defines where all dependecies go.
-set(VV_DEPS_DIR ${CMAKE_SOURCE_DIR}/deps)
+file(GLOB PROJECT_CONFIGS "CMakeLists.txt"
+                          "README.md"
+                          ".gitignore"
+                          ".gitmodules")
 
-# Defines where all binaries for dependecies go.
-set(VV_BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
+source_group("include" FILES ${PROJECT_HEADERS})
+source_group("shaders" FILES ${PROJECT_SHADERS})
+source_group("src" FILES ${PROJECT_SOURCES})
+source_group("deps" FILES ${DEPS_SOURCES})
 
-# So cmake knows where to put the executable and helper files.
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
+add_definitions(-DGLFW_INCLUDE_NONE -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 
-# So cmake can use the FindXXX.cmake files for dependecies.
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
+                               ${PROJECT_HEADERS}
+                               ${PROJECT_SHADERS}
+                               ${PROJECT_CONFIGS}
+                               ${DEPS_SOURCES})
 
-######################################################## Dependencies
-# GLEW
-#set(GLEW_LOCATION "${VV_DEPS_DIR}/glew")
-find_package(GLEW REQUIRED)
+target_link_libraries(${PROJECT_NAME} assimp glfw SOIL
+                      ${GLFW_LIBRARIES} ${GLAD_LIBRARIES} ${SOIL_LIBRARIES})
 
-# GLM
-find_package(GLM REQUIRED)
-
-# GLFW
-add_subdirectory(${VV_DEPS_DIR}/glfw)
-include_directories(${VV_DEPS_DIR}/glfw/include)
-
-# ASSIMP
-find_package(ASSIMP REQUIRED)
-
-# SOIL
-link_directories(${VV_BIN_DIR})
-
-######################################################## Linking
-include_directories(${VV_INCLUDE_DIR} ${VV_BIN_DIR}/include ${GLEW_INCLUDE_DIR} ${ASSIMP_INCLUDE_DIR} ${GLM_INCLUDE_DIRS})
-
-# Setting files necessary for compilation.
-set(VV_SOURCE_FILES ${VV_SRC_DIR}/main.cpp
-                    ${VV_SRC_DIR}/AppManager.cpp
-                    ${VV_SRC_DIR}/Application.cpp
-                    ${VV_SRC_DIR}/Transform.cpp
-                    ${VV_SRC_DIR}/Renderer.cpp
-                    ${VV_SRC_DIR}/Input.cpp
-                    ${VV_SRC_DIR}/Texture.cpp
-                    ${VV_SRC_DIR}/ResourceManager.cpp
-                    ${VV_SRC_DIR}/Shader.cpp
-                    ${VV_SRC_DIR}/Camera.cpp
-                    ${VV_SRC_DIR}/Light.cpp
-                    ${VV_SRC_DIR}/Mesh.cpp
-                    ${VV_SRC_DIR}/Model.cpp
-                    ${VV_SRC_DIR}/Settings.cpp)
-
-add_executable(${VV_EXECUTABLE_FILE} ${VV_SOURCE_FILES})
-target_link_libraries(${VV_EXECUTABLE_FILE} glfw ${GLFW_LIBRARIES} ${GLEW_LIBRARY} ${ASSIMP_LIBRARY} SOIL)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
