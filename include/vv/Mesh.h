@@ -9,6 +9,7 @@
 
 #include "Texture.h"
 #include "Shader.h"
+#include "Resource.h"
 
 namespace vv
 {
@@ -26,7 +27,7 @@ namespace vv
     std::string path;
   };*/
 
-  class Mesh
+  class Mesh : public Resource
   {
   public:
     Mesh(const std::vector<Vertex> &vertices);

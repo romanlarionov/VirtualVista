@@ -22,9 +22,9 @@ namespace vv
     // viewport
     start_x_ = 0;
     start_y_ = 0;
-    window_width_ = 1920;
-    window_height_ = 1080;
-    aspect_ratio_ = 1920.0 / 1080.0;
+    window_width_ = 800;
+    window_height_ = 600;
+    aspect_ratio_ = (float)(800.0 / 600.0);
     camera_type_ = PERSPECTIVE;
 
     // fov
@@ -34,7 +34,7 @@ namespace vv
     near_clip_ = 0.1f;
     far_clip_ = 1000.0f;
 
-	// todo: make sure this works for every platform
+    // todo: make sure this works for every platform
 #ifdef _WIN32
     shader_location_ = "../../src/shaders/";
     assets_location_ = "../../assets/";
@@ -46,6 +46,8 @@ namespace vv
     // speed
     movement_speed_ = 4.0;
     rotation_speed_ = 0.35; // TODO: check if good initial values
+
+    max_lights_in_scene_ = 16;
 
     default_ = true;
   }

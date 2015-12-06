@@ -9,12 +9,14 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "RenderableObject.h"
 
 namespace vv
 {
-  class Light
+  class Light : RenderableObject
   {
     friend class Renderer;
+
   public:
     Light(bool can_render = true, bool point_light = true);
     ~Light();

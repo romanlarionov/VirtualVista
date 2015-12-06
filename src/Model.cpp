@@ -13,14 +13,12 @@ namespace vv
     gamma_correction_(gamma)
   {
     transform_ = new Transform;
-    ResourceManager::instance()->manage(this);
     loadModel(path);
   }
 
 
   Model::~Model()
   {
-    ResourceManager::instance()->stopManaging(this);
     delete transform_;
   }
 

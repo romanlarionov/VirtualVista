@@ -22,8 +22,8 @@ namespace vv
     void scale(glm::vec3 scaling);
 
     glm::mat4 getMatrix();
-    glm::vec3 getTranslation();
-    glm::mat3 getRotation();
+    glm::vec3 getPosition();
+    glm::mat3 getOrientation();
 
   private:
     glm::mat4 homogeneous_transform_mat_;

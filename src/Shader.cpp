@@ -10,6 +10,8 @@ namespace vv
   /////////////////////////////////////////////////////////////////////// public
   Shader::Shader(std::string vert_filename, std::string frag_filename)
   {
+    vert_filename_ = vert_filename;
+    frag_filename_ = frag_filename;
     program_id_ = glCreateProgram();
 
     std::string vert_source = loadShaderFromFile(vert_filename);
@@ -27,6 +29,18 @@ namespace vv
   GLuint Shader::getProgramId()
   {
     return program_id_;
+  }
+
+
+  GLint Shader::getUniformLocation(const char *name) const
+  {
+    GLint location = glGetUniformLocation(program_id_, name);
+    if (location == -1)
+      std::cerr << "WARNING: attempted access of non-existant uniform location: "
+                << name << " within shader: " << program_id_ << "\n" <<
+                "Vertex filename: " << vert_filename_ << "\nFragment filename: " << frag_filename_ << "\n";
+
+    return location;
   }
 
 

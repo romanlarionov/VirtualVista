@@ -16,21 +16,15 @@ namespace vv
   }
 
 
-  std::set<Light *>& ResourceManager::getLights()
+  bool ResourceManager::loadModelFromFile(std::string filepath)
   {
-    return lights_;
+
   }
 
 
-  std::set<Model *>& ResourceManager::getModels()
+  bool ResourceManager::loadTextureFromFile(std::string filepath)
   {
-    return models_;
-  }
 
-
-  std::set<Texture *>& ResourceManager::getTextures()
-  {
-    return textures_;
   }
 
 
@@ -52,41 +46,5 @@ namespace vv
     std::string directory = Settings::instance()->getShaderLocation();
     light_cube_shader_ = new Shader(directory + "light_cube.vert", directory + "light_cube.frag");
     model_shader_ = new Shader(directory + "lighting.vert", directory + "lighting.frag");
-  }
-
-
-  void ResourceManager::manage(Light * light)
-  {
-    lights_.insert(light);
-  }
-
-
-  void ResourceManager::manage(Model * model)
-  {
-    models_.insert(model);
-  }
-
-
-  void ResourceManager::manage(Texture * texture)
-  {
-    textures_.insert(texture);
-  }
-
-
-  void ResourceManager::stopManaging(Light * light)
-  {
-    lights_.erase(light);
-  }
-
-
-  void ResourceManager::stopManaging(Model * model)
-  {
-    models_.erase(model);
-  }
-
-
-  void ResourceManager::stopManaging (Texture * texture)
-  {
-    textures_.erase(texture);
   }
 } // namespace vv

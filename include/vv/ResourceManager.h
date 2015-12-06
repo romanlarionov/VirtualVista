@@ -2,27 +2,21 @@
 #ifndef VIRTUALVISTA_RESOURCEMANAGER_H
 #define VIRTUALVISTA_RESOURCEMANAGER_H
 
-#include <set>
+#include <unordered_map>
 
-#include "Light.h"
+#include "Shader.h"
 #include "Model.h"
 #include "Texture.h"
-#include "Shader.h"
 
 namespace vv
 {
   class ResourceManager
   {
-    friend class Light;
-    friend class Model;
-    friend class Texture;
-
   public:
     static ResourceManager* instance();
 
-    std::set<Light *>& getLights();
-    std::set<Model *>& getModels();
-    std::set<Texture *>& getTextures();
+    bool loadModelFromFile(std::string filepath);
+    bool loadTextureFromFile(std::string filepath);
 
 	// todo: remove such non-generic shader get functions
     Shader* getLightCubeShader();
@@ -31,11 +25,10 @@ namespace vv
   private:
     static ResourceManager *resource_manager_singleton_;
 
-	// todo: remove these from the Resource Manager. The scene should store
-	// references to such renderable objects. 
-    std::set<Light *> lights_;
-    std::set<Model *> models_;
-    std::set<Texture *> textures_;
+    // todo: find good handle to give each resource.
+    std::unordered_map<std::string, Shader *> shaders_;
+    std::unordered_map<std::string, Texture *> textures_;
+    std::unordered_map<std::string, Mesh *> meshes_;
 
     Shader *light_cube_shader_;
     Shader *model_shader_;
@@ -44,13 +37,7 @@ namespace vv
     ResourceManager(ResourceManager const&) {};
     ResourceManager& operator=(ResourceManager const&) {};
 
-    void manage(Light *light);
-    void manage(Model *model);
-    void manage(Texture *texture);
-
-    void stopManaging(Light *light);
-    void stopManaging(Model *model);
-    void stopManaging(Texture *texture);
+    // todo: this class needs to load, cache/arrange, and dispose of all resources automatically.
   };
 }
 

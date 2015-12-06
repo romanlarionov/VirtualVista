@@ -6,9 +6,11 @@
 
 #include <glad/glad.h>
 
+#include "Resource.h"
+
 namespace vv
 {
-  class Shader
+  class Shader : public Resource
   {
   public:
     Shader(std::string vert_filename, std::string frag_filename);
@@ -16,8 +18,11 @@ namespace vv
 
     GLuint getProgramId();
     void useProgram();
+    GLint getUniformLocation(const char *name) const;
 
   private:
+    std::string vert_filename_;
+    std::string frag_filename_;
     GLuint program_id_;
 
     std::string loadShaderFromFile(const std::string filename);

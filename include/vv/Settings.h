@@ -66,6 +66,8 @@ namespace vv
     double movement_speed_;
     double rotation_speed_;
 
+    int max_lights_in_scene_;
+
     Settings();
     Settings(const Settings& s);
     Settings* operator=(const Settings& s);

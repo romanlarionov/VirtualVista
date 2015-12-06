@@ -9,7 +9,6 @@ namespace vv
   /////////////////////////////////////////////////////////////////////// public
   Texture::Texture()
   {
-    ResourceManager::instance()->manage(this);
   }
 
 
@@ -18,14 +17,12 @@ namespace vv
     texture_type_(texture_type),
     correct_gamma_(correct_gamma)
   {
-    ResourceManager::instance()->manage(this);
     loadTextureFromFile();
   }
 
 
   Texture::~Texture()
   {
-    ResourceManager::instance()->stopManaging(this);
   }
 
 

@@ -5,9 +5,11 @@
 #include <glad/glad.h>
 #include <assimp/scene.h>
 
+#include "Resource.h"
+
 namespace vv
 {
-  class Texture
+  class Texture : public Resource
   {
   public:
     Texture();

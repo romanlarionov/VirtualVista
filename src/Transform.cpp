@@ -46,14 +46,14 @@ namespace vv
   }
 
 
-  glm::vec3 Transform::getTranslation()
+  glm::vec3 Transform::getPosition()
   {
     glm::vec4 trans = homogeneous_transform_mat_[3];
     return glm::vec3(trans.x, trans.y, trans.z);
   }
 
 
-  glm::mat3 Transform::getRotation()
+  glm::mat3 Transform::getOrientation()
   {
     glm::mat3 rot;
     for (int i = 0; i < 3; ++i)

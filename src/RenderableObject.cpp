@@ -1,0 +1,20 @@
+
+#include "RenderableObject.h"
+
+namespace vv
+{
+    /////////////////////////////////////////////////////////////////////// public
+    RenderableObject::RenderableObject()
+    {
+
+    }
+
+
+    RenderableObject::~RenderableObject()
+    {
+
+    }
+
+
+    ////////////////////////////////////////////////////////////////////// private
+} // namespace vv
