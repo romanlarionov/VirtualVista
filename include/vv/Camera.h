@@ -2,7 +2,7 @@
 #ifndef VIRTUALVISTA_CAMERA_H
 #define VIRTUALVISTA_CAMERA_H
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>

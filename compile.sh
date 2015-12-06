@@ -4,7 +4,7 @@ if [ ! -d "build" ]; then
 fi
 
 cd build
-cmake -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_DOCS=OFF ..
+cmake ..
 make
 ./VirtualVista
 cd ..

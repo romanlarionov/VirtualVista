@@ -51,12 +51,14 @@ namespace vv
         return false; // Maybe have a try catch here
       }
 
+      if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+	  {
+        std::cerr << "ERROR: Glad failed to initialize.\n";
+		return false;
+      }
+
       glfwMakeContextCurrent(window_);
       glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-      // Needs to be called after window_ creation else seg fault.
-      glewExperimental = GL_TRUE;
-      glewInit();
 
       app_init_ = true;
     }

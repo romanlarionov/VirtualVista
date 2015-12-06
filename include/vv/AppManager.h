@@ -2,7 +2,7 @@
 #ifndef VIRTUALVISTA_APPMANAGER_H
 #define VIRTUALVISTA_APPMANAGER_H
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include "Application.h"

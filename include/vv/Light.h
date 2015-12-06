@@ -2,7 +2,7 @@
 #ifndef VIRTUALVISTA_LIGHT_H
 #define VIRTUALVISTA_LIGHT_H
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <glm/vec3.hpp>
 #include <glm/matrix.hpp>
 

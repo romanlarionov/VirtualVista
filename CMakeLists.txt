@@ -28,11 +28,12 @@ include_directories("include/"
                     "deps/assimp/include/"
                     "deps/glad/include/"
                     "deps/glfw/include/"
-                    "deps/glm/")
+                    "deps/glm/"
+                    "deps/Simple-OpenGL-Image-Library/src/")
 
 file(GLOB DEPS_SOURCES deps/glad/src/glad.c)
-file(GLOB PROJECT_HEADERS include/*.h)
-file(GLOB PROJECT_SOURCES Sources/*.cpp)
+file(GLOB PROJECT_HEADERS include/vv/*.h)
+file(GLOB PROJECT_SOURCES src/*.cpp)
 file(GLOB PROJECT_SHADERS src/shaders/*.comp
                           src/shaders/*.frag
                           src/shaders/*.geom
@@ -57,7 +58,7 @@ add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
                                ${DEPS_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} assimp glfw SOIL
-                      ${GLFW_LIBRARIES} ${GLAD_LIBRARIES} ${SOIL_LIBRARIES})
+                      ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
