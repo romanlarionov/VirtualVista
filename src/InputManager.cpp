@@ -1,23 +1,18 @@
 
-#include <iostream>
-
-#include "vv/Input.h"
+#include "vv/InputManager.h"
 
 namespace vv
 {
-  Input* Input::input_singleton_ = nullptr;
-
   /////////////////////////////////////////////////////////////////////// public
-  Input* Input::instance()
+  InputManager::InputManager() :
+    curr_x_(0.0),
+    curr_y_(0.0)
   {
-    if (!input_singleton_)
-      input_singleton_ = new Input;
-
-    return input_singleton_;
+    key_pressed_tracker_.reserve(GLFW_KEY_LAST);
   }
 
 
-  bool Input::keyIsPressed(int key)
+  bool InputManager::keyIsPressed(int key)
   {
     if ((key >= 0) && (key < GLFW_KEY_LAST))
       return key_pressed_tracker_[key];
@@ -25,7 +20,7 @@ namespace vv
   }
 
 
-  void Input::getMouseValues(double& x, double& y)
+  void InputManager::getMouseValues(double& x, double& y)
   {
     x = curr_x_;
     y = curr_y_;
@@ -33,15 +28,7 @@ namespace vv
 
 
   ////////////////////////////////////////////////////////////////////// private
-  Input::Input() :
-    curr_x_(0),
-    curr_y_(0)
-  {
-    key_pressed_tracker_.resize(GLFW_KEY_LAST);
-  }
-
-
-  void Input::keyboardEventsCallback(GLFWwindow *window, int key, int scan_code, int action, int mods)
+  void InputManager::keyCallback(GLFWwindow *window, int key, int scan_code, int action, int mods)
   {
     if ((key >= 0) && (key < GLFW_KEY_LAST))
     {
@@ -53,7 +40,7 @@ namespace vv
   }
 
 
-  void Input::mouseEventsCallback(GLFWwindow *window, double curr_x, double curr_y)
+  void InputManager::mouseCallback(GLFWwindow *window, double curr_x, double curr_y)
   {
     curr_x_ = curr_x;
     curr_y_ = curr_y;

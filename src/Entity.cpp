@@ -5,8 +5,8 @@ namespace vv
 {
   /////////////////////////////////////////////////////////////////////// public
   Entity::Entity() :
-    can_be_rendered_(false),
-    is_visible_(false)
+    is_visible_(false),
+    has_geometry_(false)
   {
     transform_ = new Transform;
   }
@@ -26,13 +26,7 @@ namespace vv
 
   bool Entity::isRenderable()
   {
-    return can_be_rendered_ && is_visible_;
-  }
-
-
-  bool Entity::isVisible()
-  {
-    return is_visible_;
+    return has_geometry_ && is_visible_;
   }
 
 

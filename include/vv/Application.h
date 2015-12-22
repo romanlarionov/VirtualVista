@@ -1,41 +1,33 @@
 
-#ifndef VIRTUALVVISTA_APP_H
-#define VIRTUALVVISTA_APP_H
+#ifndef VIRTUALVISTA_APPLICATION_H
+#define VIRTUALVISTA_APPLICATION_H
 
 #include <vector>
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
-#include "Scene.h"
-#include "Camera.h"
+#include "RenderContex.h"
+#include "InputManager.h"
 
 namespace vv
 {
-  class App
+  class Application
   {
   public:
-    App();
+    Application();
+    ~Application();
 
     bool init();
     void run();
 
-    GLFWwindow* getWindow();
-
   private:
-    bool first_run_;
-    bool first_input_;
-    bool app_init_;
-    double global_time_;
-    double last_x_;
-    double last_y_;
-    GLFWwindow *window_;
+    bool application_initialized_;
+    RenderContex *contex_;
+    InputManager *input_manager_;
 
-    std::vector<Scene *> scenes_;
-    Scene current_scene_;
+    std::vector<bool> key_pressed_tracker_;
 
-    void handleInput(Camera* cam, double delta_time);
   };
 }
 
-#endif // VIRTUALVVISTA_APP_H
+#endif // VIRTUALVISTA_APPLICATION_H

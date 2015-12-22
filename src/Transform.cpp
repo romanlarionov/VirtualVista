@@ -12,13 +12,13 @@ namespace vv
 
   Transform::Transform(Transform const &trans)
   {
-    this->homogeneous_transform_mat_ = trans.homogeneous_transform_mat_;
+    homogeneous_transform_mat_ = trans.homogeneous_transform_mat_;
   }
 
 
   Transform::Transform(glm::mat4 trans)
   {
-    this->homogeneous_transform_mat_ = trans;
+    homogeneous_transform_mat_ = trans;
   }
 
 
@@ -62,4 +62,5 @@ namespace vv
 
     return rot;
   }
+
 } // namespace vv

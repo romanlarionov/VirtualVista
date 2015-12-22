@@ -1,16 +1,17 @@
 
 #include <cstdlib>
 
-#include "vv/AppManager.h"
+#include "vv/Application.h"
 
 using namespace vv;
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-  // TODO: process command line input
-  
-  if (!AppManager::init()) return EXIT_FAILURE;
-  AppManager::instance()->run();
+  // todo: process command line input
+
+  Application application;
+  if (!application.init()) return EXIT_FAILURE;
+  application.run();
 
   return EXIT_SUCCESS;
 }

@@ -16,7 +16,7 @@ namespace vv
     Shader(std::string vert_filename, std::string frag_filename);
     ~Shader();
 
-    GLuint getProgramId();
+    GLuint getProgramId() const;
     void useProgram();
     GLint getUniformLocation(std::string name) const;
 

@@ -14,18 +14,16 @@ namespace vv
 
     Transform* getTransform();
     bool isRenderable();
-    bool isVisible();
     void setVisiblity(bool visibility);
 
     virtual void render() = 0;
 
   private:
-
-  protected:
-    bool can_be_rendered_; // set on initialization, cannot be changed
-    bool is_visible_; // dynamically set, used for culling operations
+    bool is_visible_; /* lock for visibility within view frustum */
+    bool has_geometry_; /* determines whether entity has anything to draw */
 
     Transform *transform_;
+
   };
 }
 

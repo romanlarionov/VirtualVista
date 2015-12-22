@@ -4,41 +4,30 @@
 
 #include <set>
 
-#include "Light.h"
-#include "Model.h"
-#include "Camera.h"
+#include "Entity.h"
 
 namespace vv
 {
   class Scene
   {
-    friend class Light;
-    friend class Model;
-    friend class Camera;
-
   public:
     Scene();
     ~Scene();
 
-    void manage(Light *light);
-    void manage(Model *model);
-    void manage(Camera *camera);
+    /* todo: check if 'instantiatePerspectiveCamera' and 'instantiateOrthogonalCamera'
+       might be better than 'instantiateCamera(Enum::Perspective)' */
+    void instantiateCamera();
 
-    void stopManaging(Light *light);
-    void stopManaging(Model *model);
-    void stopManaging(Camera *camera);
+    void instantiateModel();
 
-    void setCurrent();
+    /* This will come in handy when considering XML/Collada scene structures */
+    bool loadSceneFromFile();
+    void saveSceneToFile();
 
   private:
-    bool is_current_;
+    bool currently_used_;
 
-    Camera *camera_;
-
-    // todo: check if set is best way to store
-    std::set<Light *> lights_;
-    std::set<Model *> models_;
-
+    std::set<Entity *> entities_;
   };
 }
 

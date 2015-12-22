@@ -26,7 +26,7 @@ namespace vv
   }
 
 
-  GLuint Shader::getProgramId()
+  GLuint Shader::getProgramId() const
   {
     return program_id_;
   }
@@ -37,8 +37,8 @@ namespace vv
     GLint location = glGetUniformLocation(program_id_, name.c_str());
     if (location == -1)
       std::cerr << "WARNING: attempted access of non-existant uniform location: "
-                << name << " within shader: " << program_id_ << "\n" <<
-                "Vertex filename: " << vert_filename_ << "\nFragment filename: " << frag_filename_ << "\n";
+      << name << " within shader: " << program_id_ << "\n" <<
+      "Vertex filename: " << vert_filename_ << "\nFragment filename: " << frag_filename_ << "\n";
 
     return location;
   }
@@ -66,7 +66,7 @@ namespace vv
     } catch (std::exception e)
     {
       std::cerr << "ERROR: file: " << filename << " not successfully read:\n";
-      exit(EXIT_FAILURE);
+      exit(EXIT_FAILURE); // todo: maybe don't exit
     }
 
     return shader_source;
