@@ -71,17 +71,25 @@ namespace vv
 
   void App::run()
   {
-    Camera camera;
+    vv::Scene scene;
+    scenes_.push_back(&scene);
+
+    vv::Camera camera;
+    scene.manage(&camera);
+
     Light light;
+    scene.manage(&light);
     light.getTransform()->translate(glm::vec3(1.0f, 1.0f, -1.0f));
     light.getTransform()->scale(glm::vec3(0.4f, 0.4f, 0.4f));
 
     Light light2;
+    scene.manage(&light2);
     light2.getTransform()->translate(glm::vec3(-1.0f, -1.0f, 1.0f));
     light2.getTransform()->scale(glm::vec3(0.4f, 0.4f, 0.4f));
 
     std::string suit_path = Settings::instance()->getAssetsLocation() + "nanosuit/nanosuit.obj";
     Model nanosuit(suit_path, false);
+    scene.manage(&nanosuit);
     nanosuit.getTransform()->translate(glm::vec3(0.0f, -1.75f, 0.0f));
     nanosuit.getTransform()->scale(glm::vec3(0.2f, 0.2f, 0.2f));
 

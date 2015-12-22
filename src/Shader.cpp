@@ -32,9 +32,9 @@ namespace vv
   }
 
 
-  GLint Shader::getUniformLocation(const char *name) const
+  GLint Shader::getUniformLocation(std::string name) const
   {
-    GLint location = glGetUniformLocation(program_id_, name);
+    GLint location = glGetUniformLocation(program_id_, name.c_str());
     if (location == -1)
       std::cerr << "WARNING: attempted access of non-existant uniform location: "
                 << name << " within shader: " << program_id_ << "\n" <<

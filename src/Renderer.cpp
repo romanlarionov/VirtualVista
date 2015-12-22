@@ -1,4 +1,6 @@
 
+#include <set>
+
 #include "vv/Renderer.h"
 #include "vv/ResourceManager.h"
 
@@ -28,8 +30,9 @@ namespace vv
   }
 
 
-  void Renderer::render(Camera *camera)
+  void Renderer::render(Scene *scene)
   {
+
     // Render light sources first
     Shader *shader = ResourceManager::instance()->getLightCubeShader();
     shader->useProgram();
@@ -39,7 +42,7 @@ namespace vv
     std::set<Model *> models = ResourceManager::instance()->getModels();
 
     for (auto l : lights)
-      if (l->canRender())
+      if (l->isRenderable())
         l->render();
 
     // Render models

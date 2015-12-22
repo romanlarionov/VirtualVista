@@ -18,7 +18,7 @@ namespace vv
 
     GLuint getProgramId();
     void useProgram();
-    GLint getUniformLocation(const char *name) const;
+    GLint getUniformLocation(std::string name) const;
 
   private:
     std::string vert_filename_;

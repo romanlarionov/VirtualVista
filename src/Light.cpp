@@ -74,11 +74,10 @@ namespace vv
 
   /////////////////////////////////////////////////////////////////////// public
   Light::Light(bool can_render, bool point_light) :
-    can_render_(can_render),
+    is_renderable_(can_render),
     is_point_light_(point_light),
     intensity_(100.0f)
   {
-    transform_ = new Transform;
     cube_mesh_ = new Mesh(createCube(cube_vertices_));
     color_ = glm::vec3(1.0f, 1.0f, 1.0f);
   }
@@ -86,45 +85,37 @@ namespace vv
 
   Light::~Light()
   {
-    delete transform_;
     delete cube_mesh_;
-  }
-
-
-  bool Light::canRender()
-  {
-    return can_render_;
-  }
-
-
-  Transform* Light::getTransform()
-  {
-    return transform_;
   }
 
 
   void Light::render()
   {
-    Shader *shader = ResourceManager::instance()->getLightCubeShader();
+    if (is_renderable_)
+    {
+      Shader *shader = ResourceManager::instance()->getLightCubeShader();
 
-    GLint model_location = shader->getUniformLocation("model");
-    glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(transform_->getMatrix()));
+      GLint model_location = shader->getUniformLocation("model");
+      glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(transform_->getMatrix()));
 
-    GLint light_color_location = shader->getUniformLocation("light_color");
-    glUniform3f(light_color_location, color_.x, color_.y, color_.z);
+      GLint light_color_location = shader->getUniformLocation("light_color");
+      glUniform3f(light_color_location, color_.x, color_.y, color_.z);
 
-    cube_mesh_->render(shader);
+      cube_mesh_->render(shader);
+    }
   }
 
 
   ////////////////////////////////////////////////////////////////////// private
   void Light::setUniforms(int num, Shader *shader)
   {
-    GLint light_position_location = shader->getUniformLocation(("lights[" + std::to_string(num) + "].position").c_str());
+    std::string light_position("lights[" + std::to_string(num) + "].position");
+    GLint light_position_location = shader->getUniformLocation(light_position);
     glm::vec3 position = transform_->getPosition();
     glUniform3f(light_position_location, position.x, position.y, position.z);
 
-    GLint light_color_location = shader->getUniformLocation(("lights[" + std::to_string(num) + "].color").c_str());
+    std::string light_color("lights[" + std::to_string(num) + "].color");
+    GLint light_color_location = shader->getUniformLocation(light_color);
     glUniform3f(light_color_location, color_.x, color_.y, color_.z);
   }
 } // namespace vv

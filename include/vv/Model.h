@@ -13,25 +13,22 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Entity.h"
 #include "Mesh.h"
 #include "Texture.h"
 #include "Transform.h"
 
 namespace vv
 {
-  class Model
+  class Model : public Entity
   {
   public:
     Model(std::string path, bool gamma = false);
     ~Model();
 
-    Transform* getTransform();
-
     void render();
 
   private:
-    Transform *transform_;
-
 	// todo: each model should have a handle to its own shader stored within the Resource Manager.
 	// That way, I can just query for the shader at draw time based on whatever was placed on the
 	// model on instantiation. This would also mean that the Resource Manager can be more generic 

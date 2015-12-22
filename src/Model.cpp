@@ -10,35 +10,31 @@ namespace vv
 {
   /////////////////////////////////////////////////////////////////////// public
   Model::Model(std::string path, bool gamma) :
-    gamma_correction_(gamma)
+    gamma_correction_(gamma),
+    is_renderable_(true)
   {
-    transform_ = new Transform;
     loadModel(path);
   }
 
 
   Model::~Model()
   {
-    delete transform_;
-  }
-
-
-  Transform* Model::getTransform()
-  {
-    return transform_;
   }
 
 
   void Model::render()
   {
-    Shader *shader = ResourceManager::instance()->getModelShader();
+    if (is_renderable_)
+    {
+      Shader *shader = ResourceManager::instance()->getModelShader();
 
-    // model matrix
-    GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
-    glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(transform_->getMatrix()));
+      // model matrix
+      GLint model_location = glGetUniformLocation(shader->getProgramId(), "model");
+      glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(transform_->getMatrix()));
 
-    for (auto mesh : meshes_)
-      mesh.render(shader);
+      for (auto mesh : meshes_)
+        mesh.render(shader);
+    }
   }
 
 

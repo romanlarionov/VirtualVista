@@ -10,14 +10,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"
-#include "RenderableObject.h"
+#include "Entity.h"
 
 namespace vv
 {
-  class Camera : public RenderableObject
+  class Camera : public Entity
   {
   public:
     Camera();
+    ~Camera();
 
     void update();
 

@@ -2,9 +2,7 @@
 #ifndef VIRTUALVISTA_RENDERER_H
 #define VIRTUALVISTA_RENDERER_H
 
-#include <set>
-
-#include "Camera.h"
+#include "Scene.h"
 
 namespace vv
 {
@@ -15,7 +13,7 @@ namespace vv
 
     bool init();
     void update();
-    void render(Camera *camera);
+    void render(Scene *scene);
 
   private:
     static Renderer *renderer_singleton_;

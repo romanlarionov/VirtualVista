@@ -1,5 +1,5 @@
 
-#include "Resource.h"
+#include "vv/Resource.h"
 
 namespace vv
 {

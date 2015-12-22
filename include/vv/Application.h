@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Scene.h"
 #include "Camera.h"
 
 namespace vv
@@ -28,7 +29,10 @@ namespace vv
     double global_time_;
     double last_x_;
     double last_y_;
-    GLFWwindow* window_;
+    GLFWwindow *window_;
+
+    std::vector<Scene *> scenes_;
+    Scene current_scene_;
 
     void handleInput(Camera* cam, double delta_time);
   };

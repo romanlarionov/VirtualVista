@@ -20,13 +20,6 @@ namespace vv
     glm::vec2 tex_coords;
   };
 
-  /*struct Texture
-  {
-    GLuint id;
-    std::string type;
-    std::string path;
-  };*/
-
   class Mesh : public Resource
   {
   public:

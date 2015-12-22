@@ -9,11 +9,11 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Transform.h"
-#include "RenderableObject.h"
+#include "Entity.h"
 
 namespace vv
 {
-  class Light : public RenderableObject
+  class Light : public Entity
   {
     friend class Renderer;
 
@@ -21,14 +21,9 @@ namespace vv
     Light(bool can_render = true, bool point_light = true);
     ~Light();
 
-    bool canRender();
-    Transform* getTransform();
-
-    // renders a cube that represents the light
     void render();
 
   private:
-    Transform *transform_;
     Mesh *cube_mesh_;
 
     bool can_render_;
