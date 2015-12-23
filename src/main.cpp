@@ -5,11 +5,9 @@
 
 using namespace vv;
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-  // todo: process command line input
-
-  Application application;
+  Application application(argc, argv);
   if (!application.init()) return EXIT_FAILURE;
   application.run();
 

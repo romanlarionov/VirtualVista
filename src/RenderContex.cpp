@@ -16,7 +16,7 @@ namespace vv
   }
 
 
-  bool RenderContex::initializeContext(int x, int y, int width, int height)
+  bool RenderContex::init(int x, int y, int width, int height)
   {
     if (!glfwInit())
     {

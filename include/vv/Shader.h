@@ -10,8 +10,6 @@
 
 namespace vv
 {
-  typedef std::string ShaderHandle;
-
   class Shader : public Resource
   {
   public:

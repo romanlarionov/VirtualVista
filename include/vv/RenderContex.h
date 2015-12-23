@@ -13,7 +13,7 @@ namespace vv
     RenderContex();
     ~RenderContex();
 
-    bool initializeContext(int x, int y, int width, int height);
+    bool init(int x, int y, int width, int height);
     GLFWwindow* getWindow();
 
   private:

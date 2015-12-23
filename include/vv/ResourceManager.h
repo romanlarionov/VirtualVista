@@ -24,13 +24,12 @@ namespace vv
 
   private:
 	  // todo: this class needs to load, cache/arrange, and dispose of all resources automatically.
-	  std::unordered_map<ShaderHandle, Shader *> shader_buffer_;
+	  std::unordered_map<Handle, Shader *> shader_buffer_;
 
     ResourceManager(ResourceManager const&) {};
     ResourceManager& operator=(ResourceManager const&) {};
 
     Shader* getShader(std::string name, std::string path);
-    ShaderHandle createShaderHandle(std::string input);
 
   };
 }

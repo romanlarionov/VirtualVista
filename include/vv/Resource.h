@@ -13,9 +13,7 @@ namespace vv
     friend class ResourceManager;
 
   public:
-    virtual ~Resource()
-    {
-    }
+    virtual ~Resource() {}
 
   private:
     size_t use_count_;
@@ -25,13 +23,8 @@ namespace vv
     std::string file_path_;
     std::string file_name_;
 
-    Resource(std::string path, std::string name) :
-      use_count_(0),
-      file_path_(path),
-      file_name_(name)
-    {
-      handle_ = file_path_ + file_name_; // todo: find better way of creating handle (or rename because this can get confusing)
-    }
+    Resource(std::string path, std::string name);
+    
   };
 }
 

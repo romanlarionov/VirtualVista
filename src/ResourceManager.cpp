@@ -1,5 +1,6 @@
 
 #include "vv/ResourceManager.h"
+#include "vv/VirtualVista.h"
 
 namespace vv
 {
@@ -28,7 +29,7 @@ namespace vv
 
     if (!shader->init())
     {
-      delete shader;
+      SAFE_DELETE(shader);
       return "";
     }
 
@@ -51,10 +52,8 @@ namespace vv
     if (shader->use_count_ == 0)
     {
       if (shader) // todo: see if erase leaves a dangling pointer
-      {
-        delete shader;
-        shader = NULL;
-      }
+        SAFE_DELETE(shader);
+
       shader_buffer_.erase(handle);
     }
   }
@@ -76,7 +75,7 @@ namespace vv
   {
     // todo: find out if this deletion is necessary
     for (auto s : shader_buffer_)
-      delete s.second;
+      SAFE_DELETE(s.second);
 
     shader_buffer_.clear();
   }

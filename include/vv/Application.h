@@ -15,14 +15,20 @@ namespace vv
   class Application
   {
   public:
-    Application();
+    Application(int argc, char **argv);
     ~Application();
 
     bool init();
     void run();
+    void shutdown();
 
   private:
+    bool first_run_;
     bool initialized_;
+    bool quit_;
+
+    int argc;
+    char **argv;
 
     RenderContex *contex_;
     InputManager *input_manager_;
