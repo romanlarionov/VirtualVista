@@ -5,6 +5,7 @@
 #include <set>
 
 #include "Entity.h"
+#include "ResourceManager.h"
 
 namespace vv
 {
@@ -14,10 +15,7 @@ namespace vv
     Scene();
     ~Scene();
 
-    /* todo: check if 'instantiatePerspectiveCamera' and 'instantiateOrthogonalCamera'
-       might be better than 'instantiateCamera(Enum::Perspective)' */
     void instantiateCamera();
-
     void instantiateModel();
 
     /* This will come in handy when considering XML/Collada scene structures */
@@ -26,6 +24,7 @@ namespace vv
 
   private:
     bool currently_used_;
+    ResourceManager *resource_manager_;
 
     std::set<Entity *> entities_;
   };

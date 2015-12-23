@@ -7,10 +7,11 @@ namespace vv
 {
   /////////////////////////////////////////////////////////////////////// public
   Application::Application() :
-    application_initialized_(false)
+    initialized_(false)
   {
     contex_ = new RenderContex;
     input_manager_ = new InputManager;
+    resource_manager_ = new ResourceManager;
   }
 
 
@@ -18,12 +19,13 @@ namespace vv
   {
     delete contex_;
     delete input_manager_;
+    delete resource_manager_;
   }
 
 
   bool Application::init()
   {
-    if (!application_initialized_)
+    if (!initialized_)
     {
       input_manager_->setEventHandling();
 
@@ -33,7 +35,7 @@ namespace vv
       glfwSetKeyCallback(contex_->getWindow(), GLFWState::dispatchKeyCallback);
       glfwSetCursorPosCallback(contex_->getWindow(), GLFWState::dispatchMouseCallback);
 
-      application_initialized_ = true;
+      initialized_ = true;
     }
 
     return true;
@@ -42,6 +44,8 @@ namespace vv
 
   void Application::run()
   {
+    resource_manager_->addShader("../src/shaders/", "light_cube"); // delete!!!
+
     while (!glfwWindowShouldClose(contex_->getWindow()))
     {
       glfwPollEvents();

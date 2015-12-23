@@ -10,19 +10,21 @@
 
 namespace vv
 {
+  typedef std::string ShaderHandle;
+
   class Shader : public Resource
   {
   public:
     Shader(std::string vert_filename, std::string frag_filename);
     ~Shader();
 
+    bool init();
+
     GLuint getProgramId() const;
     void useProgram();
     GLint getUniformLocation(std::string name) const;
 
   private:
-    std::string vert_filename_;
-    std::string frag_filename_;
     GLuint program_id_;
 
     std::string loadShaderFromFile(const std::string filename);

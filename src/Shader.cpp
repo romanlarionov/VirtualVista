@@ -8,21 +8,26 @@
 namespace vv
 {
   /////////////////////////////////////////////////////////////////////// public
-  Shader::Shader(std::string vert_filename, std::string frag_filename)
+  Shader::Shader(std::string path, std::string name) :
+    Resource(path, name)
   {
-    vert_filename_ = vert_filename;
-    frag_filename_ = frag_filename;
-    program_id_ = glCreateProgram();
-
-    std::string vert_source = loadShaderFromFile(vert_filename);
-    std::string frag_source = loadShaderFromFile(frag_filename);
-    createProgram(vert_source, frag_source);
   }
 
 
   Shader::~Shader()
   {
     glDeleteProgram(program_id_);
+  }
+
+
+  bool Shader::init()
+  {
+    program_id_ = glCreateProgram();
+
+    std::string vert_source = loadShaderFromFile(file_path_ + file_name_ + ".vert");
+    std::string frag_source = loadShaderFromFile(file_path_ + file_name_ + ".frag");
+
+    return createProgram(vert_source, frag_source);
   }
 
 
@@ -38,7 +43,7 @@ namespace vv
     if (location == -1)
       std::cerr << "WARNING: attempted access of non-existant uniform location: "
       << name << " within shader: " << program_id_ << "\n" <<
-      "Vertex filename: " << vert_filename_ << "\nFragment filename: " << frag_filename_ << "\n";
+      "filename: " << file_path_ + file_name_ << "\n";
 
     return location;
   }

@@ -7,7 +7,6 @@ namespace vv
   Scene::Scene() :
     currently_used_(false)
   {
-
   }
 
 

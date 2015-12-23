@@ -21,6 +21,9 @@ namespace vv
     double curr_y_;
     std::vector<bool> key_pressed_tracker_;
 
+    InputManager(InputManager const&) {};
+    InputManager& operator=(InputManager const&) {};
+
     void keyCallback(GLFWwindow *window, int key, int scan_code, int action, int mods);
     void mouseCallback(GLFWwindow *window, double curr_x, double curr_y);
 

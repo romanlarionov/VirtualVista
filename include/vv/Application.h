@@ -8,6 +8,7 @@
 
 #include "RenderContex.h"
 #include "InputManager.h"
+#include "ResourceManager.h"
 
 namespace vv
 {
@@ -21,12 +22,12 @@ namespace vv
     void run();
 
   private:
-    bool application_initialized_;
+    bool initialized_;
+
     RenderContex *contex_;
     InputManager *input_manager_;
-
-    std::vector<bool> key_pressed_tracker_;
-
+    ResourceManager *resource_manager_;
+    
   };
 }
 

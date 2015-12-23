@@ -8,7 +8,7 @@ namespace vv
     curr_x_(0.0),
     curr_y_(0.0)
   {
-    key_pressed_tracker_.reserve(GLFW_KEY_LAST);
+    key_pressed_tracker_.resize(GLFW_KEY_LAST);
   }
 
 
